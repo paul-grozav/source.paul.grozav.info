@@ -1,3 +1,7 @@
+---
+layout: default
+---
+
 - `getpid()` - Gets PID of current process
 - `getppid()` - Gets PID of the parrent of the current process
 - `printf("Got pid %d .\n", pid)` - Write message and int to stdout
