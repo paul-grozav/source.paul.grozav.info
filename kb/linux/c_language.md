@@ -1,7 +1,5 @@
 ---
-layout: page
-title: C language
-permalink: /kb/linux/c_language
+layout: default
 ---
 
 - `getpid()` - Gets PID of current process

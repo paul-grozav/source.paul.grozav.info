@@ -8,9 +8,8 @@
 # Site settings
 title: Tancredi-Paul Grozav
 email: paul@grozav.info
-description: > # this means to ignore newlines until "baseurl:"
-  Knowledge Base of Tancredi-Paul Grozav. It will appear in your document head
-  meta (forGoogle search results) and in your feed.xml site description.
+description: >- # this means to ignore newlines until "baseurl:"
+  Sharing what I know with the world.
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "/" # the base hostname & protocol for your site
 gitlab_username:  tancredi-paul-grozav
@@ -21,4 +20,3 @@ permalink: /:categories/:year/:month/:day/:title
 # Build settings
 markdown: kramdown
 exclude: ["README.md"]
-include: ["_pages"]

@@ -1,7 +1,5 @@
 ---
 layout: page
-title: TMux
-permalink: /kb/linux/tmux
 ---
 
 ### Tmux - a terminal multiplexer - https://tmux.github.io/

@@ -84,6 +84,8 @@ The above commands should be executed from the root directory of this project.
 
 Read more at Jekyll's [documentation][].
 
+Docker makes it even easier: `docker run --rm -p 8080:4000 -v $(pwd):/site bretfisher/jekyll-serve`
+
 ## GitLab User or Group Pages
 
 To use this project as your user/group website, you will need one additional
