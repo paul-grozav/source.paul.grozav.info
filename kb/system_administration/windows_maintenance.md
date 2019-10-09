@@ -1,5 +1,6 @@
 ---
 layout: page
+ptitle: Windows maintenance
 ---
 
 Speed up windows

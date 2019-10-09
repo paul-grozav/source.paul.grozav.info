@@ -1,5 +1,6 @@
 ---
 layout: page
+ptitle: Terminal multiplexer
 ---
 
 ### Tmux - a terminal multiplexer - https://tmux.github.io/

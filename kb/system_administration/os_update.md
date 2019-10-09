@@ -1,5 +1,6 @@
 ---
 layout: page
+ptitle: OS update
 ---
 
 #### 1. Debian

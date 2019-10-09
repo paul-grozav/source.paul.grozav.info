@@ -1,5 +1,6 @@
 ---
-layout: default
+layout: page
+ptitle: C Language
 ---
 
 - `getpid()` - Gets PID of current process
