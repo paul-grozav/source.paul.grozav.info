@@ -1,5 +1,7 @@
 ---
-layout: default
+layout: page
+title: GNU debugger
+permalink: /kb/linux/gdb
 ---
 
 1. `#> gdb executable` - start debugging a new instance of your executable.

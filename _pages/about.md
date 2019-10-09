@@ -1,7 +1,7 @@
 ---
 layout: page
 title: About
-permalink: /about/
+permalink: /about
 ---
 <p>Mă numesc Grozav Tancredi-Paul și în prezent lucrez ca programator la firma S.C. ANTACO ROMÂNIA S.R.L. din Arad. De asemenea sunt masterand la <a href="http://www.upt.ro">Universitatea Politehnică din Timișoara</a> și absolvent al facultății de Științe Exacte din cadrul <a href="http://www.uav.ro">universității Aurel Vlaicu</a> din Arad unde am urmat programul de studii Matematică-Informatică.</p>
 <ol>
