@@ -2,7 +2,7 @@
 layout: page
 ptitle: C Language
 ---
-
+System calls: [See all](http://man7.org/linux/man-pages/man2/syscalls.2.html)
 - `getpid()` - Gets PID of current process
 - `getppid()` - Gets PID of the parrent of the current process
 - `printf("Got pid %d .\n", pid)` - Write message and int to stdout
