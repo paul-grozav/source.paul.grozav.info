@@ -3,57 +3,6 @@ layout: page
 ptitle: Test
 ---
 
-QooxDoo app: <div id="qooxdoo_app">
-<script type="text/javascript">
-window.qooxdoo_call_back = function(qx)
-{
-var cModWin = 1;
-      var isle = new qx.ui.root.Inline(document.getElementById("qooxdoo_app")).set({
-        decorator: "main",
-        padding: 10,
-        backgroundColor: "white"
-      });
-      isle.setLayout(new qx.ui.layout.HBox(10));
-
-      var btnAddWin = new qx.ui.form.Button("Add window");
-      var cWin = 1;
-      btnAddWin.addListener("execute", function(e) {
-        var win = new qx.ui.window.Window("Window #" + cWin++).set({
-          width: 200,
-          height: 150
-        });
-        win.moveTo(cWin*15, cWin*15);
-        win.open();
-      });
-      isle.add(btnAddWin);
-
-      var btnAddWinModal = new qx.ui.form.Button("Add modal window");
-      btnAddWinModal.addListener("execute", function()
-    {
-      var win = new qx.ui.window.Window("Modal Window #" + this.cModWin++).set({
-        modal: true
-      });
-      win.moveTo(300 + this.cModWin*15, this.cModWin*15);
-      win.setLayout(new qx.ui.layout.HBox());
-
-      var btnAddWinModal = new qx.ui.form.Button("Add modal window");
-      btnAddWinModal.addListener("execute", this.newModalWindow, this);
-      win.add(btnAddWinModal);
-      win.open();
-    }, this);
-      isle.add(btnAddWinModal);
-}
-var script = document.createElement('script');
-script.onload = function(){
-  qx.$$loader.init(); // start app
-};
-script.src = "/qooxdoo.js";
-document.head.appendChild(script);
-</script>
-<!-- <script type="text/javascript" src="/qooxdoo.js" /> -->
-</div>
-
-
 Shell:
 {% highlight sh %}
 paul@paul:~$ for i in {2..3}; do echo $i; done
