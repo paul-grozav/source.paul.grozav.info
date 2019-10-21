@@ -35,12 +35,12 @@ paul@paul:~/test$ echo -ne "\x1\x2\x3\x4\x5\x6\x7\x8\x9\xA\xB\xC\xD\xE\xF\x10\x1
 paul@paul:~/test$ ls -l
 total 4
 drwxr-xr-x 2 paul paul 4096 Oct 21 14:39 ''$'\001\002\003\004\005\006\a\b\t\n\v\f\r\016\017\020\021\022\023\024\025\026\027\030\031\032\033\034\035\036\037'' '$'\177'
-paul@paul:~/test$ cd ./ # Press TAB twice for auto-complete
+paul@paul:~/test$ cd ./ # Pressing TAB twice for auto-complete will show a different name
 ^K^L^M^N^O^P^Q^R^S^T^U^V^W^X^Y^Z^[^\^]^^^_ ^?  ^A^B^C^D^E^F^G^H^I                             
-paul@paul:~/test$ ls -lib
+paul@paul:~/test$ ls -lib # To find it's inode
 total 4
 393323 drwxr-xr-x 2 paul paul 4096 Oct 21 14:39 \001\002\003\004\005\006\a\b\t\n\v\f\r\016\017\020\021\022\023\024\025\026\027\030\031\032\033\034\035\036\037\ \177
-paul@paul:~/test$ cd "$(find -inum 393323)"
+paul@paul:~/test$ cd "$(find -inum 393323)" # Manipulate it using it's inode
 	
 
 �paul@paul:~/test/
@@ -67,4 +67,3 @@ paul@paul:~/test$ rm -r "$(find -inum 393323)"
 paul@paul:~/test$ ls -l
 total 0
 {% endhighlight %}
-
