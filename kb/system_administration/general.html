@@ -1,0 +1,442 @@
+---
+layout: page
+ptitle: System Administration
+---
+<p>For Debian and CentOS</p>
+<p>Table of contents:</p>
+<ol>
+<li><a href="#interfaces">Interfaces</a></li>
+<li><a href="#routing">Routing</a></li>
+<li><a href="#firewall">Firewall(iptables)</a></li>
+<li><a href="#ips_and_ports">IPs and Ports</a></li>
+<li><a href="#services">Services</a></li>
+<li><a href="#users_and_groups">Users and Groups</a></li>
+<li><a href="#package_management">Package Management</a></li>
+<li><a href="#other_system_commands">Other system commands</a></li>
+</ol>
+<hr />
+<p><!-- ======================================================================= --><br />
+&nbsp;</p>
+<h1 id="interfaces">INTERFACES</h1>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<hr />
+<ol>
+<ol>
+<li>
+<h2>Show physical (or virtualized) network cards:</h2>
+<p>{% highlight sh %}
+lspci | grep -i Ethernet<br />
+{% endhighlight %}
+</li>
+<li>
+<h2>Show interfaces:</h2>
+<p>{% highlight sh %}
+ip link<br />
+ip addr # To also show the IPs associated<br />
+ip addr show eth0 # To only print the address of a certain interface<br />
+{% endhighlight %}<br />
+If you do not see your interface in ip link, you can check for errors in dmesg.</li>
+<li>
+<h2>Check interface for link and speed:</h2>
+<p>{% highlight sh %}
+mii-tool eth0 # Requires root permissions<br />
+{% endhighlight %}<br />
+Returns something like:<br />
+{% highlight sh %}
+eth0: negotiated 1000baseT-HD flow-control, link ok<br />
+{% endhighlight %}<br />
+This translates to a Gigabit connection(1000baseT-HD) with a cable plugged in(link on).</p>
+<p>You can also check for these values without root permissions by looking into:<br />
+{% highlight sh %}
+grep &quot;&quot; /sys/class/net/eth0/{carrier,speed}<br />
+{% endhighlight %}<br />
+If carrier is 1, then you have a cable plugged in. The speed might be 0 when it&#8217;s unknown. <em>operstate</em> might also give you a hint if the cable is plugged in or not. You can also use ethtool for this (if you don&#8217;t mind installing a new tool).</p>
+<p>If you do not see your interface in ip link, you can check for errors in dmesg.</li>
+<li>
+<h3>Manage interface with the <i>ip</i> command</h3>
+<p>{% highlight sh %}
+<br />
+# Assign an IP to an interface:<br />
+ip addr add 192.168.0.2/24 dev eth0<br />
+# Delete an IP from an interface:<br />
+ip address del 192.168.220.26/24 dev eth0<br />
+{% endhighlight %}
+</li>
+<li>
+<h2>Create VLAN:</h2>
+<p>Make sure that the kernel module 8021q is loaded<br />
+{% highlight sh %}
+modprobe 8021q<br />
+{% endhighlight %}<br />
+Then create new VLAN interfaces by running:<br />
+{% highlight sh %}
+ip link add link eth0 name eth0.1 type vlan id 1<br />
+{% endhighlight %}<br />
+Then you can simply use it as a normal interface.</li>
+</ol>
+</ol>
+<hr />
+<p><!-- ======================================================================= --><br />
+&nbsp;</p>
+<h1 id="routing">ROUTING</h1>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<hr />
+<ol>
+<ol>
+<li>
+<h2>Show routing table:</h2>
+<p>{% highlight sh %}
+netstat -rn<br />
+{% endhighlight %}<br />
+or<br />
+{% highlight sh %}
+ip route list<br />
+{% endhighlight %}<br />
+or<br />
+{% highlight sh %}
+route -n # Requires root<br />
+{% endhighlight %}
+</li>
+<li>
+<h2>List routing table entries for a specific table:</h2>
+<p>{% highlight sh %}
+ip route list table 200<br />
+{% endhighlight %}<br />
+The default table name is main but you can have more than one table. In this case the table name is &#8220;200&#8221;. You can then use rules to specify which routing table should be applied.</li>
+<li>
+<h2>Add routing table entry:</h2>
+<p>The following routing directive tells the Kernel that every packet that is going to the 192.168.100.X network, needs to be forwarded through the 10.9.8.1 gateway &#8212; through the <i>tun1</i> device.<br />
+{% highlight sh %}
+route add -net 192.168.100.0 gw 10.9.8.1 netmask 255.255.255.0 dev tun1<br />
+{% endhighlight %}
+</li>
+<li>
+<h2>Remove routing table entry:</h2>
+<p>To remove an entry (like the one above) you can run:<br />
+{% highlight sh %}
+route del -net 192.168.100.0 gw 10.9.8.1 netmask 255.255.255.0 dev tun1<br />
+{% endhighlight %}
+</li>
+<li>
+<h2>Show list of rules:</h2>
+<p>{% highlight sh %}
+ip rule list<br />
+{% endhighlight %}
+</li>
+<li>
+<h2>Add route to table:</h2>
+<p>This adds a new routing instruction to table 200:<br />
+{% highlight sh %}
+ip route add default via 10.1.0.1 dev tun3 table 200<br />
+{% endhighlight %}<br />
+To delete the routing instruction, simply replace <em>add</em> with <em>delete</em>. On OpenBSD you can use something like:<br />
+{% highlight sh %}
+route add -mpath default 192.168.122.1<br />
+{% endhighlight %}</li>
+<li>
+<h2>Add rule:</h2>
+<p>This adds a new rule saying that traffic coming from 192.168.1.0/24 should be handled by routing table with name &#8220;200&#8221;:<br />
+{% highlight sh %}
+ip rule add from 192.168.1.0/24 table 200<br />
+{% endhighlight %}<br />
+To delete the rule, simply replace <em>add</em> with <em>delete</em></li>
+</ol>
+</ol>
+<hr />
+<p><!-- ======================================================================= --><br />
+&nbsp;</p>
+<h1 id="firewall">FIREWALL (iptables)</h1>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<hr />
+<ol>
+<ol>
+<li>
+<h2>Show firewall rules:</h2>
+<p>{% highlight sh %}
+iptables -nvL &#8211;line-numbers<br />
+iptables -nvL &#8211;line-numbers -t nat<br />
+{% endhighlight %}
+</li>
+<li>
+<h2>Delete firewall rule:</h2>
+<p>{% highlight sh %}
+iptables -D FORWARD 11 # Deletes rule 11 from the FORWARD section<br />
+{% endhighlight %}
+</li>
+<li>
+<h2>Insert firewall rule at position (Rules are applied in order):</h2>
+<p>{% highlight sh %}
+iptables -I INPUT 2 -s 202.54.1.2 -j DROP # Inserts the rule at position 2<br />
+{% endhighlight %}
+</li>
+<li>
+<h2>Forward traffic from/to VPN tunnel:</h2>
+<p>{% highlight sh %}
+iptables -A FORWARD -i eth0 -o tun0 -m state &#8211;state ESTABLISHED,RELATED -j ACCEPT<br />
+iptables -A FORWARD -s 10.9.8.0/24 -o eth0 -j ACCEPT<br />
+iptables -t nat -A POSTROUTING -s 10.9.8.0/24 -o eth0 -j MASQUERADE<br />
+{% endhighlight %}
+</li>
+</ol>
+</ol>
+<hr />
+<p><!-- ======================================================================= --><br />
+&nbsp;</p>
+<h1 id="ips_and_ports">IPs and Ports</h1>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<hr />
+<ol>
+<ol>
+<li>
+<h2>List active internet connections (servers and established):</h2>
+<p>{% highlight sh %}
+netstat -atnp<br />
+{% endhighlight %}
+</li>
+<li>
+<h2>Check if someone is listening on port 25:</h2>
+<p>{% highlight sh %}
+netstat -atnp | grep -w 25<br />
+{% endhighlight %}
+</li>
+<li>
+<h2>Check if you can connect to 127.0.0.1/3306:</h2>
+<p>{% highlight sh %}
+timeout 1 bash -c &quot;cat &lt; /dev/null &gt; /dev/tcp/127.0.0.1/3306&quot; 2&gt;/dev/null; echo $?<br />
+{% endhighlight %}<br />
+  An exit code of 0 means that it was able to connect, and 1 means that it could not connect in the given timeout of 1 second.
+</li>
+<li>
+<h2>Convert IP to domain and domain to IP:</h2>
+<p>{% highlight sh %}
+host 192.168.0.181 # Converts this IP to a domain<br />
+dig +short myserver.mydomain.ext # Returns the list of IP&#8217;s<br />
+host -a myserver.mydomain.ext # DNS records like NS, CNAME, TXT (and also A &#8211; IP&#8217;s)<br />
+{% endhighlight %}
+</li>
+</ol>
+</ol>
+<hr />
+<p><!-- ======================================================================= --><br />
+&nbsp;</p>
+<h1 id="services">Services(daemons)</h1>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<hr />
+<ol>
+<ol>
+<li>
+<h2>List available services:</h2>
+<p>{% highlight sh %}
+# Debian<br />
+ls -la /etc/init.d/<br />
+# CentOS<br />
+systemctl<br />
+{% endhighlight %}
+</li>
+<li>
+<h2>Status:</h2>
+<p>{% highlight sh %}
+# Should work on both Debian and CentOS<br />
+service mysql status<br />
+# Debian<br />
+/etc/init.d/mysql status<br />
+# CentOS<br />
+systemctl status mysqld<br />
+{% endhighlight %}
+</li>
+<li>
+<h2>Start:</h2>
+<p>{% highlight sh %}
+# Should work on both Debian and CentOS<br />
+service mysql start<br />
+# Debian<br />
+/etc/init.d/mysql start<br />
+# CentOS<br />
+systemctl start mysqld<br />
+{% endhighlight %}
+</li>
+<li>
+<h2>Stop:</h2>
+<p>{% highlight sh %}
+# Should work on both Debian and CentOS<br />
+service mysql stop<br />
+# Debian<br />
+/etc/init.d/mysql stop<br />
+# CentOS<br />
+systemctl stop mysqld<br />
+{% endhighlight %}
+</li>
+<li>
+<h2>Restart:</h2>
+<p>{% highlight sh %}
+# Should work on both Debian and CentOS<br />
+service mysql restart<br />
+# Debian<br />
+/etc/init.d/mysql restart<br />
+# CentOS<br />
+systemctl restart mysqld<br />
+{% endhighlight %}
+</li>
+<li>
+<h2>Enable (set to start at boot):</h2>
+<p>{% highlight sh %}
+# Debian<br />
+update-rc.d mysql enable<br />
+# CentOS<br />
+systemctl enable mysqld<br />
+# CentOS old<br />
+chkconfig mysqld on<br />
+# Arch (openrc) &#8211; adds to boot runlevel<br />
+rc-update add docker boot<br />
+{% endhighlight %}
+</li>
+<li>
+<h2>Disable (prevent start at boot):</h2>
+<p>{% highlight sh %}
+# Debian<br />
+update-rc.d mysql disable<br />
+# CentOS<br />
+systemctl disable mysqld<br />
+# CentOS old<br />
+chkconfig mysqld off<br />
+# Arch (openrc) &#8211; removes from runlevel<br />
+rc-update del docker boot<br />
+{% endhighlight %}
+</li>
+</ol>
+</ol>
+<hr />
+<p><!-- ======================================================================= --><br />
+&nbsp;</p>
+<h1 id="users_and_groups">Users and groups</h1>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<hr />
+<ol>
+<li>
+<h2>To manage users on your system run:</h2>
+<p>{% highlight sh %}
+# 1. Adding a user:<br />
+useradd user1<br />
+# or this, in order to automatically create the home directory (usually in /home):<br />
+useradd user1 -m<br />
+# To also set the bash for your new user, use:<br />
+useradd user1 -m -s /bin/bash<br />
+# Remove a user from the system:<br />
+userdel user1</p>
+<p># 2. Adding an existing user to a group:<br />
+usermod -a -G developers samuel<br />
+# Change the username:<br />
+usermod -l newUserName1 user1</p>
+<p># 3. Show the list of groups, that a user is member of:<br />
+groups user1<br />
+{% endhighlight %}
+</li>
+<li>
+<h2>To manage groups on your system:</h2>
+<p>{% highlight sh %}
+# To list all available groups you can run:<br />
+cut -d: -f1 /etc/group<br />
+# To add a new group run:<br />
+groupadd group1<br />
+# To remove a group run:<br />
+groupdel group1<br />
+# To rename a group run:<br />
+groupmod -n group1NewName group1<br />
+{% endhighlight %}
+</li>
+</ol>
+<hr />
+<p><!-- ======================================================================= --><br />
+&nbsp;</p>
+<h1 id="package_management">Package Management</h1>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<hr />
+<ol>
+<li>
+<h2>Debian:</h2>
+<p>Without the package management tool (with dpkg):<br />
+{% highlight sh %}
+# List installed packages.<br />
+dpkg-query -l<br />
+# Install .deb package (will add a package_name in the list of installed packages).<br />
+dpkg -i file.deb<br />
+# Remove a package from the list of installed packages.<br />
+dpkg -P package_name<br />
+{% endhighlight %}<br />
+With the package management tool:<br />
+{% highlight sh %}
+# List installed packages.<br />
+apt &#8211;installed list<br />
+# List available packages matching search pattern.<br />
+apt-cache search wxmaxima # List all packages containing the word wxmaxima<br />
+# Show information about a package.<br />
+apt-cache show g++<br />
+# Install new package.<br />
+apt-get install wxmaxima<br />
+# Remove a package from the list of installed packages.<br />
+apt-get purge wxmaxima<br />
+# Show which packages depend on given package<br />
+apt-cache rdepends libxen-4.8<br />
+{% endhighlight %}
+</li>
+<li>
+<h2>CentOS:</h2>
+<p>With the package management tool:<br />
+{% highlight sh %}
+# List installed packages<br />
+rpm -qa<br />
+# To search for a package you can run:<br />
+yum search mariadb-server<br />
+# To get information about a given package run:<br />
+yum info mariadb-server<br />
+# To install a package run:<br />
+yum install mariadb-server<br />
+# To remove a package run:<br />
+yum remove mariadb-server<br />
+{% endhighlight %}<br />
+see more here: <a href="https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html/System_Administrators_Guide/ch-yum.html" target="_blank">https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html/System_Administrators_Guide/ch-yum.html</a>
+</li>
+<li>
+<h2>Arc</p>
+<p>{% highlight sh %}
+# To install a package and it&#8217;s dependencies:<br />
+pacman -S &lt;package_name&gt;</p>
+<p># Uninstall a package and also remove the packages it needs that are not<br />
+# used by other packages:<br />
+pacman -Rs &lt;package_name&gt;</p>
+<p># Search for packages:<br />
+pacman -Ss &lt;package_name&gt;</p>
+<p># Package info:<br />
+pacman -Si &lt;package_name&gt;<br />
+{% endhighlight %}
+</li>
+</ol>
+<hr />
+<p><!-- ======================================================================= --><br />
+&nbsp;</p>
+<h1 id="other_system_commands">Other system commands</h1>
+<p>&nbsp;</p>
+<hr />
+<p>To see when the system was installed you can check when the / partition(filesystem) was created using (requires root):<br />
+{% highlight sh %}
+<br />
+tune2fs -l $(df / | tail -n 1 | awk &#8216;{print $1}&#8217;) | grep &quot;Filesystem created:&quot;<br />
+{% endhighlight %}<br />
+To set the hostname of a certain computer you can:<br />
+{% highlight sh %}
+<br />
+#On CentOS:<br />
+hostnamectl set-hostname blecs</p>
+<p>#On Debian:<br />
+echo &#8220;blecs&#8221; > /etc/hostname<br />
+/etc/init.d/hostname.sh stop<br />
+/etc/init.d/hostname.sh start<br />
+{% endhighlight %}<br />
+Remember that you have to restart bash, in order to have it load</p>
