@@ -9,9 +9,9 @@ ptitle: OS update
 ```bash
 uname -a &&
 lsb_release -a &&
-apt-get update &&
-apt-get upgrade &&
-apt-get dist-upgrade &&
+apt update &&
+apt upgrade &&
+apt dist-upgrade &&
 apt autoremove &&
 lsb_release -a &&
 uname -a
@@ -22,9 +22,9 @@ uname -a &&
 lsb_release -a &&
 # No longer in repo list - removed
 aptitude search '~i(!~ODebian)' &&
-apt-get update &&
-apt-get upgrade &&
-apt-get dist-upgrade &&
+apt update &&
+apt upgrade &&
+apt dist-upgrade &&
 
 # Database sanity and consistency checks for partially installed, missing and obsolete packages
 dpkg -C &&
@@ -40,11 +40,11 @@ cp /etc/apt/sources.list /etc/apt/sources.list_backup_$(lsb_release -c | awk '{p
 sed -i "s/$(lsb_release -c | awk '{print $2}')/buster/g" /etc/apt/sources.list
 
 # Perform normal update
-apt-get update &&
+apt update &&
 # List upgradable, remove, etc:
 # apt list --upgradable &&
-apt-get upgrade &&
-apt-get dist-upgrade &&
+apt upgrade &&
+apt dist-upgrade &&
 apt autoremove &&
 lsb_release -a &&
 uname -a
