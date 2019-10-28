@@ -10,3 +10,6 @@ System calls: [See all](http://man7.org/linux/man-pages/man2/syscalls.2.html)
 - `sleep(1)` - Sleep for 1 second
 - `execvp("/bin/bash", args)` - execute process with arguments
 - `fork()` - create a new process, cloned from the current one
+
+See also:
+ - https://www.slashroot.in/what-is-system-call-in-unix-and-linux
