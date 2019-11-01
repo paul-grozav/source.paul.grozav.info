@@ -23,3 +23,9 @@ ffmpeg -f concat -i concat.txt -c copy output.mpg ;
 # Remove temp file
 rm -f concat.txt
 {% endhighlight %}
+
+#### 3. Convert file
+##### 3.1. `mpg` to `vob`
+{% highlight sh %}
+ffmpeg -i file.mpg -target pal-dvd -o file.vob
+{% endhighlight %}
