@@ -10,6 +10,7 @@ The following example extracts from second `-ss 300`(5min) to second `-t 600`(10
 {% highlight sh %}
 ffmpeg -i original.mpg -ss 300 -t 600 -qscale 0 output.mpg
 {% endhighlight %}
+You can also use: `-ss 00:20:00 -t 00:05:00` to extract 5 minutes from minute 20.
 
 #### 2. Concatenate multiple files into one.
 {% highlight sh %}
