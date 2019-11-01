@@ -27,5 +27,5 @@ rm -f concat.txt
 #### 3. Convert file
 ##### 3.1. `mpg` to `vob`
 {% highlight sh %}
-ffmpeg -i file.mpg -target pal-dvd -o file.vob
+ffmpeg -i file.mpg -target pal-dvd file.vob
 {% endhighlight %}
