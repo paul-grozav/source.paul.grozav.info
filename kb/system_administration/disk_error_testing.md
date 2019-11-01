@@ -19,14 +19,19 @@ is
 For an SSD it takes aroung 9 seconds to test 1GB of disk space.
 
 
-### 2. Fix bad blocks using fsck:
+### 2. Check disk for bad blocks using a read-write test
+`badblocks -wsv -o extra_hdd_badblocks.txt /dev/sdc`
+It will output the bad blocks to the given file.
+
+
+### 3. Fix bad blocks using fsck:
 {% highlight sh %}
 fsck.ext4 -c /dev/sda
 {% endhighlight %}
 I used this on a ext4 filesystem created with `mkfs.ext4 /dev/sda`
 
 
-### 3. Check S.M.A.R.T. status:
+### 4. Check S.M.A.R.T. status:
 {% highlight sh %}
 smartctl -H /dev/sda
 
@@ -38,7 +43,7 @@ SMART overall-health self-assessment test result: PASSED
 {% endhighlight %}
 
 
-### 4. HDD Info:
+### 5. HDD Info:
 {% highlight sh %}
 smartctl -i /dev/sda
 
@@ -69,9 +74,9 @@ SMART support is: Enabled
 {% endhighlight %}
 
 
-### 5. More HDD Info:
+### 6. More HDD Info:
 `smartctl -a /dev/sda`
 
 
-### 6. Other HDD Info:
+### 7. Other HDD Info:
 `hdparm -I /dev/sda`
