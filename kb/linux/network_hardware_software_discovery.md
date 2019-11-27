@@ -18,3 +18,24 @@ will return something like:
 192.168.0.11   0e:80:62:bc:04:24	ASUSTek COMPUTER INC.
 {% endhighlight %}
 
+{% highlight json %}
+{
+  "network_node_cmd": "arp-scan -xl ; nmap -v -sS -O IP ; nmap -sV -sC IP",
+    "interfaces_cmd": "ip addr ; lshw",
+    "routes_cmd": "ip route",
+    "hostname_cmd": "hostname",
+    "domain_name_cmd": "cat /etc/resolv.conf",
+  "storage_cmd": "lsblk -rb ; lsblk -frb",
+  "os_cmd": "https://stackoverflow.com/a/10091465",
+  "cpu_cmd": "cat /proc/cpuinfo",
+  "system_info_cmd": "dmidecode",
+  "base_board_cmd": "dmidecode",
+  "chassis_info_cmd": "dmidecode",
+  "bios_cmd": "dmidecode",
+  "memory_cmd": "dmidecode",
+  "active_connections_cmd": "netstat -tapn",
+  "file_space_usage_cmd": "cd /some/path && du -bcs *",
+  "crontabs_cmd": "cat /etc/crontab && for user in $(getent passwd | cut -f1 -d: ); do echo $user; crontab -u $user -l; done",
+  "processes_cmd": "ps aux ; ls /proc/PID/*"
+}
+{% endhighlight %}
