@@ -27,7 +27,7 @@ StartLimitIntervalSec=0
 Type=simple
 Restart=no
 User=administrator
-ExecStart=bash -c "date >> /home/administrator/date_serv_start"
+ExecStart=/bin/bash -c "date >> /home/administrator/date_serv_start"
 
 [Install]
 WantedBy=multi-user.target
@@ -62,10 +62,10 @@ Restart=always
 RestartSec=1
 User=administrator
 # Group=...
-ExecStart=bash -c "( \
+ExecStart=/bin/bash -c " \
   date > /home/administrator/my_start && \
   sleep 9999 >/dev/null 2>&1 \
-)"
+"
 # ExecStop=...
 # ExecReload=...
 
