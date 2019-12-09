@@ -62,7 +62,10 @@ Restart=always
 RestartSec=1
 User=administrator
 # Group=...
-ExecStart=bash -c "sleep 9999 >/dev/null 2>&1"
+ExecStart=bash -c "( \
+  date > /home/administrator/my_start && \
+  sleep 9999 >/dev/null 2>&1 \
+)"
 # ExecStop=...
 # ExecReload=...
 
