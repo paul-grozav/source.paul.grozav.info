@@ -1,0 +1,37 @@
+<script src="https://pagecdn.io/lib/ace/1.4.6/ace.js" type="text/javascript" charset="utf-8"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+
+<script>
+(function() {
+  var new_editor_div = document.createElement("div");
+  new_editor_div.innerHTML = "Loading file ...";
+  var current_script = document.scripts[document.scripts.length - 1];
+  current_script.parentElement.insertBefore(new_editor_div, current_script);
+  new_editor_div.style.width = "100%";
+  new_editor_div.style.height = "100%";
+
+  var editor = ace.edit(new_editor_div);
+  editor.setTheme("ace/theme/monokai");
+  editor.session.setMode("ace/mode/javascript");
+  var url = "{{ include.url }}";
+  $.ajax({
+    url: url,
+    type:"get",
+    dataType: "text",
+    error: function(data){
+      //debugger;
+      editor.setValue("Error loading file!. See {{ include.url }}");
+      editor.gotoLine(1);
+    },
+    success: function(data){
+      editor.setValue(data, 1);
+      editor.gotoLine(1);
+    }
+  });
+  editor.setReadOnly(true);
+  editor.setOptions({
+    maxLines: Infinity
+  });
+})();
+</script>
