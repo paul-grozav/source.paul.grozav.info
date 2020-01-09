@@ -80,3 +80,12 @@ rm -f ./perf.data # remove it
 
 # Watch /proc/net/netstat data are more readable with netstat -s
 ```
+
+### Iperf3 - Network Throughput
+1. `iperf3 -s` on one network node (say 192.168.0.2, acts as server) and `iperf -c 192.168.0.2` can be ran on another node in the LAN. This will create one TCP connection and send data from the client to the server.
+2. By default, the connection is kept alive for 10 seconds(you can change that using the `-t` parameter on the client cmd). During that time, the the client and server will print statistics at every 1 second by default (configurable with the `-i` parameter), showing the throughput.
+3. Instead of keeping the connection open for a certain amount of time, you can have it send a certain amount of data(bytes). The number of bytes is configurable using `-n`.
+4. To reverse the direction of data flowing, you can use the `-R` parameter.
+5. By default the TCP connection uses port 5201, but you can change that by using the `-p 8191` for example, on both the server and client commands.
+6. You can also create multiple connections in parralel using the `-P` parameter, or use UDP rather than TCP. See `man iperf3` for more info.
+
