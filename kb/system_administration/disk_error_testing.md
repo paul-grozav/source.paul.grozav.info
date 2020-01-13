@@ -21,7 +21,7 @@ For an SSD it takes aroung 9 seconds to test 1GB of disk space.
 
 ### 2. Check disk for bad blocks using a read-write test
 `badblocks -wsv -o extra_hdd_badblocks.txt /dev/sdc`
-It will output the bad blocks to the given file.
+It will output the bad blocks to the given file. `-w` will run a write-mode test, removing the data from the disk. You can also use `-n` for a non-destructive read-write test.
 
 
 ### 3. Fix bad blocks using fsck:
