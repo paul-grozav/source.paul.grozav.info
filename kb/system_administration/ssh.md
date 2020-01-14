@@ -78,3 +78,9 @@ I should also mention that you could create multiple tunnels in one command by a
 ssh home -N -L 8080:192.168.0.2:80 -L 5900:192.168.0.2:5900
 ```
 This brings IPMI’s `80` port to local `8080` (so that I can log into the administration web interface) and then brings port `5900` to local `5900` (to be used by the java viewer).
+
+#### SSH Tunnel - Reverse
+```bash
+ssh home -N -R 8080:127.0.0.1:80
+```
+This will forward your local port `80`(from the machine where you're running the command) to port `8080` on the remote (home) machine, you're connecting to. So, if someone from the `home` machine would connect to `127.0.0.1:8080` it would reach your local `80` port. However, the ssh server binds by default to interface `127.0.0.1` remotely. You can change the binding interface using `-R 0.0.0.0:8080:127.0.0.1:80`, that would make it listen on all interfaces on the `home` machine, making the service available to the public. However, to be able to do that, your ssh server's configuration must allow it.
