@@ -200,7 +200,7 @@ done
 
 ### 8. Sum files in folder - linux bash
 
-If you need to sum all files in a folder, you can use the following command: `find . -name "*" -ls | awk '{total += $7} END {print total}'`. 
+If you need to sum all files in a folder, you can use the following command: `find . -name "*" -ls | awk '{total += $7} END {print total}'`.
 Instead of `.` you can specify any directory, and instead of `*` you could sum just pdf files by using `*.pdf`
 
 If you need a recursive version that sums all files, you can use:
@@ -3573,7 +3573,7 @@ http://www.openbsd.org/faq/faq4.html
 Tested on Debian 8.
 
 ```bash
-# Install munin-node package: 
+# Install munin-node package:
 apt-get install munin-node
 
 # Set it to respond to your server’s IP:
@@ -5427,6 +5427,7 @@ rc-service docker start
 rc-update add docker default
 ```
 3. You might want to create a base docker image containing an Artix system:
+
 ```bash
 # Install artools-base to be able to call basestrap:
 pacman -S artools-base
