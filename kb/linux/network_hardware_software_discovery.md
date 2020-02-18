@@ -39,3 +39,23 @@ will return something like:
   "processes_cmd": "ps aux ; ls /proc/PID/*"
 }
 {% endhighlight %}
+
+1. **CPU**: `less /proc/cpuinfo`
+2. **Motherboard**: `dmidecode | grep "Base Board Information" -A 15`
+3. **Video card**: `lspci | grep VGA`
+4. **RAM**:
+```bash
+free -m | grep ^Mem
+dmidecode | grep "Memory Device" -A 15
+```
+5. **HDD**: `smartctl -d ata -a -i /dev/sda | less`
+6. **OS**:
+```bash
+cat /etc/redhat-release
+lsb_release -a
+```
+7. **Monitors**:
+```bash
+xrandr -q --verbose | grep -w connected
+cat /var/log/Xorg.0.log | grep -w Monitor -A 2
+```

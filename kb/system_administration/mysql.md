@@ -36,3 +36,42 @@ The number of currently open connections is visible in this variable: `threads_c
 SELECT CONCAT(table_schema, ".", table_name), data_length, index_length FROM INFORMATION_SCHEMA.TABLES WHERE engine = 'MEMORY' and table_schema <> "information_schema";
 SELECT SUM(data_length), SUM(index_length) FROM INFORMATION_SCHEMA.TABLES WHERE engine = 'MEMORY' and table_schema <> "information_schema";
 ```
+
+## 2. User management
+```sql
+-- 2.1. Add a new user:
+mysql> CREATE USER 'finley'@'localhost' IDENTIFIED BY 'some_pass';
+
+-- 2.2. Deleting an existing user:
+mysql> DROP USER 'finley'@'localhost';
+
+-- 2.3. Updating the password of an existing user:
+mysql> SET PASSWORD FOR 'finley'@'localhost' = PASSWORD('auth_string');
+```
+
+## 3. Dump
+```bash
+# 3.1. A Database:
+mysqldump -h db1 -ppass databaseName
+
+# 3.2. A table from a database:
+mysqldump -h db1 -ppass databaseName tableName
+
+# 3.3. Copy table by dumping between two hosts:
+mysqldump -h db1 -ppass1 dbname tableX | mysql -h db2 -ppass2 dbname
+```
+
+## 4. Repair table
+```sql
+repair table tableX;
+```
+
+## 5. Create a new table using the same structure as another table:
+```sql
+create table users_backup like users;
+```
+
+## 6. Show currently running queries:
+```sql
+show processlist;
+```
