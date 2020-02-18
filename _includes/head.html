@@ -12,6 +12,8 @@
   <title>{% if page.title %}{{ page.title | escape }}{% else %}{{ site.title | escape }}{% endif %}</title>
 
   <link rel="stylesheet" href="{{ "/css/main.css" | prepend: site.baseurl }}"/>
+  {% comment %} Cookie consent - https://www.osano.com/cookieconsent/download/ {% endcomment %}
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.css" />
   <link rel="canonical" href="{{ page.url | replace:'index.html','' | prepend: site.baseurl | prepend: site.url }}"/>
   <link rel="alternate" type="application/rss+xml" title="{{ site.title }}" href="{{ "/feed.xml" | prepend: site.baseurl | prepend: site.url }}"/>
   <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
