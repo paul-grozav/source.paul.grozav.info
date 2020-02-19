@@ -30,3 +30,4 @@ ptitle: Terminal multiplexer
 - `Ctrl+b ,` - Rename current window.
 - `Ctrl+b z` - Toggle current window between zoomed (occupying the whole of the window) and unzoomed (its normal position in the layout).
 - `set-option -g history-limit 3000` - Set scroll buffer size.
+- `Ctrl+b Space` - Switches to next layout - Arrange panes in one of the five preset layouts: even-horizontal, even-vertical, main-horizontal, main-vertical, or tiled.
