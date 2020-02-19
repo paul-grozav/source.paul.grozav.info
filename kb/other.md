@@ -5482,6 +5482,24 @@ cat /sys/firmware/efi/vars/OsIndicationsSupported-8be4df61-93ca-11d2-aa0d-00e098
 ```
 was blocked, so I simply killed this `cat` process. I don’t know what went wrong.
 
+---
+---
+---
+
+### 77. virsh KVM CLI management
+```bash
+# List all machines(with id, name and state - running or shut off):
+virsh list --all
+
+# Stop vm by name
+virsh shutdown vm1
+
+# Start vm by name
+virsh start vq6
+
+# Edit VM config
+virsh edit vm1
+```
 
 
 
