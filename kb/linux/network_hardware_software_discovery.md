@@ -59,3 +59,11 @@ lsb_release -a
 xrandr -q --verbose | grep -w connected
 cat /var/log/Xorg.0.log | grep -w Monitor -A 2
 ```
+8. **SCSI devices**
+```bash
+paul@es5:~ $ cat /proc/scsi/scsi
+Attached devices:
+Host: scsi0 Channel: 00 Id: 00 Lun: 00
+  Vendor: QEMU     Model: QEMU DVD-ROM     Rev: 1.5.
+  Type:   CD-ROM                           ANSI  SCSI revision: 05
+```
