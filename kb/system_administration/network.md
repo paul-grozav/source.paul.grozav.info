@@ -13,9 +13,22 @@ ip link add link eth0 name eth0.11 type vlan id 11
 
 # Delete interface by name:
 ip link del eth0.11
+
+# Set interface IP:
+ip addr add 192.168.100.1/24 dev eth0.11
+
+# Show configured address for all interfaces:
+ip addr show
+# or just for one interface by name
+ip addr show eth0.11
+
+# Bring interface up/down
+ip link set dev eth0.11 up
+ip link set dev eth0.11 down
 ```
 
 ## 2. ifconfig
+Deprecated in favor of the `ip` command.
 ```bash
 # Show interfaces with details:
 ifconfig -a
@@ -25,6 +38,7 @@ ifconfig eth1 192.168.0.3/24 up
 ```
 
 ## 3. nmcli
+This only manages the interfaces managed by NetworkManager.
 This is the recommended way of setting up your network in CentOS 8.
 ```bash
 # === Devices ===
