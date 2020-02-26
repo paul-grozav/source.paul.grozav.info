@@ -2,7 +2,7 @@
 layout: page
 ptitle: QEMU
 ---
-
+## Quick EMUlator
 ```bash
 # Create HDD:
 qemu-img create -f qcow2 EHC.avi 64G
