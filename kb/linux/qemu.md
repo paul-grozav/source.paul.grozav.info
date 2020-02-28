@@ -40,4 +40,8 @@ You can do the same key-combination and key 1 for returning to the VGA console(e
 # Force quit the VM (in case it froze or something)
 (qemu console) quit
 # or just the command: q
+
+# Send a key combination to the VM (avoid having it catched by your OS)
+(qemu console) sendkey ctrl-alt-f1
+# Note the "minus" - between the keys
 ```
