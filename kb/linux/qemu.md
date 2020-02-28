@@ -2,7 +2,7 @@
 layout: page
 ptitle: QEMU
 ---
-## Quick emulator
+## 1. Quick emulator
 ```bash
 # Create HDD:
 qemu-img create -f qcow2 EHC.avi 64G
@@ -12,9 +12,6 @@ qemu-system-x86_64 -hda EHC.avi -cdrom ~/data/red/Win7.32and64.iso -m 512M
 
 # Start VM:
 qemu-system-x86_64 -m 512M -hda EHC.avi
-
-# Suspend VM to file(while running) – IS THIS WORKING?: i guess not 😐
-# Go to Ctrl + Alt + 2 and type: savevm /path/to/save.file
 
 # Resume VM from file(at start) – IS THIS WORKING?:
 qemu-system-x86_64 -m 512M -hda EHC.avi -loadvm /path/to/save.file
@@ -27,4 +24,20 @@ qemu-system-x86_64 -curses -cdrom ./debian-9.9.0-amd64-netinst.iso -m 512M
 # And the installation will continue in text mode
 # Or you can boot using these flags to run an automated install:
 # install fb=none vga=normal auto-install/enable=true preseed/url=https://gitlab.com/tancredi-paul-grozav/snippets/-/raw/master/debian_example.preseed
+```
+
+## 2. Going to the QEMU console (mode: 2)
+2.1. In Graphical mode(when QEMU runs in it's own window) you can switch to the console, by pressing `Ctrl + Alt + 2`, or by going to the `menu` -> `View` -> `compatmonitor0`
+2.2. In `-curses` mode(when QEMU runs in CLI) you can switch to the console, by pressing `ESC , 2`(that is, press escape, then release it and press key 2).
+
+You can do the same key-combination and key 1 for returning to the VGA console(emulated OS output).
+
+## 3. QEMU console commands
+```bash
+# Suspend VM to file(while running) – IS THIS WORKING?: i guess not 😐
+(qemu console) savevm /path/to/save.file
+
+# Force quit the VM (in case it froze or something)
+(qemu console) quit
+# or just the command: q
 ```
