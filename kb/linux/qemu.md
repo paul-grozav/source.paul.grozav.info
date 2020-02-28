@@ -28,6 +28,7 @@ qemu-system-x86_64 -curses -cdrom ./debian-9.9.0-amd64-netinst.iso -m 512M
 
 ## 2. Going to the QEMU console (mode: 2)
 2.1. In Graphical mode(when QEMU runs in it's own window) you can switch to the console, by pressing `Ctrl + Alt + 2`, or by going to the `menu` -> `View` -> `compatmonitor0`
+
 2.2. In `-curses` mode(when QEMU runs in CLI) you can switch to the console, by pressing `ESC , 2`(that is, press escape, then release it and press key 2).
 
 You can do the same key-combination and key 1 for returning to the VGA console(emulated OS output).
