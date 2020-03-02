@@ -22,35 +22,6 @@ greeter-show-remote-login=false
 ---
 ---
 
-### 2. Automount partition at system boot
-Find out partition name (something like `/dev/sda6`)
- Open Dolphin File Manager (the orange folder icon)
-Click the partition that you want to auto mount
-Then (once it’s mounted) — right click the partition and choose propertiesNautilus properties
-Now take a look at the Location: in my case it’s `/media`
-Open a terminal and type: `mount`
-Now look for a line that starts with `/dev/sdXX` and contains your location. In my case, the line is `/dev/sda6` on `/media/a5abe...`.
-`/dev/sdXX` is the partition name. In my case `/dev/sda6`.
-Add partition to automount table
-1. type `sudo su` to get root rights
-2. type `gedit /etc/fstab &` to edit the fstab file
-3. add the following line to the end of the file:
-```bash
-/dev/sda6 /data ext4 defaults 0 0
-```
-Where `/dev/sda6` is your partition and `/data` is the folder where you want to mount it
-4. Save the file and reboot the computer
-
-Note: Make sure you have the folder where you want to mount the partition !
-
-This has been tested on a ext4 partition and Ubuntu 12.04 Operating System
-
-Thanks to https://help.ubuntu.com/community/AutomaticallyMountPartitions
-
----
----
----
-
 ### 3. F10 problem in gnome terminal
 
 **Problem**:
@@ -4094,62 +4065,6 @@ Then simply restart the daemon, tail on your log and run the program.
 ```bash
 /etc/init.d/rsyslog restart
 tail -F /var/log/example_program.log
-```
-
----
----
----
-
-### 64. Decrease LVM partition and increase swap in LVM
-```bash
-# umount partition
-root@latest-gcc:/# umount /dev/mapper/latest--gcc--vg-home
-
-# Check partition (and I hope it will make it continuous)
-root@latest-gcc:/# e2fsck -f /dev/mapper/latest--gcc--vg-home
-e2fsck 1.43.4 (31-Jan-2017)
-Pass 1: Checking inodes, blocks, and sizes
-Pass 2: Checking directory structure
-Pass 3: Checking directory connectivity
-Pass 4: Checking reference counts
-Pass 5: Checking group summary information
-/dev/mapper/latest--gcc--vg-home: 13342/5799936 files (0.3% non-contiguous), 604675/23186432 blocks
-
-# Resize filesystem inside volume
-root@latest-gcc:/# resize2fs /dev/mapper/latest--gcc--vg-home 86G
-resize2fs 1.43.4 (31-Jan-2017)
-Resizing the filesystem on /dev/mapper/latest--gcc--vg-home to 22544384 (4k) blocks.
-The filesystem on /dev/mapper/latest--gcc--vg-home is now 22544384 (4k) blocks long.
-
-# Resize volume
-root@latest-gcc:/# lvresize --size -2G /dev/mapper/latest--gcc--vg-home
-  WARNING: Reducing active logical volume to 86.45 GiB.
-  THIS MAY DESTROY YOUR DATA (filesystem etc.)
-Do you really want to reduce latest-gcc-vg/home? [y/n]: y
-  Size of logical volume latest-gcc-vg/home changed from 88.45 GiB (22643 extents) to 86.45 GiB (22131 extents).
-  Logical volume latest-gcc-vg/home successfully resized.
-
-# Remount partition
-root@latest-gcc:/# mount /dev/mapper/latest--gcc--vg-home /home
-
-# ==============
-
-# Umount swap
-root@latest-gcc:/# swapoff /dev/mapper/latest--gcc--vg-swap_1
-
-# Increase volume
-root@latest-gcc:/# lvresize --size +2G /dev/mapper/latest--gcc--vg-swap_1
-  Size of logical volume latest-gcc-vg/swap_1 changed from 2.00 GiB (511 extents) to 4.00 GiB (1023 extents).
-  Logical volume latest-gcc-vg/swap_1 successfully resized.
-
-# Recreate swap to use the extra space
-root@latest-gcc:/# mkswap /dev/mapper/latest--gcc--vg-swap_1
-mkswap: /dev/mapper/latest--gcc--vg-swap_1: warning: wiping old swap signature.
-Setting up swapspace version 1, size = 4 GiB (4290768896 bytes)
-no label, UUID=433537d3-2ebe-4615-9864-20e31471341c
-
-# Start using it as swap
-root@latest-gcc:/# swapon /dev/mapper/latest--gcc--vg-swap_1
 ```
 
 ---
