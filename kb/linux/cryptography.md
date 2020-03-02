@@ -28,5 +28,19 @@ cp ../sender/{public.key,message,signature} .
 # To perform this verification, you need the public key, the message and the signature.
 openssl dgst -sha256 -verify ./public.key -signature ./signature ./message
 # It will print "Verified OK"(exit code 0) or "Verification Failure"(exit code 1)
+```
 
+## 2. Encrypt and decrypt
+```bash
+# !!! These are just some notes, it doesn't actually work:
+
+ssh-keygen -f ./key -P "" -m PEM -C "key@test_key"
+# Convert public key to pkcs8
+ssh-keygen -f ./key.pub -e -m pkcs8
+
+# Encrypt bytes with public key, and send publicly. Only user with private key can decrypt message
+openssl rsautl -encrypt -pubin -inkey ./key.pub -in plain.text -out encrypted.bytes
+
+# Decrypt with private key
+openssl rsautl -decrypt -in ./encrypted.bytes -out ./decrypted.bytes -inkey ./key
 ```
