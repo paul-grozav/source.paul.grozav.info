@@ -3,7 +3,7 @@ layout: page
 ptitle: Cryptography
 ---
 With OpenSSL and Linux:
-## 1. Signign a message and verifying the signature
+## 1. Signing a message and verifying the signature
 ```bash
 # Create a playground
 mkdir test && cd test
@@ -32,15 +32,19 @@ openssl dgst -sha256 -verify ./public.key -signature ./signature ./message
 
 ## 2. Encrypt and decrypt
 ```bash
-# !!! These are just some notes, it doesn't actually work:
-
+# Generate private & public keys
 ssh-keygen -f ./key -P "" -m PEM -C "key@test_key"
-# Convert public key to pkcs8
-ssh-keygen -f ./key.pub -e -m pkcs8
+
+# Convert public key to pkcs8 format
+ssh-keygen -f ./key.pub -e -m pkcs8 > ./pkcs8_key.pub
 
 # Encrypt bytes with public key, and send publicly. Only user with private key can decrypt message
-openssl rsautl -encrypt -pubin -inkey ./key.pub -in plain.text -out encrypted.bytes
+echo "secret message" > ./plain.text
+openssl rsautl -encrypt -pubin -inkey ./pkcs8_key.pub -in ./plain.text -out ./encrypted.bytes
 
 # Decrypt with private key
 openssl rsautl -decrypt -in ./encrypted.bytes -out ./decrypted.bytes -inkey ./key
+
+# The original and decrypted files should match
+diff -y ./plain.text ./decrypted.bytes
 ```
