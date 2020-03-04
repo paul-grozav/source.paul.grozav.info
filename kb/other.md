@@ -5391,6 +5391,15 @@ virsh start vq6
 
 # Edit VM config
 virsh edit vm1
+
+# List snapshots for domain (domain is VM name, it seems)
+virsh snapshot-list --domain test_domain
+
+# Create snapshot for domain
+virsh snapshot-create-as --domain test_domain --name "test_domain_backup20190812" --description "Backing up everything before the OS update."
+
+# Show snapshot info
+virsh  snapshot-info --domain test_domain --snapshotname test_domain_backup20190812
 ```
 
 
