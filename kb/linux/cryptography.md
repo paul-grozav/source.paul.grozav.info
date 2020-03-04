@@ -64,8 +64,8 @@ The PEM RSAPublicKey format uses the header and footer lines:
 ```
 
 ## 4. RSA Examples
-#### 4.1. Private key
-This is how you can generate a private key and how looks like:
+#### 4.1. RSA Private key
+This is how you can generate a "private" key and how looks like:
 ```bash
 paul:test> openssl genrsa -out ./private.key 1024
 Generating RSA private key, 1024 bit long modulus (2 primes)
@@ -89,6 +89,13 @@ xnaFC1Su8soxuVTqnZN3DKGRdYeVaKwFxEtVeCZFiO8a3tqgNBKu6RpCwNiZ7ul5
 H/3Wd8izXJIgg24iYFcOT9dLJmb6ZNV7BFCrDb+rip8q
 -----END RSA PRIVATE KEY-----
 ```
+Remember that this key file, contains the **entire key**. Both the private and
+public parts. You can see all the key components using command:
+```bash
+paul:test> openssl rsa -in ./private.key -text
+```
+So, the following commands will only extract re-use the same information that is
+already in this file.
 
 #### 4.2. Public key
 This is how you can generate a public key based on a private key, and how the
@@ -121,13 +128,13 @@ NOT be the same. For some private keys, the public key will be some_32_bytes
 plus the RSA plublic key.
 
 #### 4.4. SSH public key
-When you use the command `ssh-keygen` to generate a pair of private/public keys:
+When you use the command `ssh-keygen` to generate a pair of private/public keys,
+the private key will look like the one above, but the **public** key will look
+like:
 ```bash
 # For example:
-ssh-keygen -f ./private.key -P "" -m PEM -C "key@generic" && mv private.key.pub public.key.ssh
-```
-the private key will look like the one above, but the **public** key will look like:
-```bash
+paul:test> ssh-keygen -f ./private.key -P "" -m PEM -C "key@generic" && mv private.key.pub public.key.ssh
+paul:test> cat public.key.ssh
 ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC6+aiD/ynCfXp5hCzP2hKibYtYbNVszA32XRTo71Xc0yarvKQkpmqMbCZuKnVcIvRuM3lX7pjn5YexjKf874psQyrZToQcq4krKgmON4venkv6b6aZ2dC1IWk7zwDBd/Q4mnkVLCqUUPSw/oJ8NaPAKw3F+6WtOQEQT/Hw1Ut52sE6rQ+AaYLrCIb94Bzzxj1qxBbjz7/rqQS0kQduvfNpN/eyYtDxdPWqJOktca9lLKqXqJL6PRcYdpAok/H+FBHG2JZswrNnHKDBgWRu2GWhZDe8A1ekOuakUnFqnCiejWqtsHESwvNHZVhJ0YmvGUy3hAOfWbOe9pPpXSnizzLP key@generic
 ```
 
@@ -145,10 +152,38 @@ ssh-keygen -f ./public.key -i -m pkcs8 > ./public.key.ssh
 
 # "RSA public key" -> "SSH public key" format:
 ssh-keygen -f ./public.key.rsa -i -m pem > ./public.key.ssh
+
+# "public key" -> "RSA public key" format:
+openssl rsa -in ./public.key -out ./public.key.rsa -pubin -RSAPublicKey_out 
 ```
 
 
-
+<table border="1px">
+<tr>
+  <td>L2C</td>
+  <td>STD</td>
+  <td>RSA</td>
+  <td>SSH</td>
+</tr>
+<tr>
+  <td>STD</td>
+  <td>-</td>
+  <td><pre>openssl rsa -in ./public.key -out ./public.key.rsa -pubin -RSAPublicKey_out</pre></td>
+  <td><pre>ssh-keygen -f ./public.key -i -m pkcs8 > ./public.key.ssh</pre></td>
+</tr>
+<tr>
+  <td>RSA</td>
+  <td>-</td>
+  <td>-</td>
+  <td><pre>ssh-keygen -f ./public.key.rsa -i -m pem > ./public.key.ssh</pre></td>
+</tr>
+<tr>
+  <td>SSH</td>
+  <td><pre>ssh-keygen -f ./public.key.ssh -e -m pkcs8 > ./public.key</pre></td>
+  <td><pre>ssh-keygen -f ./public.key.ssh -e -m pem > ./public.key.rsa</pre></td>
+  <td>-</td>
+</tr>
+</table>
 ---
 ---
 ---
