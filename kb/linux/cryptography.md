@@ -190,4 +190,4 @@ openssl rsa -in ./public.key -out ./public.key.rsa -pubin -RSAPublicKey_out
 
 ## See also:
 1. [KhanAcademy - Cryptography](https://www.khanacademy.org/computing/computer-science/cryptography) - especially RSA encryption explained - parts [1](https://youtu.be/EPXilYOa71c), [2](https://youtu.be/IY8BXNFgnyI), [3](https://youtu.be/cJvoi0LuutQ) and [4](https://youtu.be/UjIPMJd6Xks)
-2. Different types of public keys: https://stackoverflow.com/a/29707204
+2. Different types of public keys: [https://stackoverflow.com/a/29707204](https://stackoverflow.com/a/29707204)
