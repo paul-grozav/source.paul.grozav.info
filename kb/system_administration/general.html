@@ -395,6 +395,8 @@ apt-get install wxmaxima
 apt-get purge wxmaxima
 # Show which packages depend on given package
 apt-cache rdepends libxen-4.8
+# Fix "dpkg: error processing package some_package (--remove): package is in a very bad inconsistent state; you should reinstall it before attempting a removal"
+dpkg --remove --force-remove-reinstreq some_package
 {% endhighlight %}
       </li>
       <li>
