@@ -97,23 +97,9 @@ paul:test> openssl rsa -in ./private.key -text
 So, the following commands will only extract re-use the same information that is
 already in this file.
 
-#### 4.2. Public key
-This is how you can generate a public key based on a private key, and how the
-public key looks like:
-```bash
-paul:test> openssl rsa -in ./private.key -pubout -out ./public.key
-paul:test> cat ./public.key
------BEGIN PUBLIC KEY-----
-MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCl+21UgkX1zKRlLaohNkUTPs/N
-HJbdU6FspZmvK+4gX6iST0JoKhgE9Yhhqda+nxtjvsJwJK8WpHs7t8uPmwMrGONw
-5Zxj5HR9X3W/gOsA/J6wLnCBny5lhrbaXETgcxe5xR2QGHO9AHMrIbEFhcR8f9NF
-inJUyC5QZrz3Sr4iqwIDAQAB
------END PUBLIC KEY-----
-```
-
 #### 4.2. RSA public key
-This is how you can generate an RSA public key based on a private key, and how
-the RSA public key looks like:
+The RSA was the first format that was invented. This is how you can generate an
+RSA public key based on a private key, and how the RSA public key looks like:
 ```bash
 paul:test> openssl rsa -in ./private.key -RSAPublicKey_out -out ./public.key.rsa
 paul:test> cat ./public.key.rsa
@@ -126,6 +112,20 @@ ttpcROBzF7nFHZAYc70AcyshsQWFxHx/00WKclTILlBmvPdKviKrAgMBAAE=
 **Note**! that given one private key, it's public key and RSA public key will
 NOT be the same. For some private keys, the public key will be some_32_bytes
 plus the RSA plublic key.
+
+#### 4.3. Public key
+This is the most popular format and this is how you can generate a public key
+based on a private key, and how the public key looks like:
+```bash
+paul:test> openssl rsa -in ./private.key -pubout -out ./public.key
+paul:test> cat ./public.key
+-----BEGIN PUBLIC KEY-----
+MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCl+21UgkX1zKRlLaohNkUTPs/N
+HJbdU6FspZmvK+4gX6iST0JoKhgE9Yhhqda+nxtjvsJwJK8WpHs7t8uPmwMrGONw
+5Zxj5HR9X3W/gOsA/J6wLnCBny5lhrbaXETgcxe5xR2QGHO9AHMrIbEFhcR8f9NF
+inJUyC5QZrz3Sr4iqwIDAQAB
+-----END PUBLIC KEY-----
+```
 
 #### 4.4. SSH public key
 When you use the command `ssh-keygen` to generate a pair of private/public keys,
