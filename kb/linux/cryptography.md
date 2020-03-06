@@ -63,7 +63,7 @@ The PEM RSAPublicKey format uses the header and footer lines:
   -----END RSA PUBLIC KEY-----
 ```
 
-## 4. RSA Examples
+## 4. RSA PEM Examples
 #### 4.1. RSA Private key
 This is how you can generate a "private" key and how looks like:
 ```bash
@@ -99,7 +99,8 @@ already in this file.
 
 #### 4.2. RSA public key
 The RSA was the first format that was invented and it consists in two integers,
-the modulus(n) and the public exponent(e). This is how you can generate an RSA
+the modulus(n) and the public exponent(e). This key is encoded using a
+`PKCS#1 RSAPublicKey` structure. And this is how you can generate an RSA
 public key based on a private key, and how the RSA public key looks like:
 ```bash
 paul:test> openssl rsa -in ./private.key -RSAPublicKey_out -out ./public.key.rsa
@@ -116,10 +117,11 @@ paul:test> openssl rsa -RSAPublicKey_in -noout -text < ./public.key.rsa
 ```
 
 #### 4.3. Public key
-This is the most popular format and this is how you can generate a public key
+This format contains an extra `AlgorithmIdentifier` structure. It is encoded using a
+`SubjectPublicKeyInfo` structure and this is how you can generate such a public key
 based on a private key, and how the public key looks like:
 ```bash
-paul:test> openssl rsa -in ./private.key -pubout -out ./public.key
+paul:test> openssl rsa -in ./private.key -pubout -out ./public.key.
 paul:test> cat ./public.key
 -----BEGIN PUBLIC KEY-----
 MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCl+21UgkX1zKRlLaohNkUTPs/N
@@ -211,3 +213,4 @@ openssl rsa -pubin -inform pem -outform der -in ./public.key -out ./public.key.d
 ## See also:
 1. [KhanAcademy - Cryptography](https://www.khanacademy.org/computing/computer-science/cryptography) - especially RSA encryption explained - parts [1](https://youtu.be/EPXilYOa71c), [2](https://youtu.be/IY8BXNFgnyI), [3](https://youtu.be/cJvoi0LuutQ) and [4](https://youtu.be/UjIPMJd6Xks)
 2. Different types of public keys: [https://stackoverflow.com/a/29707204](https://stackoverflow.com/a/29707204)
+3. Reading keys in C: [https://www.openssl.org/docs/man1.0.2/man3/PEM_read_bio_RSA_PUBKEY.html](https://www.openssl.org/docs/man1.0.2/man3/PEM_read_bio_RSA_PUBKEY.html)
