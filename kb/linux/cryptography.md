@@ -98,8 +98,9 @@ So, the following commands will only extract re-use the same information that is
 already in this file.
 
 #### 4.2. RSA public key
-The RSA was the first format that was invented. This is how you can generate an
-RSA public key based on a private key, and how the RSA public key looks like:
+The RSA was the first format that was invented and it consists in two integers,
+the modulus(n) and the public exponent(e). This is how you can generate an RSA
+public key based on a private key, and how the RSA public key looks like:
 ```bash
 paul:test> openssl rsa -in ./private.key -RSAPublicKey_out -out ./public.key.rsa
 paul:test> cat ./public.key.rsa
@@ -109,9 +110,10 @@ iGGp1r6fG2O+wnAkrxakezu3y4+bAysY43DlnGPkdH1fdb+A6wD8nrAucIGfLmWG
 ttpcROBzF7nFHZAYc70AcyshsQWFxHx/00WKclTILlBmvPdKviKrAgMBAAE=
 -----END RSA PUBLIC KEY-----
 ```
-**Note**! that given one private key, it's public key and RSA public key will
-NOT be the same. For some private keys, the public key will be some_32_bytes
-plus the RSA plublic key.
+You can see an RSA key's contents using:
+```bash
+paul:test> openssl rsa -RSAPublicKey_in -noout -text < ./public.key.rsa
+```
 
 #### 4.3. Public key
 This is the most popular format and this is how you can generate a public key
@@ -126,6 +128,16 @@ HJbdU6FspZmvK+4gX6iST0JoKhgE9Yhhqda+nxtjvsJwJK8WpHs7t8uPmwMrGONw
 inJUyC5QZrz3Sr4iqwIDAQAB
 -----END PUBLIC KEY-----
 ```
+You can see a public key's contents using:
+```bash
+paul:test> openssl rsa -pubin -noout -text < ./public.key
+```
+**Note**! that given one private key, it's public key and RSA public key will
+NOT be the same. The public key in DER format(before encoding to base64) has an
+extra information, the `AlgorithmIdentifier` structure, which is constant for
+`RSA PKCS#1`. For more info see:
+[this link](https://stackoverflow.com/a/29707204).
+
 
 #### 4.4. SSH public key
 When you use the command `ssh-keygen` to generate a pair of private/public keys,
@@ -150,11 +162,19 @@ ssh-keygen -f ./public.key.ssh -e -m pem > ./public.key.rsa
 # "public key" -> "SSH public key" format:
 ssh-keygen -f ./public.key -i -m pkcs8 > ./public.key.ssh
 
+# "public key" -> "RSA public key" format:
+openssl rsa -in ./public.key -out ./public.key.rsa -pubin -RSAPublicKey_out 
+
 # "RSA public key" -> "SSH public key" format:
 ssh-keygen -f ./public.key.rsa -i -m pem > ./public.key.ssh
 
-# "public key" -> "RSA public key" format:
-openssl rsa -in ./public.key -out ./public.key.rsa -pubin -RSAPublicKey_out 
+# "RSA public key" -> classic "public key" format:
+openssl rsa -RSAPublicKey_in -in ./public.key.rsa -pubout -out ./public.key
+
+
+# ====
+# PEM classic "public key" -> DER classic "public key"
+openssl rsa -pubin -inform pem -outform der -in ./public.key -out ./public.key.der
 ```
 
 
@@ -173,7 +193,7 @@ openssl rsa -in ./public.key -out ./public.key.rsa -pubin -RSAPublicKey_out
 </tr>
 <tr>
   <td>RSA</td>
-  <td>-</td>
+  <td><pre>openssl rsa -RSAPublicKey_in -in ./public.key.rsa -pubout -out ./public.key</pre></td>
   <td>-</td>
   <td><pre>ssh-keygen -f ./public.key.rsa -i -m pem > ./public.key.ssh</pre></td>
 </tr>
