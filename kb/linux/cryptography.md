@@ -13,7 +13,7 @@ echo "this is just a test" > ./message
 
 # Generate the signature (binary and base64)
 openssl dgst -sha256 -sign ./private.key -out ./signature ./message
-#openssl base64 -in ./signature -out ./signature.b64 && awk 'BEGIN{printf "SIGNATURE="}{printf $0}END{print}' ./signature.b64
+# To print the signature as base64 run: base64 -w0 ./signature ; echo
 
 # Send the ./public.key, ./message and the ./signature[.b64]
 mkdir sender && mv * sender ; mkdir receiver && cd receiver
@@ -121,7 +121,7 @@ This format contains an extra `AlgorithmIdentifier` structure. It is encoded usi
 `SubjectPublicKeyInfo` structure and this is how you can generate such a public key
 based on a private key, and how the public key looks like:
 ```bash
-paul:test> openssl rsa -in ./private.key -pubout -out ./public.key.
+paul:test> openssl rsa -in ./private.key -pubout -out ./public.key
 paul:test> cat ./public.key
 -----BEGIN PUBLIC KEY-----
 MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCl+21UgkX1zKRlLaohNkUTPs/N
