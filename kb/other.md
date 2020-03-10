@@ -320,7 +320,7 @@ ServerSocket::ServerSocket(int port)
     int rv;
     if ((rv = getaddrinfo(NULL, portToCharArray(port), &hints, &servinfo)) != 0)
     {
-        fprintf(stderr, "getaddrinfo: %sn", gai_strerror(rv));
+        fprintf(stderr, "getaddrinfo: %s\n", gai_strerror(rv));
         exit(1);
     }
 
@@ -356,7 +356,7 @@ ServerSocket::ServerSocket(int port)
     // If we reached the end of the list
     if (p == NULL)
     {
-        fprintf(stderr, "server: failed to bindn");
+        fprintf(stderr, "server: failed to bind\n");
         exit(2);
     }
     // free the servinfo variable
@@ -404,7 +404,7 @@ void ServerSocket::acceptClient(
         perror("Can not accept() the connection");
         // continue;
     }
-    printf("Connection acceptedn");
+    printf("Connection accepted\n");
 
     if (((struct sockaddr *) &clientSocket.clientAddr)->sa_family == AF_INET)
     { //IPv4 address
@@ -418,7 +418,7 @@ void ServerSocket::acceptClient(
             &(((struct sockaddr_in6*) ((struct sockaddr *) &clientSocket
                 .clientAddr))->sin6_addr), s, sizeof s);
     }
-    printf("Got connection from %sn", s);
+    printf("Got connection from %s\n", s);
 
     pid_t pid = fork();
     if (pid == -1)
@@ -466,30 +466,30 @@ int clientHandler(ServerSocket::ClientSocket clientSocket)
     if (recv(clientSocket.connectionFileDescriptor, &buffer, sizeof(buffer), 0)
         == -1)
         perror("Can not read from the socket");
-    printf(" Client said: "%s"n", buffer);
+    printf(" Client said: "%s"\n", buffer);
 
 // Sending message
     char message[1034];
     strcpy(message, "You said: ");
     strcat(message, buffer);
-    printf("char* message = "%s"n", message);
+    printf("char* message = "%s"\n", message);
     printf("Sending a message to the client ...");
     if (send(clientSocket.connectionFileDescriptor, message, strlen(message), 0)
         == -1)
         perror("Can not write the message to the socket");
-    printf(" Message sentn");
+    printf(" Message sent\n");
 
 // Closing the socket
     printf("Disconnecting the client ...");
     close(clientSocket.connectionFileDescriptor);
-    printf(" Socket closed!n");
+    printf(" Socket closed!\n");
     return 0;
 }
 
 int main(int argc, char* argv[])
 {
     ServerSocket s(1234);
-    printf("server: waiting for connections...n");
+    printf("server: waiting for connections...\n");
     while (1)
         s.acceptClient(&clientHandler);
     return 0;
@@ -530,7 +530,7 @@ void clientSocket_connect(const char* hostAddress, int port,
     struct hostent* server = gethostbyname(hostAddress);
 // Die if the server info could not be loaded
     if (server == NULL)
-        die("ERROR, no such hostn");
+        die("ERROR, no such host\n");
 
 // Create the serverAddress structure
 // Define the serverAddress structure
@@ -563,7 +563,7 @@ void connectionHandler(int socketFileDescriptor)
     char buffer[256];
 // Set the message in that buffer (bytes to be sent)
     strcpy(buffer,
-        "GET /maya/ HTTP/1.1nhost: debian.server.paul.grozav.infonn");
+        "GET /maya/ HTTP/1.1nhost: debian.server.paul.grozav.infon\n");
 // Write the bytes to the socket
     int n = write(socketFileDescriptor, buffer, strlen(buffer));
 // Die if you couldn't write those bytes
@@ -581,7 +581,7 @@ void connectionHandler(int socketFileDescriptor)
         die("ERROR reading from socket");
 
 // Print the received bytes
-    printf("%sn", buffer);
+    printf("%s\n", buffer);
 }
 
 int main(int argc, char* argv[])
