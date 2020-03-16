@@ -113,7 +113,7 @@ ttpcROBzF7nFHZAYc70AcyshsQWFxHx/00WKclTILlBmvPdKviKrAgMBAAE=
 ```
 You can see an RSA key's contents using:
 ```bash
-paul:test> openssl rsa -RSAPublicKey_in -noout -text < ./public.key.rsa
+paul:test> openssl rsa -RSAPublicKey_in -in ./public.key.rsa -noout -text
 ```
 
 #### 4.3. Public key
@@ -132,7 +132,7 @@ inJUyC5QZrz3Sr4iqwIDAQAB
 ```
 You can see a public key's contents using:
 ```bash
-paul:test> openssl rsa -pubin -noout -text < ./public.key
+paul:test> openssl rsa -pubin -in ./public.key -noout -text
 ```
 **Note**! that given one private key, it's public key and RSA public key will
 NOT be the same. The public key in DER format(before encoding to base64) has an
