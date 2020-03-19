@@ -4,6 +4,9 @@ ptitle: GNU Debugger
 ---
 
 1. `#> gdb executable` - start debugging a new instance of your executable.
+1. `#> gcore PID` - [gcore](http://man7.org/linux/man-pages/man1/gcore.1.html) generates a core dump without killing the process. It will copy the virtual memory of the process from RAM to the disk. This command will generate a file named `core.PID` in the current working directory, where PID is the numeric process identifier.
+1. `#> gdb binary core.file` - Inspect a core file, using a binary that generated the dump.
+1. `#> gdb binary PID` - Debug a running process.
 2. `(gdb) run` - start running the executable again.
 3. `(gdb) break my_file.c:7` - create a breakpoint at my_file.c at line 7. It will stop before executing that line.
 4. `(gdb) info break` or `info b` - lists all breakpoints.
@@ -18,3 +21,4 @@ ptitle: GNU Debugger
 13. `(gdb) detach` - Detach from where you are currently attached
 14. `(gdb) backtrace` or `bt` - Prints the current call stack - list of functions currently running
 15. `(gdb) thread 4` or `t 4` - Move the focus to thread 4, so that you can see it's backtrace for example
+16. `(gdb) frame 8` or `f 8` - Moves to the scope of frame 8 in the current thread.
