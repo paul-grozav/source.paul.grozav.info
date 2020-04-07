@@ -2,10 +2,56 @@
 layout: page
 ptitle: Test
 ---
+This file points to a github <b>branch</b>:
 {% include editor.html url="https://raw.githubusercontent.com/paul-grozav/snippets/master/1_snippet_test.js" %}
 <br/>
+This file points to a github <b>commit</b>:
 {% include editor.html url="https://raw.githubusercontent.com/paul-grozav/snippets/bee43859c183fbb4c0bcd408d375db38d5e93a5c/1_snippet_test.js" %}
 
+
+<br/><br/><hr/>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.9.0/vis.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.9.0/vis.min.css">
+
+<center><h1>Events in Grozav's orchard</h1></center>
+<div id="visualization"></div>
+<style id="compiled-css" type="text/css">
+.vis-item .vis-item-overflow
+{
+  overflow: visible;
+}
+</style>
+<script type="text/javascript">
+items = [
+  {content: 'Cireșe', start: '2019-05-15', end: '2019-06-15'},
+  {content: 'Căpșuni', start: '2019-05-25', end: '2019-06-25'},
+  {content: 'Zmeură', start: '2019-06-15', end: '2019-07-05'},
+  {content: 'Caise', start: '2019-07-11', end: '2019-08-11'},
+  {content: 'Piersici R2C2', start: '2019-07-15', end: '2019-08-01'},
+  {content: 'Prune verzi ?', start: '2019-08-02', end: '2019-09-02'},
+  {content: 'Piersici R3C1', start: '2019-08-15', end: '2019-08-31'},
+  {content: 'Agrișe/Bische', start: '2019-05-20', end: '2019-06-20'},
+  {content: 'Alune', start: '2019-08-12', end: '2019-08-30'},
+  {content: 'Pere', start: '2019-08-12', end: '2019-08-30'},
+  {content: 'creste_iarba', start: '2019-03-15', end: '2019-09-08'},
+  {content: 'muguri_verzi', start: '2019-03-01', end: '2019-12-31'},// ???
+  {content: 'papadii', start: '2019-03-01', end: '2019-12-31'},// ???
+];
+// -------------------------------------------------------------------------- //
+// DOM element where the Timeline will be attached
+var container = document.getElementById('visualization');
+
+// Create a DataSet (allows two way data-binding)
+for(var i=0; i<items.length; i++) items[i].id = i;
+var items = new vis.DataSet(items);
+
+// Configuration for the Timeline
+var options = {};
+
+// Create a Timeline
+var timeline = new vis.Timeline(container, items, options);
+</script>
+<br/><hr/><br/><br/>
 
 
 Shell:
