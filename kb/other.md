@@ -5400,6 +5400,38 @@ virsh snapshot-create-as --domain test_domain --name "test_domain_backup20190812
 
 # Show snapshot info
 virsh  snapshot-info --domain test_domain --snapshotname test_domain_backup20190812
+
+# DHCP allocated static IP for MAC
+root@ci1:/kvm# virsh net-edit default
+<network>
+  <name>default</name>
+  <uuid>35068935-4133-4b8e-b675-78a94e81d66c</uuid>
+  <forward mode='nat'/>
+  <bridge name='virbr0' stp='on' delay='0'/>
+  <mac address='52:54:00:09:b9:70'/>
+  <ip address='192.168.122.1' netmask='255.255.255.0'>
+    <dhcp>
+      <range start='192.168.122.2' end='192.168.122.199'/>
+      <host mac='52:54:00:d9:55:39' name='windows_2019' ip='192.168.122.200'/>
+      <host mac='52:54:00:29:57:8a' name='windows_2019_new' ip='192.168.122.201'/>
+    </dhcp>
+  </ip>
+</network>
+# This will show us the virbr0 interface defined on the hypervisor machine
+# that acts as a gateway for the virtualized machines and connects their
+# LAN to the outside network.
+# It also shows the DHCP range used to allocate dynamic IPs to VMs.
+# You can also add hosts to define DHCP static IPs for MACs/HostName
+
+# The DHCP leases can be seen using:
+root@ci1:/kvm# virsh net-dhcp-leases default
+ Expiry Time           MAC address         Protocol   IP address           Hostname          Client ID or DUID
+-------------------------------------------------------------------------------------------------------------------
+ 2020-04-07 14:34:15   52:54:00:29:57:8a   ipv4       192.168.122.201/24   windows_2019_new  01:52:54:00:29:57:8a
+ 2020-04-07 14:11:50   52:54:00:d9:55:39   ipv4       192.168.122.200/24   windows_2019      01:52:54:00:d9:55:39
+
+# You can also create port forwardings on the hypervisor, to VMs, using:
+iptables -t nat -A PREROUTING -d 192.168.0.11 -p tcp --dport 22375 -j DNAT --to 192.168.122.200:2375 && iptables -I FORWARD -d 192.168.122.200/32 -p tcp -m state --state NEW -m tcp --dport 2375 -j ACCEPT
 ```
 
 
