@@ -5383,11 +5383,14 @@ was blocked, so I simply killed this `cat` process. I don’t know what went wro
 # List all machines(with id, name and state - running or shut off):
 virsh list --all
 
-# Stop vm by name
+# Stop vm by name - will send a gracefully shutdown signal
 virsh shutdown vm1
 
+# Force stop VM by name - Immediately terminate the VM. No chance to react. Cuts power.
+virsh destroy vmx4
+
 # Start vm by name
-virsh start vq6
+virsh start vt6
 
 # Edit VM config
 virsh edit vm1
@@ -5432,6 +5435,11 @@ root@ci1:/kvm# virsh net-dhcp-leases default
 
 # You can also create port forwardings on the hypervisor, to VMs, using:
 iptables -t nat -A PREROUTING -d 192.168.0.11 -p tcp --dport 22375 -j DNAT --to 192.168.122.200:2375 && iptables -I FORWARD -d 192.168.122.200/32 -p tcp -m state --state NEW -m tcp --dport 2375 -j ACCEPT
+
+# To apply a newly defined static IP you'll have to recreate the network and
+# power off & on (not just restart) the VM
+root@ci1:/kvm# virsh net-destroy default
+root@ci1:/kvm# virsh net-start default
 ```
 
 
