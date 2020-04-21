@@ -15,6 +15,7 @@ ptitle: Windows maintenance
 8. System error logs
 
 ## 2. PowerShell management
+`CMD C:\>` commands are meant to be run in Command Prompt(cmd.exe), while the `PS C:\>` commands are meant to be run in PowerShell.
 ```bat
 # Check if you can connect to a `host:port` combination:
 PS C:\> Test-NetConnection -ComputerName "win.server.paul.grozav.info" -Port 8173 -InformationLevel "Detailed"
@@ -36,4 +37,14 @@ Install-Package Docker -ProviderName DockerMsftProvider -Force
 # List installed packages
 Get-Package
 
+# ==== Services ====
+# Create service (you can see it later in services GUI)
+CMD C:\> C:\windows\system32\sc.exe create paul_app1 binpath= "\"C:\Program Files\info.grozav.paul.app1/app.exe\" --parameter-one \"parameter value\"" DisplayName= "Paul Grozav App1" start= auto
+
+# Delete service (might have to restart -not just refresh- the services GUI)
+CMD C:\> C:\windows\system32\sc.exe delete paul_app1
+
+# Start and stop services
+CMD C:\> net start paul_app1
+CMD C:\> net stop paul_app1
 ```
