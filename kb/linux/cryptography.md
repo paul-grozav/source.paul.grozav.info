@@ -63,7 +63,7 @@ The PEM RSAPublicKey format uses the header and footer lines:
   -----END RSA PUBLIC KEY-----
 ```
 
-## 4. RSA PEM Examples
+## 4. RSA PEM key examples
 #### 4.1. RSA Private key
 This is how you can generate a "private" key and how looks like:
 ```bash
@@ -209,6 +209,26 @@ openssl rsa -pubin -inform pem -outform der -in ./public.key -out ./public.key.d
 ---
 ---
 ---
+
+## 5. Certificates
+#### 5.1. Generate a self-signed certificate
+```bash
+/> openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365 -nodes -subj "/C=US/ST=Oregon/L=Portland/O=Company Name/OU=Org/CN=www.example.com"
+```
+Will generate a private `key.pem` file(also contains the public part), and a certificate file: `cert.pem`(public file)
+
+#### 5.2. Other operations
+```bash
+# Get the certificate from a server
+/> echo -n | openssl s_client -connect google.com:443 2>/dev/null | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' > downloaded.cert
+
+# Get info from a certificate file
+/> openssl x509 -startdate -enddate -issuer -subject -email -serial -fingerprint -noout -in cert.pem
+
+# Get all info from a certificate file
+/> openssl x509 -text -noout -in cert.pem
+```
+
 
 ## See also:
 1. [KhanAcademy - Cryptography](https://www.khanacademy.org/computing/computer-science/cryptography) - especially RSA encryption explained - parts [1](https://youtu.be/EPXilYOa71c), [2](https://youtu.be/IY8BXNFgnyI), [3](https://youtu.be/cJvoi0LuutQ) and [4](https://youtu.be/UjIPMJd6Xks)
