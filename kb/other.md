@@ -5398,6 +5398,12 @@ virsh edit vm1
 # List snapshots for domain (domain is VM name, it seems)
 virsh snapshot-list --domain test_domain
 
+# Suspend domain(vm) - when listed will appear as "paused"
+virsh suspend vmx4
+
+# Resume domain(vm)
+virsh resume vmx4
+
 # Create snapshot for domain
 virsh snapshot-create-as --domain test_domain --name "test_domain_backup20190812" --description "Backing up everything before the OS update."
 
