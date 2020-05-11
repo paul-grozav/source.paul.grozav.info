@@ -6,7 +6,6 @@ ptitle: Terminal multiplexer
 ### Tmux - a terminal multiplexer - https://tmux.github.io/
 
 #### Sessions
-
 - `tmux ls` - List running sessions.
 - `tmux new -s name` - Create a new session with the name name.
 - `tmux a -t name` - Attach to an existing session with the name name.
@@ -15,22 +14,23 @@ ptitle: Terminal multiplexer
 - `exit` - Close(end) the current session (terminate the bash instance).
 
 #### Windows
-
 - `Ctrl+b w` - List open windows.
 - `Ctrl+b c` - Create a new window.
 - `exit` - Close(end) the current window (terminate the bash instance).
 - `Ctrl+b n` - Go to the next window.
 - `Ctrl+b p` - Go to the previous window.
-- `Ctrl+b PageUp and PageDown` - Scroll up and down in the window(exit with q).
-- `Ctrl+b %` - Split window vertically(exit bash instance to close split).
-- `Ctrl+b “` - Split window horizontally(exit bash instance to close split).
-- `Ctrl+b Up/Down/Left/Right arrow` - Move the focus into next split.
-- `Hold Ctrl+b and press Up/Down/Left/Right arrow` - Resize current split.
 - `Ctrl+b &` - Kill current window.
 - `Ctrl+b ,` - Rename current window.
-- `Ctrl+b z` - Toggle current window between zoomed (occupying the whole of the window) and unzoomed (its normal position in the layout).
-- `set-option -g history-limit 3000` - Set scroll buffer size.
+
+#### Panes
+- `Ctrl+b %` - Create pane by splitting window vertically(exit bash instance to close split).
+- `Ctrl+b “` - Create pane by splitting window horizontally(exit bash instance to close split).
 - `Ctrl+b Space` - Switches to next layout - Arrange panes in one of the five preset layouts: even-horizontal, even-vertical, main-horizontal, main-vertical, or tiled.
+- `Ctrl+b z` - Toggle current pane between zoomed (occupying the whole of the window) and unzoomed (its normal position in the layout).
+- `Ctrl+b PageUp and PageDown` - Scroll up and down in the current window/pane(exit with q).
+- `set-option -g history-limit 3000` - Set scroll buffer size.
+- `Ctrl+b Up/Down/Left/Right arrow` - Move the focus into next pane.
+- `Hold Ctrl+b and press Up/Down/Left/Right arrow` - Resize current pane.
 
 #### Other
 - `Ctrl+b : setw synchronize-panes` - Broadcast input to all panes in window(toggle on/off).
