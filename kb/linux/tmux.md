@@ -34,3 +34,7 @@ ptitle: Terminal multiplexer
 
 #### Other
 - `Ctrl+b : setw synchronize-panes` - Broadcast input to all panes in window(toggle on/off).
+```bash
+# Run multiple commands in multiple panes
+tmux new-session ping 192.168.1.1 \; split-window -h ping 8.8.8.8 \; split-window -v ping 192.168.0.1
+```
