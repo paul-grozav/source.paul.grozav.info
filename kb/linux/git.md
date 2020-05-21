@@ -75,6 +75,11 @@ git archive --remote=git@gitlab.com:tancredi-paul-grozav/cpp_tests.git HEAD remo
 
 # Create a new branch, disconnected:
 git checkout --orphan branch_name
+
+# Commit with certain author and committer:
+GIT_COMMITTER_NAME="Committer Name" GIT_COMMITTER_EMAIL="committer@e.mail" git commit --author="Author Name <author@e.mail>" -m "some message"
+# or
+GIT_COMMITTER_NAME="Tancredi-Paul Grozav" GIT_COMMITTER_EMAIL="paul@grozav.info" bash -c 'git commit --author="${GIT_COMMITTER_NAME} <${GIT_COMMITTER_EMAIL}>" -m "some message"'
 {% endhighlight %}
 
 
