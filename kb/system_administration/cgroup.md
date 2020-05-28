@@ -62,6 +62,7 @@ Killed
 CGroups are also able to limit the CPU usage.
 
 Other commands:
+===
 ```bash
 # == Enable memory control at boot time (disabled by default in debian)
 # echo "GRUB_CMDLINE_LINUX=\"cgroup_enable=memory\"" >> /etc/default/grub ; update-grub2
@@ -78,3 +79,10 @@ Other commands:
 # == Start Control Groups RULES ENGine Daemon
 # cgrulesengd
 ```
+
+It seems that systemd sevices can be limited using cgroup by defining a limit in the service file:
+```bash
+[Service]
+MemoryMax=1G # Limit service to 1 gigabyte
+```
+though, I never tried it.
