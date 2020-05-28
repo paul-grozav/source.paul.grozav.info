@@ -24,6 +24,9 @@ qemu-system-x86_64 -curses -cdrom ./debian-9.9.0-amd64-netinst.iso -m 512M
 # And the installation will continue in text mode
 # Or you can boot using these flags to run an automated install:
 # install fb=none vga=normal auto-install/enable=true preseed/url=https://gitlab.com/tancredi-paul-grozav/snippets/-/raw/master/debian_example.preseed
+
+# Port forward local to vm. In this case local 5556 is forwarded to vm's 22 (ssh)
+qemu-system-x86_64 -m 512M -hda ./vm1.img -device e1000,netdev=net0 -netdev user,id=net0,hostfwd=tcp::5556-:22
 ```
 
 ## 2. Going to the QEMU console (mode: 2)
