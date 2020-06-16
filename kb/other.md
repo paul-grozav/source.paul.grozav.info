@@ -5447,7 +5447,45 @@ iptables -t nat -A PREROUTING -d 192.168.0.11 -p tcp --dport 22375 -j DNAT --to 
 root@ci1:/kvm# virsh net-destroy default
 root@ci1:/kvm# virsh net-start default
 ```
+---
+---
+---
 
+### 78. etcd v3
+```bash
+# Show endpoint status
+etcd>docker-compose exec etcd3 /bin/sh -c "ETCDCTL_API=3 etcdctl --insecure-skip-tls-verify=true --key=/etcd3.etcd/fixtures/client/key.pem --cert=/etcd3.etcd/fixtures/client/cert.pem -w table --endpoints=etcd1:2379,etcd2:2379,etcd3:2379 endpoint status"
++------------+------------------+---------+---------+-----------+-----------+------------+
+|  ENDPOINT  |        ID        | VERSION | DB SIZE | IS LEADER | RAFT TERM | RAFT INDEX |
++------------+------------------+---------+---------+-----------+-----------+------------+
+| etcd1:2379 | 1f6fd35e3327767a |  3.3.22 |   20 kB |     false |         2 |          9 |
+| etcd2:2379 | 4acd0a1e9189cd7a |  3.3.22 |   20 kB |     false |         2 |          9 |
+| etcd3:2379 | 2a6277f8728ef760 |  3.3.22 |   20 kB |      true |         2 |          9 |
++------------+------------------+---------+---------+-----------+-----------+------------+
 
+# List members
+etcd>docker-compose exec etcd3 /bin/sh -c "ETCDCTL_API=3 etcdctl --insecure-skip-tls-verify=true --key=/etcd3.etcd/fixtures/client/key.pem --cert=/etcd3.etcd/fixtures/client/cert.pem -w table member list"
++------------------+---------+-------+--------------------+--------------------+
+|        ID        | STATUS  | NAME  |     PEER ADDRS     |    CLIENT ADDRS    |
++------------------+---------+-------+--------------------+--------------------+
+| 1f6fd35e3327767a | started | etcd1 | https://etcd1:2380 | https://etcd1:2379 |
+| 2a6277f8728ef760 | started | etcd3 | https://etcd3:2380 | https://etcd3:2379 |
+| 4acd0a1e9189cd7a | started | etcd2 | https://etcd2:2380 | https://etcd2:2379 |
++------------------+---------+-------+--------------------+--------------------+
 
+# Save value
+etcd>docker-compose exec etcd3 /bin/sh -c "ETCDCTL_API=3 etcdctl --insecure-skip-tls-verify=true --key=/etcd3.etcd/fixtures/client/key.pem --cert=/etcd3.etcd/fixtures/client/cert.pem put joe is_cool"
+OK
 
+# Get value
+etcd>docker-compose exec etcd3 /bin/sh -c "ETCDCTL_API=3 etcdctl --insecure-skip-tls-verify=true --key=/etcd3.etcd/fixtures/client/key.pem --cert=/etcd3.etcd/fixtures/client/cert.pem get joe"
+joe
+is_cool
+
+# Get all key-value pairs
+etcd>docker-compose exec etcd3 /bin/sh -c "ETCDCTL_API=3 etcdctl --insecure-skip-tls-verify=true --key=/etcd3.etcd/fixtures/client/key.pem --cert=/etcd3.etcd/fixtures/client/cert.pem get \"\" --prefix=true" | sed 's/\x0d//g' | sed '$!N;s/\n/=/'
+a=2
+b=4
+joe=is_cool
+
+```
