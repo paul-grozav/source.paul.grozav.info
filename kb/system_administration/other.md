@@ -58,3 +58,70 @@ after
 false
 after
 ```
+
+4\. Copy directory recursive and overwrite (aka restore backup)
+===
+```bash
+(
+  mkdir -p root/.config/ &&
+  echo "A" > root/.config/a &&
+  echo "B" > root/.config/b &&
+  cp -r root root2 &&
+  # Alter root2
+  echo "NOT" >> root2/.config/a &&
+  echo "NOT" >> root2/.config/b &&
+  echo "C" > root2/.config/c &&
+
+  for d in root root2; do
+    for f in ${d}/.config/*; do
+      echo "===- ${f} -===" &&
+      cat ${f}
+    done
+  done
+
+  echo && echo && echo && echo &&
+  # Restore original contents - note that C is still there
+  cp --no-target-directory --recursive --verbose root root2 && # works
+  # cp root root2 # FAILS - creates root folder inside root2
+
+  for d in root root2; do
+    for f in ${d}/.config/*; do
+      echo "===- ${f} -===" &&
+      cat ${f}
+    done
+  done
+
+  rm -rf root root2 &&
+  exit 0
+)```
+will output:
+```bash
+===- root/.config/a -=== 
+A
+===- root/.config/b -===
+B
+===- root2/.config/a -===
+A
+NOT                                  
+===- root2/.config/b -===            
+B                       
+NOT
+===- root2/.config/c -===
+C
+                         
+ 
+                         
+ 
+'root/.config/a' -> 'root2/.config/a'
+'root/.config/b' -> 'root2/.config/b'
+===- root/.config/a -===                              
+A                            
+===- root/.config/b -===        
+B                               
+===- root2/.config/a -===
+A                
+===- root2/.config/b -===           
+B                                   
+===- root2/.config/c -===        
+C
+```
