@@ -93,7 +93,8 @@ after
 
   rm -rf root root2 &&
   exit 0
-)```
+)
+```
 will output:
 ```bash
 ===- root/.config/a -=== 
