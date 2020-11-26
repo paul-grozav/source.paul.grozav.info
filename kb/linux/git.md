@@ -80,6 +80,11 @@ git checkout --orphan branch_name
 GIT_COMMITTER_NAME="Committer Name" GIT_COMMITTER_EMAIL="committer@e.mail" git commit --author="Author Name <author@e.mail>" -m "some message"
 # or
 GIT_COMMITTER_NAME="Tancredi-Paul Grozav" GIT_COMMITTER_EMAIL="paul@grozav.info" bash -c 'git commit --author="${GIT_COMMITTER_NAME} <${GIT_COMMITTER_EMAIL}>" -m "some message"'
+
+# Create patch from git changes:
+git diff > ../my.patch
+# Apply patch:
+git apply ../my.patch
 {% endhighlight %}
 
 
