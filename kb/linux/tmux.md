@@ -11,10 +11,11 @@ ptitle: Terminal multiplexer
 - `tmux a -t name` - Attach to an existing session with the name name.
 - `Ctrl+b d` - Detach from the current session.
 - `Ctrl+b D` - Note capital `D`. Detach another user from this session.
+- `Ctrl+b $` - Rename current session.
 - `exit` - Close(end) the current session (terminate the bash instance).
 
 #### Windows
-- `Ctrl+b w` - List open windows.
+- `Ctrl+b w` - List open windows per all sessions.
 - `Ctrl+b c` - Create a new window.
 - `exit` - Close(end) the current window (terminate the bash instance).
 - `Ctrl+b n` - Go to the next window.
