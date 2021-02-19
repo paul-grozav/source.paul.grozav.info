@@ -4580,11 +4580,18 @@ docker load -i <PATH_TO_FILE>
 # This seems like a nice UI for docker:
 docker run -d -p 10086:10086 -v /var/run/docker.sock:/var/run/docker.sock tobegit3hub/seagull
 # Then go to http://127.0.0.1:10086
+# Or you can use portainer: https://www.portainer.io/
 # ============================================================================ #
-To cleanup a debian docker image you can:
+# Clean up your package manager when building images, to keep them small !
 
 # To undo apt-get update you can:
 rm -Rf /var/lib/apt/lists/*
+# or, even better
+apt clean
+
+# Run GUI apps in containers
+# It seems that doing "xhost +local:paul" and a "xhost -..." after, is not needed !
+podman run -it --rm -v /tmp/.X11-unix:/tmp/.X11-unix:rw -e DISPLAY debian:10.7 bash -c "apt update && apt install -y x11-apps && xeyes"
 ```
 
 ---
