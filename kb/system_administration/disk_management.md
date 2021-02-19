@@ -57,6 +57,9 @@ lvcreate --name data2 --extents 100%FREE vg00
 
 # View more info for a certain logical volume
 lvdisplay vg00/data2
+
+# Remove a logical volume
+lvremove /dev/mapper/vgubuntu-data
 ```
 
 ### 2.4. Resizing
