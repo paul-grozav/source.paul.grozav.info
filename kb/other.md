@@ -4590,8 +4590,15 @@ rm -Rf /var/lib/apt/lists/*
 apt clean
 
 # Run GUI apps in containers
+# Version 1:
 # It seems that doing "xhost +local:paul" and a "xhost -..." after, is not needed !
 podman run -it --rm -v /tmp/.X11-unix:/tmp/.X11-unix:rw -e DISPLAY debian:10.7 bash -c "apt update && apt install -y x11-apps && xeyes"
+
+# Version 2:
+# Local with net=host and without xhost permissions but requires .Xauthority
+# (also works over ssh -X with X11 fwd)
+docker run -it --rm -v ${HOME}/.Xauthority:/root/.Xauthority -e DISPLAY --net host debian bash -c "apt update && apt install -y x11-apps && xeyes"
+
 ```
 
 ---
