@@ -4,14 +4,17 @@ title: Physics
 permalink: /physics
 ---
 
-<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML" async="" type="text/javascript">// <![CDATA[
+<script
+ src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"
+  async="" type="text/javascript">// <![CDATA[
 // ]]></script>
 
-<br/><a href="#1-a-unit-of-measure">1. A unit of measure</a>
-<br/><a href="#2-international-system-of-units">2. International system of units</a>
-<br/><a href="#3-other">3. Other</a>
+<br/><a href="#1._a_unit_of_measure">1. A unit of measure</a>
+<br/><a href="#2._international_system_of_units">2. International system of units</a>
+<br/><a href="#3._other">3. Other</a>
 
-### 1. A unit of measure
+<a id="1._a_unit_of_measure" />
+<h3>1. A unit of measure</h3>
 
 Imagine that human civilization goes extinct. Billions of years later, an alien
 civilization arrives to earth, looking for intelligent life signs. Maybe they
@@ -33,10 +36,15 @@ is equal to 0.06224 meters.
 So, you see, the numbers change a lot, if you change the definition of the unit.
 So, let's define the units that we're going to use.
 
-### 2. International System of Units
+
+
+
+
+<a id="2._international_system_of_units" />
+<h3>2. International System of Units</h3>
 There are 7 base quantities and measurement units which form a basic set of
-units from which all other units can be derived, but no quantity in the set can
-be expressed in terms of the others.
+units from which all other units can be derived. (but no quantity in the set
+should be expressed in terms of the others?)
 
 <table border="1px">
   <thead>
@@ -55,23 +63,27 @@ be expressed in terms of the others.
     <td><a href="https://en.wikipedia.org/wiki/Metre" target="_blank">
       metre</a></td>
     <td>$$ m $$</td>
-    <td><a href="#2.1._length">Read more</a></td>
+    <td><a href="#2.1._metre">Read more</a></td>
   </tr>
   <tr>
-    <td>mass</td>
+    <td><a href="https://en.wikipedia.org/wiki/Mass" target="_blank">
+      mass</a></td>
     <td>$$ m $$</td>
     <td>$$ M $$</td>
-    <td>kilogram</td>
+    <td><a href="https://en.wikipedia.org/wiki/Kilogram" target="_blank">
+      kilogram</a></td>
     <td>$$ kg $$</td>
-    <td><a href="#2.1._length">Read more</a></td>
+    <td><a href="#2.2._kilogram">Read more</a></td>
   </tr>
   <tr>
-    <td>time</td>
+    <td><a href="https://en.wikipedia.org/wiki/Time" target="_blank">
+      time</a></td>
     <td>$$ t $$</td>
     <td>$$ T $$</td>
-    <td>second</td>
+    <td><a href="https://en.wikipedia.org/wiki/Second" target="_blank">
+      second</a></td>
     <td>$$ s $$</td>
-    <td><a href="#2.1._length">Read more</a></td>
+    <td><a href="#2.3._second">Read more</a></td>
   </tr>
   <tr>
     <td>electric current</td>
@@ -79,7 +91,7 @@ be expressed in terms of the others.
     <td>$$ I $$</td>
     <td>ampere</td>
     <td>$$ A $$</td>
-    <td><a href="#2.1._length">Read more</a></td>
+    <td><a href="#2.4._length">Read more</a></td>
   </tr>
   <tr>
     <td>thermodynamic temperature</td>
@@ -87,7 +99,7 @@ be expressed in terms of the others.
     <td>$$ \Theta $$</td>
     <td>kelvin</td>
     <td>$$ K $$</td>
-    <td><a href="#2.1._length">Read more</a></td>
+    <td><a href="#2.5._length">Read more</a></td>
   </tr>
   <tr>
     <td>amount of substance</td>
@@ -95,7 +107,7 @@ be expressed in terms of the others.
     <td>$$ N $$</td>
     <td>mole</td>
     <td>$$ mol $$</td>
-    <td><a href="#2.1._length">Read more</a></td>
+    <td><a href="#2.6._length">Read more</a></td>
   </tr>
   <tr>
     <td>luminous intensity</td>
@@ -103,29 +115,143 @@ be expressed in terms of the others.
     <td>$$ J $$</td>
     <td>candela</td>
     <td>$$ cd $$</td>
-    <td><a href="#2.1._length">Read more</a></td>
+    <td><a href="#2.7._length">Read more</a></td>
   </tr>
 </table>
 
-<a id="2.1._length" />
-<h4>2.1. Length</h4>
+Mathematically, the dimension of the quantity `Q` is given by:
+$$ dim \ Q = L^a \cdot M^b \cdot T^c \cdot I^d \cdot {\Theta}^e \cdot N^f
+  \cdot J^g $$
+where `a`, `b`, `c`, `d`, `e`, `f`, `g` are the dimensional exponents.
+
+
+<hr/><a id="2.1._metre" />
+<h4>2.1. Metre</h4><hr/>
 Length is a measure of
 <a href="https://en.wikipedia.org/wiki/Distance" target="_blank">distance</a>.
+The `1 meter` length is used as an unit, to measure distance.
 
-&nbsp;
-
-The historical origin (justification) for the value quantity of a meter is:
+<br/>The historical origin (justification) for the value quantity of a meter is:
 
 "<i>1 / 10 000 000 of the distance from the Earth's equator to the North Pole
 measured on the median arc through Paris.</i>"
 
-&nbsp;
-
-The post-2019 formal definition of a meter is:
+<br/>The post-2019 formal definition of a meter is:
 
 "<i>The metre is currently defined as the length of the path travelled by light
 in a vacuum in $$ \frac{1}{299\ 792\ 458} $$
  of a second.</i>"
+
+
+<hr/><a id="2.2._kilogram" />
+<h4>2.2. Kilogram</h4><hr/>
+The `1 kilogram` unit is used to measure mass.
+
+<br/>The historical origin (justification) for the value quantity of a kilogram
+is:
+
+"<i>The mass of one litre(one thousandth of a cubic metre = $$ \frac{1}{1000}
+\cdot m^3 $$) of water at the temperature of melting ice.</i>"
+
+<br/>The post-2019 formal definition of a kilogram is:
+
+"<i>It is defined by taking the fixed numerical value of the <a
+ href="https://en.wikipedia.org/wiki/Planck_constant" target="_blank">Planck
+constant</a> $$ h $$ to be $$ 6.62607015 \cdot 10^{−34} $$ when expressed in
+the unit $$ J \cdot s $$, which is equal to $$ kg \cdot m^2 \cdot s^{−1} $$,
+where the metre and the second are defined in terms of
+<a href="https://en.wikipedia.org/wiki/Speed_of_light" target="_blank">c</a> and
+$$ \Delta ν_{Cs} $$</i>"
+
+<br/>The average mass of a new-born human baby is approximately
+$$ 3.5 \cdot kg $$ .
+
+<br/>**Note** that the **mass** of an object is a measure of the object's
+inertial property, or the amount of matter it contains. The **weight** of an
+object is a measure of the force exerted on the object by gravity, or the force
+needed to support it. For example, your mass is the same no matter where you go
+in the universe; your weight, on the other hand, changes from place to place.
+Mass is measured in kilograms. Even though we usually talk about weight in
+kilograms, strictly speaking it should be measured in <a href="#2.9._newton">
+newtons</a>, the units of force.
+
+
+
+<hr/><a id="2.3._second" />
+<h4>2.3. Second</h4><hr/>
+The `1 second` unit is used to measure how much time has elapsed.
+
+<br/>The historical origin (justification) for the value quantity of a second
+is:
+
+"<i>The day was divided into 24 (parts, which we call hours), each hour was
+divided in 60 (parts, which we call minutes) and each minute was divided in 60
+(parts, which we call seconds).
+A second is $$ \frac{1}{24 \cdot 60 \cdot 60} = \frac{1}{86400} $$ of the
+day.</i>"
+
+<br/>The post-2019 formal definition of a second is:
+
+"<i>It is defined by taking the fixed numerical value of the caesium frequency
+$$ \Delta ν_{Cs} $$, the unperturbed ground-state hyperfine transition frequency
+of the caesium 133 atom, to be 9 192 631 770 when expressed in the unit
+$$ s ^ {-1} $$ (which is equal to Hz).</i>"
+
+
+<hr/><a id="2.8._velocity" />
+<h4>2.8. Velocity</h4><hr/>
+Dimension: $$ L \cdot T^{-1} $$ . With a length dimension component and a time
+dimension component.
+
+Unit of measure: $$ m \cdot s^{-1} \Leftrightarrow \frac{m}{s} $$ 
+
+<br/>The velocity measures the rate of change of an object's position with
+respect to a frame of reference, and is a function of time.
+
+The velocity is a vector. It has a scalar(magnitude) which is called speed and
+a direction of movement(change in position).
+
+<br/>For example a human is walking with a speed of approximately $$ 1.56 \cdot
+\frac{m}{s} $$.
+
+<br/>Galileo defined speed as the distance covered per unit of time. In equation
+form that is:
+
+$$ v = \frac{d}{t} $$
+where $$ v $$ is the speed, $$ d $$ is distance, and $$ t $$ is time.
+
+<a href="https://en.wikipedia.org/wiki/Velocity" target="_blank">Read more</a>.
+
+
+<hr/><a id="2.9._newton" />
+<h4>2.9. Newton</h4><hr/>
+Dimension: $$ L \cdot M \cdot T^{-2} $$ . With a length dimension component, a
+mass dimension component and a time dimension component.
+
+Unit of measure: $$ 1 \cdot N = 1 \cdot \frac { kg \cdot m }{s^2} $$ 
+
+One newton is the force needed to accelerate one kilogram of mass at the rate of
+one metre per second squared in the direction of the applied force. The units
+"metre per second squared" can be understood as change in velocity per time,
+i.e. an increase of velocity by 1 metre per second every second.
+
+
+<br/>At average gravity on Earth (conventionally, $$ g = 9.80665 \frac{m}{s^2}
+$$), a 1 kilogram mass exerts a force of about $$ 9.8 $$ newtons. An
+average-sized apple exerts about one newton of force, which we measure as the
+apple's weight.
+
+$$ 1 N = 0.10197 kg \cdot 9.80665 m \cdot s^{-2} $$ where ( $$ 0.10197 kg =
+101.97 $$ grams, the average weight of an apple).
+
+<br/>The weight of an average adult exerts a force of about $$ 608 N $$.
+
+$$ 608 N = 62 kg \cdot 9.80665 m \cdot s^{-2} $$ (where $$ 62 kg $$ is the world
+average adult mass).
+
+<a href="https://en.wikipedia.org/wiki/Newton_(unit)" target="_blank">Read
+more</a>.
+
 
 <!--
 Description: Stylised atom. Blue dots are electrons, red dots are protons and black dots are neutrons.
@@ -243,57 +369,8 @@ $$ (2^{n-1})-1 $$
 
 $$ (2^{n-1})-1 $$
 
-$$ (2^{n-1})-1 $$
-
-$$ (2^{n-1})-1 $$
-
-$$ (2^{n-1})-1 $$
-
-$$ (2^{n-1})-1 $$
-
-$$ (2^{n-1})-1 $$
-
-$$ (2^{n-1})-1 $$
-
-$$ (2^{n-1})-1 $$
-
-$$ (2^{n-1})-1 $$
-
-$$ (2^{n-1})-1 $$
-
-$$ (2^{n-1})-1 $$
-
-$$ (2^{n-1})-1 $$
-
-$$ (2^{n-1})-1 $$
-
-$$ (2^{n-1})-1 $$
-
-$$ (2^{n-1})-1 $$
-
-$$ (2^{n-1})-1 $$
-
-$$ (2^{n-1})-1 $$
-
-$$ (2^{n-1})-1 $$
-
-$$ (2^{n-1})-1 $$
-
-$$ (2^{n-1})-1 $$
-
-$$ (2^{n-1})-1 $$
-
-$$ (2^{n-1})-1 $$
-
-$$ (2^{n-1})-1 $$
-
-$$ (2^{n-1})-1 $$
-
-$$ (2^{n-1})-1 $$
-
-$$ (2^{n-1})-1 $$
-
-### 3. Other
+<a id="3._other" />
+<h3>3. Other</h3>
 
 1. Volts - measure the pressure. Pressure that pushes electrons through the circuit.
 2. Amperes - measures how many electrons pass a certain point(section of wire) in a certain interval of time.
@@ -372,105 +449,15 @@ $$ (2^{n-1})-1 $$
 
 $$ (2^{n-1})-1 $$
 
-$$ (2^{n-1})-1 $$
+<br/><a href="#1._a_unit_of_measure">1. A unit of measure</a>
+<br/><a href="#2._international_system_of_units">2. International system of units</a>
+<br/><a href="#3._other">3. Other</a>
 
-$$ (2^{n-1})-1 $$
+<hr/><hr/><hr/>
 
-$$ (2^{n-1})-1 $$
+Bibliography:
 
-$$ (2^{n-1})-1 $$
-
-$$ (2^{n-1})-1 $$
-
-$$ (2^{n-1})-1 $$
-
-$$ (2^{n-1})-1 $$
-
-$$ (2^{n-1})-1 $$
-
-$$ (2^{n-1})-1 $$
-
-$$ (2^{n-1})-1 $$
-
-$$ (2^{n-1})-1 $$
-
-$$ (2^{n-1})-1 $$
-
-$$ (2^{n-1})-1 $$
-
-$$ (2^{n-1})-1 $$
-
-$$ (2^{n-1})-1 $$
-
-$$ (2^{n-1})-1 $$
-
-$$ (2^{n-1})-1 $$
-
-$$ (2^{n-1})-1 $$
-
-$$ (2^{n-1})-1 $$
-
-$$ (2^{n-1})-1 $$
-
-$$ (2^{n-1})-1 $$
-
-$$ (2^{n-1})-1 $$
-
-$$ (2^{n-1})-1 $$
-
-$$ (2^{n-1})-1 $$
-
-$$ (2^{n-1})-1 $$
-
-$$ (2^{n-1})-1 $$
-
-$$ (2^{n-1})-1 $$
-
-$$ (2^{n-1})-1 $$
-
-$$ (2^{n-1})-1 $$
-
-$$ (2^{n-1})-1 $$
-
-$$ (2^{n-1})-1 $$
-
-$$ (2^{n-1})-1 $$
-
-$$ (2^{n-1})-1 $$
-
-$$ (2^{n-1})-1 $$
-
-$$ (2^{n-1})-1 $$
-
-$$ (2^{n-1})-1 $$
-
-$$ (2^{n-1})-1 $$
-
-$$ (2^{n-1})-1 $$
-
-$$ (2^{n-1})-1 $$
-
-$$ (2^{n-1})-1 $$
-
-$$ (2^{n-1})-1 $$
-
-$$ (2^{n-1})-1 $$
-
-$$ (2^{n-1})-1 $$
-
-$$ (2^{n-1})-1 $$
-
-$$ (2^{n-1})-1 $$
-
-$$ (2^{n-1})-1 $$
-
-$$ (2^{n-1})-1 $$
-
-$$ (2^{n-1})-1 $$
-
-$$ (2^{n-1})-1 $$
-
-<br/><a href="#1-a-unit-of-measure">1. A unit of measure</a>
-<br/><a href="#2-international-system-of-units">2. International system of units</a>
-<br/><a href="#3-other">3. Other</a>
-
+1. <a
+  href="https://www.bipm.org/utils/common/pdf/si-brochure/SI-Brochure-9-EN.pdf"
+  target="_blank">
+  https://www.bipm.org/utils/common/pdf/si-brochure/SI-Brochure-9-EN.pdf</a>
