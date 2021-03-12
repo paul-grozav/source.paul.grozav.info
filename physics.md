@@ -10,11 +10,13 @@ permalink: /physics
 // ]]></script>
 
 <br/><a href="#1._a_unit_of_measure">1. A unit of measure</a>
-<br/><a href="#2._international_system_of_units">2. International system of units</a>
-<br/><a href="#3._other">3. Other</a>
+<br/><a href="#2._international_system_of_units">2. International system of
+units</a>
+<br/><a href="#3._elementary_particles">3. Elementary particles</a>
+<br/><a href="#4._other">4. Other</a>
 
-<a id="1._a_unit_of_measure" />
-<h3>1. A unit of measure</h3>
+<hr/><a id="1._a_unit_of_measure" />
+<h1>1. A unit of measure</h1><hr/>
 
 Imagine that human civilization goes extinct. Billions of years later, an alien
 civilization arrives to earth, looking for intelligent life signs. Maybe they
@@ -40,8 +42,9 @@ So, let's define the units that we're going to use.
 
 
 
-<a id="2._international_system_of_units" />
-<h3>2. International System of Units</h3>
+
+<hr/><a id="2._international_system_of_units" />
+<h1>2. International System of Units</h1><hr/>
 There are 7 base quantities and measurement units which form a basic set of
 units from which all other units can be derived. (but no quantity in the set
 should be expressed in terms of the others?)
@@ -126,7 +129,7 @@ where `a`, `b`, `c`, `d`, `e`, `f`, `g` are the dimensional exponents.
 
 
 <hr/><a id="2.1._metre" />
-<h4>2.1. Metre</h4><hr/>
+<h2>2.1. Metre</h2><hr/>
 Length is a measure of
 <a href="https://en.wikipedia.org/wiki/Distance" target="_blank">distance</a>.
 The `1 meter` length is used as an unit, to measure distance.
@@ -144,7 +147,7 @@ in a vacuum in $$ \frac{1}{299\ 792\ 458} $$
 
 
 <hr/><a id="2.2._kilogram" />
-<h4>2.2. Kilogram</h4><hr/>
+<h2>2.2. Kilogram</h2><hr/>
 The `1 kilogram` unit is used to measure mass.
 
 <br/>The historical origin (justification) for the value quantity of a kilogram
@@ -172,13 +175,13 @@ object is a measure of the force exerted on the object by gravity, or the force
 needed to support it. For example, your mass is the same no matter where you go
 in the universe; your weight, on the other hand, changes from place to place.
 Mass is measured in kilograms. Even though we usually talk about weight in
-kilograms, strictly speaking it should be measured in <a href="#2.9._newton">
+kilograms, strictly speaking it should be measured in <a href="#2.10._newton">
 newtons</a>, the units of force.
 
 
 
 <hr/><a id="2.3._second" />
-<h4>2.3. Second</h4><hr/>
+<h2>2.3. Second</h2><hr/>
 The `1 second` unit is used to measure how much time has elapsed.
 
 <br/>The historical origin (justification) for the value quantity of a second
@@ -199,11 +202,12 @@ $$ s ^ {-1} $$ (which is equal to Hz).</i>"
 
 
 <hr/><a id="2.8._velocity" />
-<h4>2.8. Velocity</h4><hr/>
+<h2>2.8. Velocity</h2><hr/>
 Dimension: $$ L \cdot T^{-1} $$ . With a length dimension component and a time
 dimension component.
 
-Unit of measure: $$ m \cdot s^{-1} \Leftrightarrow \frac{m}{s} $$ 
+Unit of measure: $$ m \cdot s^{-1} \Leftrightarrow \frac{m}{s} \Leftrightarrow
+m/s $$ 
 
 <br/>The velocity measures the rate of change of an object's position with
 respect to a frame of reference, and is a function of time.
@@ -223,18 +227,30 @@ where $$ v $$ is the speed, $$ d $$ is distance, and $$ t $$ is time.
 <a href="https://en.wikipedia.org/wiki/Velocity" target="_blank">Read more</a>.
 
 
-<hr/><a id="2.9._newton" />
-<h4>2.9. Newton</h4><hr/>
+<hr/><a id="2.9._acceleration" />
+<h2>2.9. Acceleration</h2><hr/>
+Dimension: $$ L \cdot T^{-2} $$ . With a length dimension component and a time
+dimension component.
+
+Unit of measure: $$ m \cdot s^{-2} \Leftrightarrow \frac{m}{s^2} $$
+
+<br/>Acceleration is the rate of change of the velocity of an object with
+respect to time.
+
+<br/>The units "metre per second squared" can be understood as change in
+velocity per time. For example an increase of velocity by 1 metre per second
+every second.
+
+
+<hr/><a id="2.10._newton" />
+<h2>2.10. Newton</h2><hr/>
 Dimension: $$ L \cdot M \cdot T^{-2} $$ . With a length dimension component, a
 mass dimension component and a time dimension component.
 
 Unit of measure: $$ 1 \cdot N = 1 \cdot \frac { kg \cdot m }{s^2} $$ 
 
 One newton is the force needed to accelerate one kilogram of mass at the rate of
-one metre per second squared in the direction of the applied force. The units
-"metre per second squared" can be understood as change in velocity per time,
-i.e. an increase of velocity by 1 metre per second every second.
-
+one metre per second squared in the direction of the applied force.
 
 <br/>At average gravity on Earth (conventionally, $$ g = 9.80665 \frac{m}{s^2}
 $$), a 1 kilogram mass exerts a force of about $$ 9.8 $$ newtons. An
@@ -252,6 +268,73 @@ average adult mass).
 <a href="https://en.wikipedia.org/wiki/Newton_(unit)" target="_blank">Read
 more</a>.
 
+
+<hr/><a id="2.11._joule" />
+<h2>2.11. Joule</h2><hr/>
+A Joule is equal to the energy transferred to (or work done on) an object when a
+force of one newton acts on that object in the direction of the force's motion
+through a distance of one metre (1 newton metre or $$ N \cdot m $$).
+
+<br/>It is also the energy dissipated as heat when an electric current of one
+ampere ( $$ 1 A $$ ) passes through a resistance of one ohm ( $$ 1 \Omega $$ )
+for one second ( $$ 1 s $$ ).
+
+<br/>**Practical examples** - One joule represents (approximately):
+
+2.11.1. The kinetic energy of a $$ 2 kg $$ mass traveling at $$ 1 m/s $$
+
+2.11.2. The energy required to lift a medium-sized tomato up 1 metre (assume the
+tomato has a mass of approximately 100 grams).
+
+2.11.3. The energy required to accelerate a $$ 1 kg $$ mass at $$ 1
+\frac{m}{s^2} $$ through a distance of $$ 1 m $$.
+
+2.11.4. The heat required to raise the temperature of $$ 1 g $$ of water by
+$$ 0.24 °C $$.
+
+2.11.5. The typical energy released as heat by a person at rest every
+$$ \frac{1}{60} \cdot s $$ (approximately $$ 17 ms $$).
+
+2.11.6. The kinetic energy of a $$ 50 kg $$ human moving very slowly (at
+$$ 0.2 m/s $$ or $$ 0.72 km/h $$).
+
+2.11.7. The kinetic energy of a $$ 56 g $$ tennis ball moving at $$ 6 m/s $$
+( $$ 22 km/h $$ ).
+
+2.11.8. The amount of electricity required to light a $$ 1 W $$ LED for
+$$ 1 s $$.
+
+2.11.9. A kilowatt-hour is $$ 3.6 $$ megajoules.
+
+
+<hr/><a id="2.12._coulomb" />
+<h2>2.12. Coulomb</h2><hr/>
+
+
+
+<hr/><a id="3._elementary_particles" />
+<h1>3. Elementary particles</h1><hr/>
+<hr/>
+Humanity has noticed, along the time, that all everyday objects that can be
+touched are made up of smaller objects, they are divisible.
+
+<br/>With time, we've come up with a fancy word, and "all everyday objects that
+can be touched" are called **matter**.
+
+<br/>In a more formal way, matter can be defined as anything that has mass and
+volume.
+
+<br/><a href="https://en.wikipedia.org/wiki/Democritus" target="_blank">
+Democritus</a>, a Greek philosopher (born ~460 B.C.), wondered what would happen
+if you cut a piece of matter, such as an apple, into smaller and smaller pieces.
+He thought that a point would be reached where matter could not be cut into
+still smaller pieces. He called these "uncuttable" pieces *a-tomos*
+(in-divisible). This is where the modern term **atom** comes from.
+
+
+<hr/><a id="3.1._atom" />
+<h2>3.1. Atom</h2><hr/>
+Here is an obsolete, but easier to understand representation of an atom:
 
 <!--
 Description: Stylised atom. Blue dots are electrons, red dots are protons and black dots are neutrons.
@@ -326,51 +409,75 @@ This licensing tag was added to this file as part of the GFDL licensing update.
  </g>
 </svg>
 
+As you can see, now we know that the atom **is** divisible and we are aware of
+at least 3 distinct elements (the colored balls in the image above - the lines
+are just trajectories):
 
-$$ (2^{n-1})-1 $$
 
-$$ (2^{n-1})-1 $$
+- **Neutrons** - These are the **black** balls in the image. They have a big
+mass but no electric charge(they are neutral).
+- **Protons** - These are the **red** balls in the image. They have a big mass
+and a positive electric charge.
+- **Electrons** - These are the **blue** balls in the image. They have a small
+mass and a negative electric charge.
 
-$$ (2^{n-1})-1 $$
+<br/>It is only a convention that electric charge of the electron is *negative*
+and the electric charge of the proton is *positive*.
 
-$$ (2^{n-1})-1 $$
+<br/> The atomic **nucleus** is the small, dense region consisting of neutrons
+and protons at the center of an atom. The nucleus is made of one or more protons
+and a number of neutrons. Only the most common variety of hydrogen has no
+neutrons.
 
-$$ (2^{n-1})-1 $$
+<br/>More than 99.94% of an atom's mass is in the nucleus. The electron has a
+mass that is approximately $$ 1/1836 $$ that of the proton. Protons and neutrons
+have approximately the same mass of $$ 1.66053906660(50) \cdot 10^{−27} kg
+= 1 Da $$, which is called 1 *Da*lton. Electrons have a mass of
+$$ 9.1093837015(28) \cdot 10^{−31} kg $$.
 
-$$ (2^{n-1})-1 $$
 
-$$ (2^{n-1})-1 $$
+<br/>Particles with the *same* electric charge(both positive or both negative),
+when placed next to each other, will experience a force, they will repel each
+other(they will try to move away from each other, to move in the opposite
+direction, to maximize the distance between them).
 
-$$ (2^{n-1})-1 $$
+<br/>Particles with *different* electric charge(a positive and a negative one),
+when placed next to each other, will experience a force, they will attract each
+other(they will both try to move closer together, towards the same point in
+space, to minimize the distance between them).
 
-$$ (2^{n-1})-1 $$
+<br/>If the number of protons and electrons are equal, then the atom is
+electrically neutral. Ions are atoms that have an different number of electrons
+than the number of protons, thus it has a positive or negative electric charge.
+Note that only electrons can come inside an atom, and can leave the atom
+structure!
 
-$$ (2^{n-1})-1 $$
+<br/>Atoms are extremely small, typically around 100 picometers ($$ = 1 Å =
+1^{-10} m $$) in diameter. The diameter of an electron is considered to be
+$$ 2.8179403227(19) \cdot 10^{-15} m $$. The diameter of a proton is considered
+to be $$ 1.682838 \cdot 10^{-15} m $$. The diameter of a neutron is considered
+to be approximately $$ 1.6 \cdot 10^{-15} m $$. For some atoms, the diameter of
+the nucleus is about 100 000 times smaller than the diameter of the atom.
 
-$$ (2^{n-1})-1 $$
+<br/>However, the atoms are so small that accurately predicting their behavior
+and studying some of their properties, using classical physics — as if they were
+tennis balls, for example — is not possible due to quantum effects.
 
-$$ (2^{n-1})-1 $$
+<br/>The **atomic number** is the number of protons inside an atom, and it helps
+us identify the type of atom, in
+<a href="https://en.wikipedia.org/wiki/Periodic_table" target="_blank">the
+list/table of atom types</a>.
 
-$$ (2^{n-1})-1 $$
+<br/>Read more:
+- <a href="https://en.wikipedia.org/wiki/Atom" target="_blank">Atom</a>
+- <a href="https://en.wikipedia.org/wiki/Electric_charge" target="_blank">
+Electric charge</a>
+- <a href="https://en.wikipedia.org/wiki/Periodic_table" target="_blank">
+Periodic table</a>
 
-$$ (2^{n-1})-1 $$
 
-$$ (2^{n-1})-1 $$
-
-$$ (2^{n-1})-1 $$
-
-$$ (2^{n-1})-1 $$
-
-$$ (2^{n-1})-1 $$
-
-$$ (2^{n-1})-1 $$
-
-$$ (2^{n-1})-1 $$
-
-$$ (2^{n-1})-1 $$
-
-<a id="3._other" />
-<h3>3. Other</h3>
+<hr/><a id="4._other" />
+<h1>4. Other</h1><hr/>
 
 1. Volts - measure the pressure. Pressure that pushes electrons through the circuit.
 2. Amperes - measures how many electrons pass a certain point(section of wire) in a certain interval of time.
@@ -450,8 +557,10 @@ $$ (2^{n-1})-1 $$
 $$ (2^{n-1})-1 $$
 
 <br/><a href="#1._a_unit_of_measure">1. A unit of measure</a>
-<br/><a href="#2._international_system_of_units">2. International system of units</a>
-<br/><a href="#3._other">3. Other</a>
+<br/><a href="#2._international_system_of_units">2. International system of
+units</a>
+<br/><a href="#3._elementary_particles">3. Elementary particles</a>
+<br/><a href="#4._other">4. Other</a>
 
 <hr/><hr/><hr/>
 
