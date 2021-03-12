@@ -94,7 +94,7 @@ should be expressed in terms of the others?)
     <td>$$ I $$</td>
     <td>ampere</td>
     <td>$$ A $$</td>
-    <td><a href="#2.4._length">Read more</a></td>
+    <td><a href="#2.4._ampere">Read more</a></td>
   </tr>
   <tr>
     <td>thermodynamic temperature</td>
@@ -201,6 +201,14 @@ of the caesium 133 atom, to be 9 192 631 770 when expressed in the unit
 $$ s ^ {-1} $$ (which is equal to Hz).</i>"
 
 
+<hr/><a id="2.4._ampere" />
+<h2>2.4. Ampere</h2><hr/>
+1 Ampere ( $$ 1 \cdot A $$ ) is defined as 1 <a href="#2.12._coulomb">coulomb
+</a> of charge, passing through a "wire" in 1 second of time:
+
+$$ 1 A = \frac{1 C}{1 s} $$ .
+
+
 <hr/><a id="2.8._velocity" />
 <h2>2.8. Velocity</h2><hr/>
 Dimension: $$ L \cdot T^{-1} $$ . With a length dimension component and a time
@@ -249,8 +257,8 @@ mass dimension component and a time dimension component.
 
 Unit of measure: $$ 1 \cdot N = 1 \cdot \frac { kg \cdot m }{s^2} $$ 
 
-One newton is the force needed to accelerate one kilogram of mass at the rate of
-one metre per second squared in the direction of the applied force.
+<br/>One newton is the force needed to accelerate one kilogram of mass at the
+rate of one metre per second squared in the direction of the applied force.
 
 <br/>At average gravity on Earth (conventionally, $$ g = 9.80665 \frac{m}{s^2}
 $$), a 1 kilogram mass exerts a force of about $$ 9.8 $$ newtons. An
@@ -271,9 +279,15 @@ more</a>.
 
 <hr/><a id="2.11._joule" />
 <h2>2.11. Joule</h2><hr/>
-A Joule is equal to the energy transferred to (or work done on) an object when a
-force of one newton acts on that object in the direction of the force's motion
-through a distance of one metre (1 newton metre or $$ N \cdot m $$).
+Dimension: $$ L^{2} \cdot M \cdot T^{-2} $$ . With a length dimension component,
+a mass dimension component and a time dimension component.
+
+Unit of measure: $$ 1 \cdot J = 1 \cdot N \cdot 1 \cdot m
+=1 \cdot \frac {kg \cdot m^2}{s^2} $$ 
+
+<br/>A Joule is equal to the energy transferred to (or work done on) an object
+when a force of one newton acts on that object in the direction of the force's
+motion through a distance of one metre (1 newton metre or $$ N \cdot m $$).
 
 <br/>It is also the energy dissipated as heat when an electric current of one
 ampere ( $$ 1 A $$ ) passes through a resistance of one ohm ( $$ 1 \Omega $$ )
@@ -309,6 +323,48 @@ $$ 1 s $$.
 
 <hr/><a id="2.12._coulomb" />
 <h2>2.12. Coulomb</h2><hr/>
+See the <a href="#3.1._atom" target="_blank">atom</a> and get familiar with the
+electrons and the electric charge(and the force) of electrons and protons.
+
+<br/>1 coulomb is defined as the charge of
+6 241 509 074 460 762 607.776 elementary charges. Note the `0.776` termination.
+That is less than 1 proton/electron which can not be created, thus it is
+impossible to realize exactly `1 C` of charge. An elementary_charge is a proton
+(positive charge) or electron(negative charge). Thus
+`6 241 509 074 460 762 607.776 protons` = `+ 1 C` and
+`6 241 509 074 460 762 607.776 electrons` = `- 1 C`.
+
+
+<hr/><a id="2.13._volt" />
+<h2>2.13. Volt</h2><hr/>
+Dimension: $$ L^{2} \cdot M \cdot T^{-3} \cdot I^{-1} $$ . With a length
+dimension component, a mass dimension component, a time dimension component and
+an electric current dimension component.
+
+<br/>Unit of measure: $$ 1 \cdot V = 1 \cdot \frac{J}{C} $$.
+
+If we consider $$ 1 A = \frac{C}{s} \Leftrightarrow 1 C = A \cdot s $$ then, $$
+1 \cdot V = 1 \cdot \frac {kg \cdot m^2}{A \cdot s^3} $$ 
+
+<br/>We define that a circuit component has a potential difference of one
+**Volt** ( $$ V $$ ), if one <a href="#2.11._joule">Joule</a> of energy is
+required to move one <a href="#2.12._coulomb">Coulomb</a> of charge through that
+component.
+
+
+<hr/><a id="2.14._ohm" />
+<h2>2.14. Ohm</h2><hr/>
+$$ 1 Ω = 1 \frac{V}{A} $$
+
+<hr/><a id="2.15._watt" />
+<h2>2.15. Watt</h2><hr/>
+$$ 1 W = 1 V * 1 A $$
+
+or
+
+$$ 1 W = 1 \frac{J}{s} $$
+
+
 
 
 
@@ -476,6 +532,12 @@ Electric charge</a>
 Periodic table</a>
 
 
+
+<hr/><a id="3.2._photon" />
+<h2>3.2. Photon</h2><hr/>
+Photons have no mass, so they are not matter particles.
+
+
 <hr/><a id="4._other" />
 <h1>4. Other</h1><hr/>
 
@@ -487,7 +549,7 @@ Periodic table</a>
 4. `Wats = Volts x Amperes` `W = V x A`
 5. V(Voltage/Volts/Pressure), I(Intensity/Amperage/Flow), R(Resistance/Restriction_to_flow/Ohms/Ω) - `V = I * R` - Ohm's law. The voltage V in volts (V) is equal to the current I in amps (A) times the resistance R in ohms (Ω) . also known as $$ R = \frac{V}{I}  = ohms = \frac{volts}{amperes} $$
 6. `P = V * I` = `watts = volts * amperes`
-7. `1 Ampere = 1 Coulomb/second` where 1 [Coulomb](https://en.wikipedia.org/wiki/Coulomb) is = `6 241 509 074 460 762 607.776 elementary_charges` Note the `0.776` termination. That is less than 1 proton/electron which can not be created, thus it is impossible to realize exactly 1 C of charge. An elementary_charge is a proton(positive charge) or electron(negative charge). Thus `6 241 509 074 460 762 607.776 protons` = `+ 1 C` and `6 241 509 074 460 762 607.776 electrons` = `- 1 C`.
+7. `1 Ampere = 1 Coulomb/second` where 1 [Coulomb](https://en.wikipedia.org/wiki/Coulomb) is = `6 241 509 074 460 762 607.776 elementary_charges` 
 8. 1 Ampere_Hour = is the **amount of energy charge** in a battery that will allow 1 Ampere of current to flow for 1 Hour.
 
 9. A typical alkaline or NiMH battery in the standard “AA” size has about 2000 to 3000 mAh (or 2 to 3 Ah)
