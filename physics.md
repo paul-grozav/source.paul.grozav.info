@@ -127,6 +127,8 @@ $$ dim \ Q = L^a \cdot M^b \cdot T^c \cdot I^d \cdot {\Theta}^e \cdot N^f
   \cdot J^g $$
 where `a`, `b`, `c`, `d`, `e`, `f`, `g` are the dimensional exponents.
 
+See <a href="https://en.wikipedia.org/wiki/SI_derived_unit" target="_blank">this
+</a>.
 
 <hr/><a id="2.1._metre" />
 <h2>2.1. Metre</h2><hr/>
@@ -214,8 +216,10 @@ $$ 1 A = \frac{1 C}{1 s} $$ .
 Dimension: $$ L \cdot T^{-1} $$ . With a length dimension component and a time
 dimension component.
 
-Unit of measure: $$ m \cdot s^{-1} \Leftrightarrow \frac{m}{s} \Leftrightarrow
-m/s $$ 
+<br/>Unit of measure: $$ m \cdot s^{-1} \Leftrightarrow \frac{m}{s}
+\Leftrightarrow m/s $$ 
+
+<br/>Symbol for quantity: $$ a  $$.
 
 <br/>The velocity measures the rate of change of an object's position with
 respect to a frame of reference, and is a function of time.
@@ -247,7 +251,12 @@ respect to time.
 
 <br/>The units "metre per second squared" can be understood as change in
 velocity per time. For example an increase of velocity by 1 metre per second
-every second.
+every second is represented as $$ 1 \cdot \frac{m}{s^2} $$.
+
+<br/>Near Earth's surface, gravitational acceleration is approximately $$ g =
+9.81 \cdot \frac{m}{s^2} $$, which means that, ignoring the effects of air
+resistance, the speed of an object falling freely will increase by about
+$$ 9.81 $$ metres per second, every second.
 
 
 <hr/><a id="2.10._newton" />
@@ -255,23 +264,41 @@ every second.
 Dimension: $$ L \cdot M \cdot T^{-2} $$ . With a length dimension component, a
 mass dimension component and a time dimension component.
 
-Unit of measure: $$ 1 \cdot N = 1 \cdot \frac { kg \cdot m }{s^2} $$ 
+<br/>Unit of measure: $$ 1 \cdot N = 1 \cdot \frac { kg \cdot m }{s^2} $$.
+
+<br/>Symbol for quantity: $$ F $$.
 
 <br/>One newton is the force needed to accelerate one kilogram of mass at the
 rate of one metre per second squared in the direction of the applied force.
+
+<br/><a href="https://en.wikipedia.org/wiki/Isaac_Newton">Isaac Newton</a>'s
+"2nd law of motion" said that (and we agree with it, we accept it): the Force is
+defined as a mass times(multiplied by) an acceleration: $$ F = m \cdot a $$.
+Where $$ F $$ is the Force, $$ m $$ is the mass(not meters) and $$ a $$ is the
+acceleration.
+
+<br/>Now, $$ F = m \cdot a $$ is expressed symbols of quantities, if we express
+it in symbols of units, we measure the force in Newtons, the mass in Kilograms
+and the acceleration in $$ \frac{m}{s^2} $$, so the expression becomes: $$
+N = kg \cdot \frac{m}{s^2} $$.
 
 <br/>At average gravity on Earth (conventionally, $$ g = 9.80665 \frac{m}{s^2}
 $$), a 1 kilogram mass exerts a force of about $$ 9.8 $$ newtons. An
 average-sized apple exerts about one newton of force, which we measure as the
 apple's weight.
 
-$$ 1 N = 0.10197 kg \cdot 9.80665 m \cdot s^{-2} $$ where ( $$ 0.10197 kg =
+<br/>$$ 1 N = 0.10197 kg \cdot 9.80665 m \cdot s^{-2} $$ where ( $$ 0.10197 kg =
 101.97 $$ grams, the average weight of an apple).
+
+<br/>So, if you ever get the chance to hold an apple in your hand, on the
+surface of planet Earth, stop and think. You are feeling 1 Newton of force in
+your hand.
 
 <br/>The weight of an average adult exerts a force of about $$ 608 N $$.
 
-$$ 608 N = 62 kg \cdot 9.80665 m \cdot s^{-2} $$ (where $$ 62 kg $$ is the world
-average adult mass).
+<br/>$$ 608 N = 62 kg \cdot 9.80665 m \cdot s^{-2} $$ (where $$ 62 kg $$ is the
+world average adult mass).
+
 
 <a href="https://en.wikipedia.org/wiki/Newton_(unit)" target="_blank">Read
 more</a>.
@@ -293,12 +320,15 @@ motion through a distance of one metre (1 newton metre or $$ N \cdot m $$).
 ampere ( $$ 1 A $$ ) passes through a resistance of one ohm ( $$ 1 \Omega $$ )
 for one second ( $$ 1 s $$ ).
 
+<br/>So, Joules are a unit of measure for **energy** as a quantity. Sometimes we
+also say that "work" is done, if a Force is applied to move an object in space.
+
 <br/>**Practical examples** - One joule represents (approximately):
 
-2.11.1. The kinetic energy of a $$ 2 kg $$ mass traveling at $$ 1 m/s $$
+2.11.1. The energy required to lift an apple up 1 metre (assume the apple has a
+mass of approximately 102 grams).
 
-2.11.2. The energy required to lift a medium-sized tomato up 1 metre (assume the
-tomato has a mass of approximately 100 grams).
+2.11.2. The kinetic energy of a $$ 2 kg $$ mass traveling at $$ 1 m/s $$
 
 2.11.3. The energy required to accelerate a $$ 1 kg $$ mass at $$ 1
 \frac{m}{s^2} $$ through a distance of $$ 1 m $$.
@@ -344,7 +374,11 @@ an electric current dimension component.
 <br/>Unit of measure: $$ 1 \cdot V = 1 \cdot \frac{J}{C} $$.
 
 If we consider $$ 1 A = \frac{C}{s} \Leftrightarrow 1 C = A \cdot s $$ then, $$
-1 \cdot V = 1 \cdot \frac {kg \cdot m^2}{A \cdot s^3} $$ 
+1 \cdot V = 1 \cdot \frac {kg \cdot m^2}{A \cdot s^3} $$.
+
+<br/>Volt is the unit that measures the voltage, and the voltage is the quantity
+of electric potential, or the electric potential difference. The symbol for the
+voltage quantity is also $$ V $$.
 
 <br/>We define that a circuit component has a potential difference of one
 **Volt** ( $$ V $$ ), if one <a href="#2.11._joule">Joule</a> of energy is
@@ -352,19 +386,84 @@ required to move one <a href="#2.12._coulomb">Coulomb</a> of charge through that
 component.
 
 
-<hr/><a id="2.14._ohm" />
-<h2>2.14. Ohm</h2><hr/>
-$$ 1 Ω = 1 \frac{V}{A} $$
+<hr/><a id="2.14._watt" />
+<h2>2.14. Watt</h2><hr/>
+The watt measures the quantity of power which is the rate of energy transfer.
+The symbol of the power quantity is $$ P $$.
+So, the watt is defined as:
 
-<hr/><a id="2.15._watt" />
-<h2>2.15. Watt</h2><hr/>
-$$ 1 W = 1 V * 1 A $$
+$$ 1 W = 1 \cdot \frac{J}{s} $$
 
-or
+Dimension: $$ L^{2} \cdot M \cdot T^{-3} $$ . With a length dimension component,
+a mass dimension component and a time dimension component.
 
-$$ 1 W = 1 \frac{J}{s} $$
+<br/>Unit of measure: $$ 1 \cdot W = 1 \cdot \frac{kg \cdot m^{2}}{s^{3}}$$.
+
+or, from an electrical point of view:
+$$ \require{cancel} 1 W = 1 V \cdot 1 A =
+\frac{J}{\bcancel{C}} \cdot \frac{\bcancel{C}}{s} = \frac{J}{s} $$
+
+<br/>1 watt is the energy required to lift an apple up 1 metre in 1 second of
+time (assume the apple has a mass of approximately 102 grams).
+
+<br/>The watt is sometimes said that it measures "how **fast** work is done".
+Considering that 1 Watt is equal to 1 Joule of work being done on an object in
+1 second of time.
 
 
+<hr/><a id="2.15._ohm_and_siemens" />
+<h2>2.15. Ohm and Siemens</h2><hr/>
+The Ohms measure the quantity of electrical resistance of an object. Meaning,
+how hard it is for electrical current (charge/electrons) to flow through that
+object.
+
+Electrical resistance is measured in the unit of **ohm**, using the unit symbol
+$$ \Omega $$. In the electronics industry it is common to use the character
+$$ R $$ instead of the $$ \Omega $$ symbol, thus, a $$ 10 \Omega $$ resistor may
+be represented as $$ 10 R $$. And $$ R $$ was preferred instead of $$ \Omega $$
+because it's easier to write it since it's available in most fonts. See
+<a href="https://en.wikipedia.org/wiki/Ohm#Symbol" target="_blank">this</a>.
+
+<br/>$$ R $$ is also used as a symbol for the quantity of electrical resistance
+of an object.
+
+$$ 1 \Omega = 1 \cdot \frac{V}{A} $$
+
+The dimension for electrical resistance is: $$ L^{2} \cdot M \cdot T^{-3} \cdot
+I^{-2} $$ . With a length dimension component, a mass dimension component, a
+time dimension component and an electric current dimension component.
+
+<br/><br/>
+
+Now, the siemens measures the quantity of electrical conductance, or how easy it
+is for electrical current (charge/electrons) to flow through that object.
+
+<br/>$$ G $$ is used as a symbol for the quantity of electrical conductance of
+an object.
+
+<br/>Of course, this is the inverse of the electrical resistance. The electrical
+conductance is measured in units of **siemens**. The unit siemens uses the
+symbol $$ S $$. Sometimes, to avoid confusion with lower-case symbol $$ s $$,
+which is used for second, Siemens also uses the symbol $$ \Omega^{-1} $$ or
+$$ ℧ $$. 
+
+$$ 1 S = 1 \cdot \frac{A}{V} = 1 \cdot \frac{1}{\Omega} $$
+
+The dimension for electrical conductance is: $$ L^{-2} \cdot M^{-1} \cdot T^{3}
+\cdot I^{2} $$ . With a length dimension component, a mass dimension component,
+a time dimension component and an electric current dimension component.
+
+<br/>For example:
+
+2.15.1. The conductance of a resistor with a resistance of five ohms, is
+$$ (5 \Omega)^{−1} $$ , which is equal to $$ 0.2 S $$.
+
+2.15.2. A resistance of $$ 1 \Omega $$ is when a voltage of 1 volt is placed
+across a circuit and the resulting current is 1 ampere.
+
+2.15.3. For a device with a conductance of one siemens, the electric current
+through the device will increase by one ampere for every increase of one volt of
+electric potential difference across the device.
 
 
 
