@@ -9,6 +9,8 @@ permalink: /physics
   async="" type="text/javascript">// <![CDATA[
 // ]]></script>
 
+Keep in mind that this is work in progress and might contain unintended mistakes.
+
 <br/><a href="#1._a_unit_of_measure">1. A unit of measure</a>
 <br/><a href="#2._international_system_of_units">2. International system of
 units</a>
