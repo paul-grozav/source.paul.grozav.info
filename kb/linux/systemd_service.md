@@ -73,3 +73,43 @@ ExecStart=/bin/bash -c " \
 WantedBy=multi-user.target
 # ============================================================================ #
 {% endhighlight %}
+
+Here's an example of how to run a podman container at startup(boot) without the
+need to log into any user session:
+
+{% highlight sh %}
+# ============================================================================ #
+# Author: Tancredi-Paul Grozav <paul@grozav.info>
+# my service
+# Check status: systemctl status my
+# Start: systemctl start my
+# Stop: systemctl stop my
+# Enable(start at boot): systemctl enable my
+# Disable(do not start at boot): systemctl disable my
+# Reload service definition: systemctl daemon-reload
+# Install service: mkdir -p ~/.config/systemd/user && cp ./prometheus_node_exporter.service ~/.config/systemd/user/prometheus_node_exporter.service
+# ============================================================================ #
+# Similarly to system units, user units are located in the following
+#   directories (ordered by ascending precedence):
+#
+# - /usr/lib/systemd/user/ - where units provided by installed packages belong.
+# - ~/.local/share/systemd/user/ - where units of packages that have been installed in the home directory belong.
+# - /etc/systemd/user/ - where system-wide user units are placed by the system administrator.
+# - ~/.config/systemd/user/ - where the user puts their own units.
+# ============================================================================ #
+# See more: https://wiki.archlinux.org/index.php/systemd/User
+# After this file update run:
+# systemctl --user disable prometheus_node_exporter && systemctl --user stop prometheus_node_exporter && mkdir -p ~/.config/systemd/user && cp /data/container_services/prometheus_node_exporter.service ~/.config/systemd/user && systemctl --user start prometheus_node_exporter && systemctl --user enable prometheus_node_exporter && systemctl --user status prometheus_node_exporter
+# ============================================================================ #
+[Unit]
+Description=Prometheus full node exporter container
+
+[Service]
+Restart=always
+ExecStart=/usr/bin/podman run -it --rm --name="prometheus_node_exporter" --net="host" --pid="host" -v "/:/host:ro,rslave" quay.io/prometheus/node-exporter --path.rootfs=/host
+ExecStop=/usr/bin/podman stop -t0 prometheus_node_exporter
+
+[Install]
+WantedBy=default.target
+# ============================================================================ #
+{% endhighlight %}
