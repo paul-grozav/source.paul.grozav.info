@@ -91,3 +91,7 @@ packets and the receive buffer errors you can look at "*X receive buffer
 errors*" or you can see the value in `column -t /proc/net/snmp | less -NS` at
 *Udp* -> *RcvbufErrors* (*InErrors*-*RcvbufErrors*=number of corrupted packets
 that were dropepd).
+
+3. **Broken pipe** - A process receives a SIGPIPE when it attempts to write to a
+pipe (named or not) or socket of type SOCK_STREAM that has no reader left. This
+usually happens when you try to **write** to a closed socket/connection.
