@@ -20,9 +20,9 @@ gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/prepress -dNOPAUSE 
 {% endhighlight %}
 
 <style>
-  OL { counter-reset: item }
-  OL LI { display: block }
-  OL LI:before { content: counters(item, ".") ". "; counter-increment: item }
+  ol { counter-reset: item }
+  ol li { display: block }
+  ol li:before { content: counters(item, ".") ". "; counter-increment: item }
 </style>
 
 Or, online services that can do this:
