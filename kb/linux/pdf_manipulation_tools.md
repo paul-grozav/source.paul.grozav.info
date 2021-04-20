@@ -27,10 +27,10 @@ gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/prepress -dNOPAUSE 
 
 Or, online services that can do this:
 <ol>
-  <li>https://www.ilovepdf.com/ - split, merge, convert, etc.
+  <li><a href="https://www.ilovepdf.com/" target="_blank">ilovepdf.com</a> - split, merge, convert, etc.
     <ol>
-      <li>https://www.ilovepdf.com/compress_pdf - compress (even embedded images are reduced in quality)</li>
+      <li><a href="https://www.ilovepdf.com/compress_pdf" target="_blank">compress_pdf</a> - compress (even embedded images are reduced in quality)</li>
     </ol>
   </li>
-  <li>https://pdfcompressor.com/ (can not compress as good as ilovepdf.com)</li>
+  <li><a href="https://pdfcompressor.com/" target="_blank">pdfcompressor.com</a> (can not compress as good as ilovepdf.com)</li>
 </ol>
