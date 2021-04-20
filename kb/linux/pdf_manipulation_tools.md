@@ -19,7 +19,18 @@ pdfunite $(ls -la ./tmp_page_*.pdf | awk '{print $9}' | sort -V) ./my_output.pdf
 gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/prepress -dNOPAUSE -dQUIET -dBATCH -sOutputFile=my_compressed_output.pdf my_input.pdf
 {% endhighlight %}
 
+<style>
+  OL { counter-reset: item }
+  OL LI { display: block }
+  OL LI:before { content: counters(item, ".") ". "; counter-increment: item }
+</style>
+
 Or, online services that can do this:
-1. https://www.ilovepdf.com/ - split, merge, convert, etc. ...
-  1.1. https://www.ilovepdf.com/compress_pdf - compress (even embedded images are reduced in quality)
-2. https://pdfcompressor.com/ (can not compress as good as ilovepdf.com)
+<ol>
+  <li>https://www.ilovepdf.com/ - split, merge, convert, etc.
+    <ol>
+      <li>https://www.ilovepdf.com/compress_pdf - compress (even embedded images are reduced in quality)</li>
+    </ol>
+  </li>
+  <li>https://pdfcompressor.com/ (can not compress as good as ilovepdf.com)</li>
+</ol>
