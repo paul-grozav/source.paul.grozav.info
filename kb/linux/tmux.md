@@ -35,9 +35,13 @@ ptitle: Terminal multiplexer
 
 #### Other
 - `Ctrl+b : setw synchronize-panes` - Broadcast input to all panes in window(toggle on/off).
+
 ```bash
 # Run multiple commands in multiple panes
 tmux new-session ping 192.168.1.1 \; split-window -h ping 8.8.8.8 \; split-window -v ping 192.168.0.1
 tmux new-session ping 192.168.1.1 \; split-window -h ping 8.8.8.8 \; split-window -v ping 192.168.0.1 \; select-pane -t 0 \; split-window -v ping 192.168.2.4
 
+# Attach to a session or (create session and attach to it) using a name
+# Works great with interruptible ssh sessions.
+ssh -t server-name tmux new-session -A -s session_name
 ```
