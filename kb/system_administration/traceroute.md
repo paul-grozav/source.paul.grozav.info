@@ -93,3 +93,18 @@ If the last lines/hops you see are all asterisks, then it means that it didn't
 reach the destination, and you should ask youself what happened after the last
 hop/node that replied. Maybe some packets were dropped, if the destination is
 up/alive.
+
+---
+---
+---
+
+Note that you can also use these variations of traceroute:
+```bash
+# Check how far the TCP SYN packet is forwarded(useful when connection times out but destination is alive - some firewall along the way drops packets)
+# -T = use TCP SYN packets
+# -p = send to destination port 25
+traceroute -n -T -p 25 smtp.google.com
+
+# continuous packet sending to trace loss percentage
+mtr smtp.google.com
+```
