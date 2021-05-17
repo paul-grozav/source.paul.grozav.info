@@ -95,3 +95,10 @@ that were dropepd).
 3. **Broken pipe** - A process receives a SIGPIPE when it attempts to write to a
 pipe (named or not) or socket of type SOCK_STREAM that has no reader left. This
 usually happens when you try to **write** to a closed socket/connection.
+
+4. **Connection timed out** - A SYN packet was sent but we got no SYN-ACK in
+return. This could be that the SYN packet was dropped somewhere along the way,
+or, the SYN-ACK was dropped somewhere, while returning. To find out how far your
+SYN packet gets, you can use this
+[traceroute](/kb/system_administration/traceroute) command:
+`traceroute -n -T -p 25 smtp.google.com`.
