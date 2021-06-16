@@ -18,7 +18,8 @@ ptitle: GNU Debugger
 10. `(gdb) continue` - Runs from current breakpoint to the next one or untill the end of the program.
 11. `(gdb) break program.c:13 thread 28 if bartab > lim` - Sets a conditional breakpoint, only for thread number 28, that will stop the thread at program.c line 13, if and only if `bartab > lim`. Conditional breakpoints slow down the application, or at least this thread, because they have to be evaluated every time it goes through that line/breakpoint to check if it should stop the execution or not.
 12. `(gdb) attach 7181` - Attach to process with the given PID.
-13. `(gdb) detach` - Detach from where you are currently attached
-14. `(gdb) backtrace` or `bt` - Prints the current call stack - list of functions currently running
-15. `(gdb) thread 4` or `t 4` - Move the focus to thread 4, so that you can see it's backtrace for example
+13. `(gdb) detach` - Detach from where you are currently attached.
+14. `(gdb) backtrace` or `bt` - Prints the current call stack - list of functions currently running.
+15. `(gdb) thread 4` or `t 4` - Move the focus to thread 4, so that you can see it's backtrace for example.
 16. `(gdb) frame 8` or `f 8` - Moves to the scope of frame 8 in the current thread.
+17. `(gdb) set print pretty on` - Print objects in a more readable format, indented.
