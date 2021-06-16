@@ -23,3 +23,5 @@ ptitle: GNU Debugger
 15. `(gdb) thread 4` or `t 4` - Move the focus to thread 4, so that you can see it's backtrace for example.
 16. `(gdb) frame 8` or `f 8` - Moves to the scope of frame 8 in the current thread.
 17. `(gdb) set print pretty on` - Print objects in a more readable format, indented.
+1. `(gdb) info functions getSingleInstance` - Search through all function definitions for a function whose name matches the given regex.
+1. `(gdb) disassemble namespace::SingletonClass::getSingleInstance` - You can use the `<+0>` address to obtain the address of the singleton object,
