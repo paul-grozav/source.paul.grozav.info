@@ -73,6 +73,20 @@ EOF
 
 (cat - <<'EOF'
 # ============================================================================ #
+# Load libstdcxx pretty printers
+set detach-on-fork
+set auto-load safe-path /
+python
+url = "https://raw.githubusercontent.com/gcc-mirror/gcc/master/libstdc%2B%2B-v3/python/libstdcxx/v6/printers.py"
+import urllib
+exec(urllib.urlopen(url).read())
+try:
+    register_libstdcxx_printers(None)
+except:
+    pass
+end
+
+# Debug the app
 break ./app.cpp:28
 run
 info variables .*S::get()::s.*
@@ -84,6 +98,7 @@ print a
 # Print the singleton object
 print ((S)('S::get()::s'))
 print ((S)('S::get()::s')).b
+
 detach
 quit
 # ============================================================================ #
