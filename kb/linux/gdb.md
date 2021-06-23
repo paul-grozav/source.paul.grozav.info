@@ -25,3 +25,81 @@ ptitle: GNU Debugger
 17. `(gdb) set print pretty on` - Print objects in a more readable format, indented.
 1. `(gdb) info functions getSingleInstance` - Search through all function definitions for a function whose name matches the given regex.
 1. `(gdb) disassemble namespace::SingletonClass::getSingleInstance` - You can use the `<+0>` address to obtain the address of the singleton object,
+
+---
+
+# Example GDB non-interactive
+```bash
+# cat test.sh
+# ============================================================================ #
+# Author: Tancredi-Paul Grozav <paul@grozav.info>
+# ============================================================================ #
+(
+(cat - <<'EOF'
+// --------------------------- CPP source code begin ------------------------ //
+#include <iostream>
+#include <string>
+#include <map>
+
+using namespace ::std;
+
+class S{
+  S(){ a=0; b="Paul"; }
+  string b;
+  int a;
+public:
+  static S& get() { static S s; return s; }
+  void inc(){ a++; }
+};
+
+int main()
+{
+  S::get().inc();
+  S::get().inc();
+  string a = "ana";
+  string b = "has";
+  string c = "apples";
+  map<char, string> m;
+  m.insert( make_pair<char, string>('a', a) );
+  m.insert( make_pair<char, string>('b', b) );
+  m.insert( make_pair<char, string>('c', c) );
+  return 0; // break point
+}
+// --------------------------- CPP source code end -------------------------- //
+EOF
+) > ./app.cpp &&
+
+
+
+(cat - <<'EOF'
+# ============================================================================ #
+break ./app.cpp:28
+run
+info variables .*S::get()::s.*
+info locals
+set print pretty on
+print m
+print a
+
+# Print the singleton object
+print ((S)('S::get()::s'))
+print ((S)('S::get()::s')).b
+detach
+quit
+# ============================================================================ #
+EOF
+) > ./my.gdb &&
+
+
+
+g++ ./app.cpp -O0 -g3 -o ./app.bin &&
+#exit 0
+gdb --command ./my.gdb ./app.bin;
+rm -f ./app.cpp &&
+rm -f ./app.bin &&
+rm -f ./my.gdb &&
+true
+) # Take the following empty line when you copy-paste
+
+# ============================================================================ #
+```
