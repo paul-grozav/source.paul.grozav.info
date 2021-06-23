@@ -118,3 +118,30 @@ true
 
 # ============================================================================ #
 ```
+Prints:
+```txt
+...
+Breakpoint 1 at 0x400f05: file ./app.cpp, line 28.
+Breakpoint 1, main () at ./app.cpp:28
+28	  return 0; // break point
+All variables matching regular expression ".*S::get()::s.*":
+
+Non-debugging symbols:
+0x00000000006040f8  guard variable for S::get()::s
+0x0000000000604100  S::get()::s
+a = "ana"
+b = "has"
+c = "apples"
+m = std::map with 3 elements = {[97 'a'] = "ana", [98 'b'] = "has", [99 'c'] = "apples"}
+$1 = std::map with 3 elements = {
+  [97 'a'] = "ana",
+  [98 'b'] = "has",
+  [99 'c'] = "apples"
+}
+$2 = "ana"
+$3 = {
+  b = "Paul", 
+  a = 2
+}
+$4 = "Paul"
+```
