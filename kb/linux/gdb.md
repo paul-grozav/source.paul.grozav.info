@@ -60,9 +60,9 @@ int main()
   string b = "has";
   string c = "apples";
   map<char, string> m;
-  m.insert( make_pair<char, string>('a', a) );
-  m.insert( make_pair<char, string>('b', b) );
-  m.insert( make_pair<char, string>('c', c) );
+  m['a'] = a;
+  m['b'] = b;
+  m['c'] = c;
   return 0; // break point
 }
 // --------------------------- CPP source code end -------------------------- //
