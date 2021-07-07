@@ -65,7 +65,6 @@ paul@server:/$ qrencode -t png -o/data/qr.png "otpauth://totp/my_identification?
 # Generate and display(show) the QR code
 paul@server:/$ qrencode -t svg -o- "otpauth://totp/my_identification?secret=ABCD2345EFGH6723IJKL4567MNOP2345&issuer=my_company&algorithm=SHA1&digits=6&period=30" | display
 ```
-<br/><br/>
 Here is a .svg QR code generated:
 <svg width="5.19cm" height="5.19cm" viewBox="0 0 49 49" preserveAspectRatio="none" version="1.1" xmlns="http://www.w3.org/2000/svg">
 	<g id="QRcode">
