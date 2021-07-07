@@ -14,7 +14,7 @@ ptitle: Fii pregătit - situații de urgență
 
 1.1.3. Rămâi în interiorul clădirii încă 30 minute după ce ai auzit ultimul tunet.
 
-1.1.4. Fii atent la alertele și avertizările autorităților (Ro-alert, meteo, aplicația DSU)
+1.1.4. Fii atent la alertele și avertizările autorităților ([Ro-alert](https://ro-alert.ro/), [meteo](http://www.meteoromania.ro/avertizari-nowcasting/), [aplicația DSU](https://play.google.com/store/apps/details?id=ro.iconsult.dsu&_branch_match_id=864774451295825126))
 
 ##### **Respectă următoarele reguli în cazul în care este iminentă o furtună:**
 
@@ -53,7 +53,7 @@ ptitle: Fii pregătit - situații de urgență
 
 După o furtună, dacă identifici o victimă rănită sau lovită de trăsnet, verifică următoarele:
 
-1.3.1. Respiraţie și puls (vezi video aici)
+1.3.1. Respiraţie și puls ([vezi video aici](https://youtu.be/9IPqhJDryIs))
 
 1.3.1.1. Dacă nu mai respiră, începe resuscitarea prin metoda gură la gură:
 
@@ -89,7 +89,7 @@ ALTE RECOMANDĂRI
 
 1.5. Vezi aici ghid prim ajutor (complet)
 
-1.6. Fii atent în continuare la alertele, avertizările și recomandările autorităților (Ro-alert, meteo, aplicația DSU).
+1.6. Fii atent în continuare la alertele, avertizările și recomandările autorităților ([Ro-alert](https://ro-alert.ro/), [meteo](http://www.meteoromania.ro/avertizari-nowcasting/), [aplicația DSU](https://play.google.com/store/apps/details?id=ro.iconsult.dsu&_branch_match_id=864774451295825126)).
 
 1.7. Dacă este nevoie de asistenţă medicală sună cât mai repede posibil la 112.
 
