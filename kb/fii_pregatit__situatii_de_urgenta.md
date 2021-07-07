@@ -1,6 +1,8 @@
 ---
 layout: page
 ptitle: Fii pregătit - situații de urgență
+title: DSU
+permalink: /dsu
 ---
 
 ---
