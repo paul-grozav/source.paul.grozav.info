@@ -5,8 +5,8 @@ ptitle: Fii pregătit - situații de urgență
 
 ---
 
-# 1. Furtună / vânt puternic
-### 1.1. Înainte de eveniment
+### 1. Furtună / vânt puternic
+#### 1.1. Înainte de eveniment
 
 1.1.1. Îndepărtează obiectele, copacii ori ramurile uscate, care pe timpul unei furtuni, ar putea cădea şi provoca victime ori pagube materiale.
 
@@ -16,7 +16,7 @@ ptitle: Fii pregătit - situații de urgență
 
 1.1.4. Fii atent la alertele și avertizările autorităților (Ro-alert, meteo, aplicația DSU)
 
-#### **Respectă următoarele reguli în cazul în care este iminentă o furtună:**
+##### **Respectă următoarele reguli în cazul în care este iminentă o furtună:**
 
 1.1.5. Întrerupe orice activitate în aer liber.
 
@@ -30,7 +30,7 @@ ptitle: Fii pregătit - situații de urgență
 
 1.1.10. Deconectează de la priză aparatele şi alte echipamente electrice (tv, computere, aparatele de aer condiţionat etc.). Acestea pot fi defectate ca urmare a descărcărilor electrice atmosferice.
 
-### 1.2. În timpul evenimentului
+#### 1.2. În timpul evenimentului
 
 1.2.1. Dacă ești în mediul urban, adăpostește-te imediat într-o clădire, pentru a evita riscul lovirii de către obiecte, pomi/crengi, stâlpi etc.
 
@@ -49,7 +49,7 @@ ptitle: Fii pregătit - situații de urgență
 1.2.8. Evită drumurile inundate (mers, șofat)! Un curent de apă adânc de doar 15 cm te poate dezechilibra, iar unul adânc de peste 30 cm poate lua un autoturism.
 
 
-### 1.3. După eveniment
+#### 1.3. După eveniment
 
 După o furtună, dacă identifici o victimă rănită sau lovită de trăsnet, verifică următoarele:
 
