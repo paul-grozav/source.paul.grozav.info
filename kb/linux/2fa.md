@@ -12,7 +12,7 @@ or
 
 totp(secret_key, current_time)
 ```
-But in practice, there are more variables that you can control, so you can read here about the: [TOTP](https://en.wikipedia.org/wiki/Time-based_One-Time_Password).
+But in practice, there are more variables that you can control, so you can read here about the: [TOTP](https://en.wikipedia.org/wiki/Time-based_One-Time_Password). Or here about a [C client](https://www.nongnu.org/oath-toolkit/reference/liboath-oath.h.html#oath-totp-validate2).
 <br/><br/>
 Both the authenticator and the authenticatee compute the TOTP value, then the authenticator checks whether the TOTP value supplied by the authenticatee matches the locally generated TOTP value. Some authenticators allow values that should have been generated before or after the current time in order to account for slight clock skews, network latency and user delays.
 <br/><br/>
