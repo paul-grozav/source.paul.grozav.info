@@ -213,20 +213,147 @@ openssl rsa -pubin -inform pem -outform der -in ./public.key -out ./public.key.d
 ## 5. Certificates
 #### 5.1. Generate a self-signed certificate
 ```bash
-/> openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365 -nodes -subj "/C=US/ST=Oregon/L=Portland/O=Company Name/OU=Org/CN=www.example.com"
+openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365 -nodes -subj "/C=US/ST=Oregon/L=Portland/O=Company Name/OU=Org/CN=www.example.com"
 ```
 Will generate a private `key.pem` file(also contains the public part), and a certificate file: `cert.pem`(public file)
 
-#### 5.2. Other operations
+#### 5.2. Generate a Certificate Authority (CA) and with it sign new certificates
+Create this `ca.cnf` file:
 ```bash
+# we use 'ca' as the default section because we're using the ca command
+[ ca ]
+default_ca = my_ca
+
+[ my_ca ]
+#  a text file containing the next serial number to use in hex. Mandatory.
+#  This file must be present and contain a valid serial number.
+serial = ./serial
+
+# the text database file to use. Mandatory. This file must be present though
+# initially it will be empty.
+database = ./index
+
+# specifies the directory where new certificates will be placed. Mandatory.
+new_certs_dir = ./newcerts
+
+# the file containing the CA certificate. Mandatory
+certificate = ./ca.crt
+
+# the file contaning the CA private key. Mandatory
+private_key = ./ca.key
+
+# the message digest algorithm. Remember to not use MD5
+default_md = sha1
+
+# for how many days will the signed certificate be valid
+default_days = 365
+
+# a section with a set of variables corresponding to DN fields
+policy = my_policy
+
+[ my_policy ]
+# if the value is "match" then the field value must match the same field in the
+# CA certificate. If the value is "supplied" then it must be present.
+# Optional means it may be present. Any fields not mentioned are silently
+# deleted.
+countryName = match
+stateOrProvinceName = supplied
+organizationName = supplied
+commonName = supplied
+organizationalUnitName = optional
+commonName = supplied
+```
+
+Then continue with:
+
+```bash
+# Generate CA key and certificate
+openssl genrsa -out ca.key 1024 &&
+openssl req -x509 -new -nodes -sha256 -days $((5 * 365)) \
+  -key ca.key \
+  -out ca.crt \
+  -subj "\
+/C=US\
+/ST=Oregon\
+/L=Portland\
+/O=Grozav Certfication Authority\
+/OU=Org\
+/CN=ca.grozav.info\
+" &&
+
+# Init CA database
+mkdir newcerts &&
+touch index &&
+echo 01 > serial &&
+
+
+out_file="my.crt" &&
+details="\
+/C=US\
+/ST=Oregon\
+/L=Portland\
+/O=Company 1\
+/OU=Org\
+/CN=www.one.com\
+" &&
+
+# Generate Certificate Signing Request (CSR)
+openssl req -new \
+  -key ca.key \
+  -out my.csr \
+  -subj "${details}" &&
+
+# Show .csr info:
+openssl req -text -noout -verify -in my.csr &&
+
+# Generate certificate signed by CA
+ca_output="$(openssl ca -batch -verbose -out /dev/null \
+  -config ca.cnf \
+  -infiles my.csr \
+  2>&1 )" &&
+cert_file="$(echo "${ca_output}" |
+  grep "^writing ./newcerts/" | awk '{print $2}'
+  )" &&
+
+# Verify that the certificate is signed by our CA
+openssl verify -verbose -CAfile ca.crt ${cert_file} &&
+
+# Save just the certificate as Base64, not the decoded prefix
+cat ${cert_file} | grep -A999 "^-----BEGIN CERTIFICATE-----$" | cat - \
+  > ${out_file} &&
+
+# This is your certificate:
+cat ${out_file}
+```
+Will generate a private `key.pem` file(also contains the public part), and a certificate file: `cert.pem`(public file)
+
+#### 5.3. Other operations
+```bash
+# Check that certificate is offered by web server, using a debugger
+# client which shows certificate info:
+openssl s_client -connect 127.0.0.1:443
+
 # Get the certificate from a server
-/> echo -n | openssl s_client -connect google.com:443 2>/dev/null | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' > downloaded.cert
+echo -n | openssl s_client -connect google.com:443 2>/dev/null | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' > downloaded.cert
 
 # Get info from a certificate file
-/> openssl x509 -startdate -enddate -issuer -subject -email -serial -fingerprint -noout -in cert.pem
+openssl x509 -startdate -enddate -issuer -subject -email -serial -fingerprint -noout -in cert.pem
 
 # Get all info from a certificate file
-/> openssl x509 -text -noout -in cert.pem
+openssl x509 -text -noout -in cert.pem
+
+# Check if a public key is the pair of a private key by comparing their
+# modulus. If the private and public key files are a pair, then, their
+# modulus should be the same:
+openssl rsa -modulus -noout -in private.key
+openssl rsa -modulus -pubin -noout -in public.key
+# This output should be 0 :
+diff <(openssl rsa -modulus -noout -in private.key) <(openssl rsa -modulus -pubin -noout -in public.key) | wc -l
+
+# Check that a certificate is signed using a CA certificate:
+openssl verify -verbose -CAfile ca.crt my.crt
+# Should say: "my.crt: OK"
+
 ```
 
 
