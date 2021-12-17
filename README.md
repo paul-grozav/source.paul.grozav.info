@@ -85,6 +85,10 @@ The above commands should be executed from the root directory of this project.
 Read more at Jekyll's [documentation][].
 
 Docker makes it even easier: `docker run --rm -p 8080:4000 -v $(pwd):/site bretfisher/jekyll-serve`
+```
+docker run --rm -it -v $(pwd):/srv/jekyll docker.io/jekyll/builder:4.2.0 jekyll build --verbose --trace
+docker run --rm -it -v $(pwd):/srv/jekyll -p 8080:4000 docker.io/jekyll/builder:4.2.0 jekyll serve
+```
 
 ## GitLab User or Group Pages
 
