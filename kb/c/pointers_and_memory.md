@@ -483,7 +483,7 @@ Remember that we can also have variables that have a data-type that is more than
   int c = 10;
 
   // this requires 8 bytes of memory (green)
-  long long int = 9;
+  long long int d = 9;
 ```
 So, after defining these variables, our memory might look like:
 <table class="memory_table">
@@ -1267,5 +1267,484 @@ c=0
 Segmentation fault (core dumped)
 ```
 <br/><br/>
-To be continued ...
+
+
+
+
+
+
+
+
+<br/><br/>
+<br/><br/>
+
+### 9. Reference
+
+A reference can only be created in C++, and it works a lot like a pointer,
+except, it's meant to be easier to work with, but it also has a few
+disadvantages.
+<br/><br/>
+So, for any type `X`, the data type `X *` is a pointer to an instance of type X,
+and the data type `X &` is a reference to an instance of type X.
+<br/><br/>
+Working with the reference is easier in a way, because you don't have to
+de-reference it, (the `*` operator) like we had to when working with pointers.
+<br/><br/>
+Let's see a simple example:
+```cpp
+paul@alice:~$ cat a.cpp
+#include <iostream>
+using namespace ::std;
+int main() {
+  int a = 999;
+  int * p = &a;
+  int & r = a; // this will not be a copy !
+
+  // Let's print the value of a throught the pointer, and through the reference
+  cout << "value=" << *p << endl;
+  cout << "value=" << r << endl;
+  return 0;
+}
+paul@alice:~$ g++ a.cpp -o a.exe && ./a.exe
+value=999
+value=999
+```
+
+As you can see, we can do the same thing with a pointer or a reference. But,
+from a perspective, it's easier to work with references, because when you
+initially set it, you can just use `a` instead of `&a`. and when you use it, you
+can get it's value using just it's name `r` instead of `*p`. So, in a way, we
+are avoiding the use of operators `&` ("address of") and `*`("the value that is
+in memory at address").
+<br/><br/>
+However, the reference also has some disadvantages. For example, you can't reuse
+it, you can't make it point to some other variable / value.
+```cpp
+paul@alice:~$ cat a.cpp
+#include <iostream>
+using namespace ::std;
+int main() {
+  int a = 999;
+  int b = 888;
+  cout << "a=" << a << endl;
+  cout << "b=" << b << endl;
+  cout << endl;
+
+  // Set pointer and reference, initially to a
+  int * p = &a;
+  int & r = a;
+
+  // Let's print the value throught the pointer, and through the reference
+  cout << "value=" << *p << endl;
+  cout << "value=" << r << endl;
+  cout << endl;
+
+  // Set pointer and reference, to b ?
+  p = &b;
+  r = b;
+
+  // Let's print the value throught the pointer, and through the reference
+  cout << "value=" << *p << endl;
+  cout << "value=" << r << endl;
+  cout << endl;
+
+  cout << "a=" << a << endl;
+  cout << "b=" << b << endl;
+  return 0;
+}
+paul@alice:~$ g++ a.cpp -o a.exe && ./a.exe
+a=999
+b=888
+
+value=999
+value=999
+
+value=888
+value=888
+
+a=888
+b=888
+```
+You can see that something is wrong with this. The value of `a` was `999` at
+start, and at the end it's `888`, though we didn't change it ... or did we?
+<br/><br/>
+Although we didn't mean to change it, when we did `r = b;`, that doesn't change
+the reference, in order to make it point to `b`. Instead, our reference `r` is
+still pointing (referring) to `a`, so instead of assigning to `r`, we're
+actually assigning to `a`. So `r = b;` is, in fact, `a = b;`. 
+<br/><br/>
+Also, with references, you can't link them in order to create a reference to a
+reference. But you can do this with pointers.
+<br/><br/>
+Also, you can't have a reference, refer to nothing. There is no `NULL` as there
+is in the case of pointers.
+<br/><br/>
+I recommend using references wherever is possible, and only switch to pointers
+when it's needed. References are easier to understand and you'll find that more
+people know how to handle references in code, but a lot of people are confused
+when working with pointers. So, if you want your code to be easy to understand
+and change by other developers, then you might want to use references where
+possible. 
+<br/><br/>
+
+
+
+
+
+
+
+
+
+
+<br/><br/>
+<br/><br/>
+
+### 10. C-style array and sizeof
+
+The C language, allows us to store multiple instances of the same type, in the
+same variable.
+<br/><br/>
+While `int a` will allocate space for one integer(4 bytes), `int b[2]` will
+allocate space for 2 integers(8 bytes). In this case, `b` is known to have the
+type `int[2]`.
+<br/><br/>
+You each value is accessible by the index inside this array. Let's see an
+example:
+```cpp
+paul@alice:~$ cat a.cpp
+#include <iostream>
+using namespace ::std;
+int main() {
+  int b[2] = { 7, 6 };
+  cout << "b[0]=" << b[0] << endl;
+  cout << "b[1]=" << b[1] << endl;
+  return 0;
+}
+paul@alice:~$ g++ a.cpp -o a.exe && ./a.exe
+b[0]=7
+b[1]=6
+```
+And let's imagine how this looks like in the memory:
+<table class="memory_table">
+  <tr>
+    <td style="width: 180px;">memory byte <b>address</b></td>
+    <td>0</td>
+    <td>1</td>
+    <td>2</td>
+    <td>3</td>
+    <td>4</td>
+    <td>5</td>
+    <td>6</td>
+    <td>7</td>
+    <td>8</td>
+    <td>9</td>
+    <td>10</td>
+    <td>...</td>
+  </tr>
+  <tr>
+    <td style="width: 180px;">memory byte <b>value</b></td>
+    <td></td>
+    <td></td>
+    <td style="background-color: blue;" colspan="4">7</td>
+    <td style="background-color: red;" colspan="4">6</td>
+    <td></td>
+    <td>...</td>
+  </tr>
+  <tr>
+    <td style="width: 180px;"><b>array index</b></td>
+    <td></td>
+    <td></td>
+    <td colspan="4"><b>0</b></td>
+    <td colspan="4"><b>1</b></td>
+    <td></td>
+    <td>...</td>
+  </tr>
+</table>
+<br/>
+You should remember that the values(cells) in an array always define a
+contiguous memory space. The values are stored in memory one after the other,
+without any gaps between them.
+<br/><br/>
+You should also know that in the previous case, `b` of type `int[2]` can also be
+seen as (is a) pointer of type `int *`. In fact, if you print the value of `b`,
+you will see a memory address. That is in fact the address of the first integer
+value in the array. But remember that in fact the address of a value is the
+address of the first byte in that value.
+<br/><br/>
+So, let's look at this again:
+```cpp
+paul@alice:~$ cat a.cpp
+#include <iostream>
+using namespace ::std;
+int main() {
+  int b[2] = { 7, 6 };
+  cout << "b=" << b << endl;
+  cout << "b[0]=" << b[0] << endl;
+  cout << "address of b[0]=" << &b[0] << endl;
+  cout << "b[1]=" << b[1] << endl;
+  cout << "address of b[1]=" << &b[1] << endl;
+  return 0;
+}
+paul@alice:~$ g++ a.cpp -o a.exe && ./a.exe
+b=0x7ffdf64c3610
+b[0]=7
+address of b[0]=0x7ffdf64c3610
+b[1]=6
+address of b[1]=0x7ffdf64c3614
+```
+<table class="memory_table">
+  <tr>
+    <td style="width: 180px;">memory byte <b>address</b></td>
+    <td>...</td>
+    <td style="width: 100px;">7ffdf64c36<b>09</b></td>
+    <td style="width: 100px;">7ffdf64c36<b>10</b></td>
+    <td style="width: 70px;">...4c36<b>11</b></td>
+    <td style="width: 70px;">...4c36<b>12</b></td>
+    <td style="width: 70px;">...4c36<b>13</b></td>
+    <td style="width: 70px;">...4c36<b>14</b></td>
+    <td style="width: 70px;">...4c36<b>15</b></td>
+    <td style="width: 70px;">...4c36<b>16</b></td>
+    <td style="width: 70px;">...4c36<b>17</b></td>
+    <td style="width: 100px;">7ffdf64c36<b>18</b></td>
+    <td>...</td>
+  </tr>
+  <tr>
+    <td style="width: 180px;">memory byte <b>value</b></td>
+    <td>...</td>
+    <td></td>
+    <td style="background-color: blue;" colspan="4">7</td>
+    <td style="background-color: red;" colspan="4">6</td>
+    <td></td>
+    <td>...</td>
+  </tr>
+  <tr>
+    <td style="width: 180px;"><b>array index</b></td>
+    <td>...</td>
+    <td></td>
+    <td colspan="4"><b>0</b></td>
+    <td colspan="4"><b>1</b></td>
+    <td></td>
+    <td>...</td>
+  </tr>
+</table>
+<br/>
+So, you can see that `&b` has the same value as `&b[0]`. They both point to the
+first byte in the first integer.
+<br/><br/>
+You can also note that `&b[1]` = `&b[0]` + `4`. That `4` is the size of your
+data type. This is because `b[1]` is located in memory next to `b[0]`.
+<br/><br/>
+In general you can know that for a vector named `a`, of type `X`, whatever it's
+size is, we have: `a[n] = *(a + n * sizeof(X))`. That is, the memory
+address `a` plus, your index(`n`) multiplied by the size of your data type
+(`X`).
+<br/><br/>
+But there is a catch, `a + 4` will be interpreted by the compiler as
+`a + 4 * sizeof(X)`. You see, when you are adding to a pointer, by default, the
+compiler assumes that you are trying to jump to the next element of the same
+type, in an array.
+<br/><br/>
+Here is an example:
+```cpp
+paul@alice:~$ cat a.cpp
+#include <iostream>
+using namespace ::std;
+int main() {
+  int b[2] = { 7, 6 };
+  cout << "b[0]=" << b[0] << endl;
+  cout << "b[0]=" << *(b + 0) << endl;
+  cout << "b[0]=" << *((int*)((char*)(b) + 0 * sizeof(int))) << endl;
+  cout << endl;
+  cout << "b[1]=" << b[1] << endl;
+  cout << "b[1]=" << *(b + 1) << endl;
+  cout << "b[1]=" << *((int*)((char*)(b) + 1 * sizeof(int))) << endl;
+  return 0;
+}
+paul@alice:~$ g++ a.cpp -o a.exe && ./a.exe
+b[0]=7
+b[0]=7
+b[0]=7
+
+b[1]=6
+b[1]=6
+b[1]=6
+```
+<br/>
+You can note that I had to do some extra casts in order to express to the
+compiler my real intention. I am casting `b` from an original data type of
+`int *` to a data type of `char *`. I'm doing the math in type `char *` and then
+converting it all back to `int *`.
+<br/><br/>
+Again, if `b` is of type `char *`, then `b + 1` means `b + 1`. But, if `b` is of
+type `int *`, then `b + 1` means `b + 4`. That is, `4` bytes, or `1` integer
+(`sizeof(int)=4`) to the right in the memory.
+<br/><br/>
+You should also know that while `sizeof` can be applied to a data type and it
+returns the number of bytes required to store a value of that type. `sizeof` can
+also be applied to array variables, and it returns the number of bytes required
+to store the entire array in memory. That is the number of elements in the array
+multiplied by the sizeof of the array type:
+```cpp
+paul@alice:~$ cat a.cpp
+#include <iostream>
+using namespace ::std;
+int main() {
+  int a[0] = {};
+  int b[2] = { 7, 6 };
+  int c[] = { 1, 2, 3 };
+  int d[] = {};
+  int e[] = { 45 };
+  int f = 54;
+  cout << "sizeof(a)=" << sizeof(a) << endl;
+  cout << "sizeof(b)=" << sizeof(b) << endl;
+  cout << "sizeof(c)=" << sizeof(c) << endl;
+  cout << "sizeof(d)=" << sizeof(d) << endl;
+  cout << "sizeof(e)=" << sizeof(e) << endl;
+  cout << "sizeof(f)=" << sizeof(f) << endl;
+  return 0;
+}
+paul@alice:~$ g++ a.cpp -o a.exe && ./a.exe
+sizeof(a)=0
+sizeof(b)=8
+sizeof(c)=12
+sizeof(d)=0
+sizeof(e)=4
+sizeof(f)=4
+```
+
+So, 4, 8 and 12 are actually 1, 2 and 3 elements arrays.
+`3 elements * 4 bytes/element = 12 bytes`.
+<br/><br/>
+So, you can see that you can also initialize an array without specifying it's
+size. If you specify the elements in curly braces `{ ... }`, the compiler can
+tell how many elements there are. However you can't do `int x[] = NULL`. Because
+since you're not giving an array size at declaration time `int x[]`, it will try
+to deduce it from the value(initializer list) - but you're not giving a list
+there, so, it can't compile, because it doesn't know how much memory it needs to
+reserve.
+<br/><br/>
+If it's not clear enough, the index in the array `X a[N]` goes from `0` to `N-1`
+, so you shouldn't access `a[N]` , `a[N+1]` , and so on. They don't exist in the
+array, although the memory formula would work, and you could access those bytes: 
+```cpp
+paul@alice:~$ cat a.cpp
+#include <iostream>
+using namespace ::std;
+int main() {
+  int b[2] = { 7, 6 };
+  cout << "b[1]=" << b[1] << endl;
+  cout << "b[2]=" << b[2] << endl;
+  cout << "b[22]=" << b[22] << endl;
+  return 0;
+}
+paul@alice:~$ g++ a.cpp -o a.exe && ./a.exe
+b[1]=6
+b[2]=-802877184
+b[22]=779178473
+```
+You can see that the code compiles and the program runs just fine, although we
+are doing something illegal, we're reading from outside the bounds. The values
+we are reading are random / garbage values.
+<br/><br/>
+
+
+
+
+
+
+
+
+
+
+<br/><br/>
+<br/><br/>
+
+### 11. Buffer, C-string and ::std::string
+
+Now that you know what an array is, you should know that a buffer is just an
+array of 1-byte characters.
+```cpp
+paul@alice:~$ cat a.cpp
+#include <iostream>
+using namespace ::std;
+int main() {
+  char a[255];
+  for(unsigned char i=0; i<=254; i++){
+    a[i] = i;
+  }
+  cout << a[65] << a[66] << a[67] << a[68] << endl;
+  return 0;
+}
+paul@alice:~$ g++ a.cpp -o a.exe && ./a.exe
+ABCD
+```
+As you can see, I'm creating a 255 characters array, and each cell contains it's
+index as value. So, when we're printing the values at index 65, 66, 67 and 68,
+we're printing the characters with that ASCII code, which is `ABCD`.
+<br/><br/>
+So, any bytes can be stored in an array and treated as a buffer.
+<br/><br/>
+However, when you are trying to print the contents / characters inside a buffer,
+there is a catch:
+```cpp
+paul@alice:~$ cat a.cpp
+#include <iostream>
+using namespace ::std;
+int main() {
+  char a[255];
+  a[0]=1;
+  for(unsigned char i=1; i<=254; i++){
+    a[i] = i;
+  }
+  cout << "4 chars in a are: \""
+    << a[65] << a[66] << a[67] << a[68] << "\"" << endl;
+  cout << "whole a is: \"" << a << "\"" << endl;
+  return 0;
+}
+paul@alice:~$ g++ a.cpp -o a.exe && ./a.exe
+4 chars in a are: "ABCD"
+whole a is: "
+
+
+123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~"
+```
+You'll see that the program starts printing characters from the memory, and it
+goes on to the next character, it will print that one too, and so on. There is
+no stopping rule. The compiler doesn't assume that you want to stop when the
+buffer ends(based on how many characters / bytes you allocated). You can have a
+buffer that is only partially filled. So for example only 50 characters loaded
+into a 100 characters buffer. So, whenever you are printing data from a buffer,
+you should tell the compiler the start position and the end position. Or the
+start position and the number of characters that you are trying to print:
+```cpp
+paul@alice:~$ cat a.cpp
+#include <iostream>
+using namespace ::std;
+int main() {
+  // initialize all characters with value 32 (space character)
+  char a[255];
+  a[0]=1;
+  for(unsigned char i=1; i<=254; i++){
+    a[i] = i;
+  }
+  cout << "4 chars in a are: \""
+    << a[65] << a[66] << a[67] << a[68] << "\"" << endl;
+
+  cout << "cout.write(): \"";
+  cout.write(a + 65, 4);
+  cout << "\"" << endl;
+  return 0;
+}
+paul@alice:~$ g++ a.cpp -o a.exe && ./a.exe
+4 chars in a are: "ABCD"
+cout.write(): "ABCD"
+```
+So, `cout.write()` takes 2 arguments: a pointer to the first character which
+should be printed, and the number of characters that should be printed.
+<br/><br/>
+<br/><br/>
+
+
+
+
 
