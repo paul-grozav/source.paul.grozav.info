@@ -994,6 +994,12 @@ It is also important to note that we only have 2 variables: `a`, and the pointer
 `b`. Note that `*b` <b>is not a copy</b> of the value of `a`, but it is the same
 value. `*b` can be used as a replacement of `a`, you can do the same things with
 it.
+<br/><br/>
+I should also say that there is a <b>generic</b> pointer, of type `void *`. This
+data type is just a number, an address, it doesn't know what data type it points
+to. So, in order to use it, you have to cast it into another data type, and then
+dereference it.
+<br/><br/>
 
 
 
@@ -1659,7 +1665,7 @@ we are reading are random / garbage values.
 <br/><br/>
 <br/><br/>
 
-### 11. Buffer, C-string and ::std::string
+### 11. Buffer
 
 Now that you know what an array is, you should know that a buffer is just an
 array of 1-byte characters.
@@ -1714,8 +1720,10 @@ no stopping rule. The compiler doesn't assume that you want to stop when the
 buffer ends(based on how many characters / bytes you allocated). You can have a
 buffer that is only partially filled. So for example only 50 characters loaded
 into a 100 characters buffer. So, whenever you are printing data from a buffer,
-you should tell the compiler the start position and the end position. Or the
-start position and the number of characters that you are trying to print:
+you should tell the compiler the start position(pointer to the first character)
+and the end position(pointer to the last character). Or the start position
+(pointer to the first character) and the number of characters that you want to
+print:
 ```cpp
 paul@alice:~$ cat a.cpp
 #include <iostream>
@@ -1740,11 +1748,571 @@ paul@alice:~$ g++ a.cpp -o a.exe && ./a.exe
 cout.write(): "ABCD"
 ```
 So, `cout.write()` takes 2 arguments: a pointer to the first character which
-should be printed, and the number of characters that should be printed.
+should be printed, and the number of characters that should be printed. So, in
+this case, `a + 65` will be the address of the 65th character in the array.
+<br/><br/>
+
+
+
+
+
+
+
+
+
+
 <br/><br/>
 <br/><br/>
 
+### 12. C-string
+However, if you want to store non binary data, that is simple alpha-numeric text
+that contains only usual characters like letters(upper and lowercase, digits,
+punctuation), then you can use <b>C-strings</b>. These are arrays of constant
+characters, so just pointers to the first character of the string, but the rule
+is that the strint ends at the first null character. A null character is the
+character whose numerical value is `0`. It is also represented as `'\0'`.
+<br/><br/>
+For example, a string literal like `"test"` might seem like it requires 4 bytes
+of memory to be stored, but in fact, it has an extra null character at the end,
+which is the 5th character. So, the following are in fact storing the same
+content. <b>Note!</b> that when printing a C-string, the program will print all
+the characters until the first null character.
+```cpp
+paul@alice:~$ cat a.cpp
+#include <iostream>
+using namespace ::std;
+int main() {
+  const char a[] = {'t', 'e', 's', 't', '\0'};
+  const char * b = "test";
+  cout << "a=\"" << a << "\"" << endl;
+  cout << "b=\"" << b << "\"" << endl;
+  return 0;
+}
+paul@alice:~$ g++ a.cpp -o a.exe && ./a.exe
+a="test"
+b="test"
+```
+So using string literals is easier than using an initializer list to initialize
+an array that ends with a null character.
+<br/><br/>
+To futher support the idea that printing C-strings stops at the first null
+character, we can look at the following example, which is an atypical C-string,
+because it "contains" a null character inside it, or it contains another string
+after it:
+```cpp
+paul@alice:~$ cat a.cpp
+#include <iostream>
+using namespace ::std;
+int main() {
+  const char a[] = {'t', 'e', 's', 't', '\0', 's', 't', 'r', 'i', 'n', 'g', '\0'};
+  const char * b = "test\0string";
+  cout << "a=\"" << a << "\"" << endl;
+  cout << "b=\"" << b << "\"" << endl;
+  return 0;
+}
+paul@alice:~$ g++ a.cpp -o a.exe && ./a.exe
+a="test"
+b="test"
+```
+So, we could see this as one string containing a null character or as the string
+`"test"` and the string `"string"`. So, as I said, the program sees the string
+up to the first null character, and it stops printing it there.
+<br/><br/>
+However, if you want to print the rest of the string, you can make a new pointer
+to the string `"string"`, as an offset of the original string. Or you can treat
+this as a buffer, and print it's entire content without stopping at the first
+null character.
+```cpp
+paul@alice:~$ cat a.cpp
+#include <iostream>
+using namespace ::std;
+int main() {
+  const char * b = "test\0string";
+  const char * c = b + 5; // skip 5 chars, the first string
+  cout << "second string=\"" << c << "\"" << endl;
+  cout << "b=\"";
+  cout.write(b, 11); // 11 characters in the buffer, excluding the final null char
+  cout << "\"" << endl;
+  return 0;
+}
+paul@alice:~$ g++ a.cpp -o a.exe && ./a.exe
+second string="string"
+b="teststring"
+```
+Note how, when printing the entire buffer, the output is `"teststring"`, which
+seems to be missing the null character inside it. But in fact the null character
+is there, but it is not printable / printed.
+<br/><br/>
+Here are just a few functions offered by C in order to work with C-strings:
+```cpp
+paul@alice:~$ cat a.cpp
+#include <iostream>
+using namespace ::std;
+int main() {
+  const char * b = "test\0string";
+  const char * c = b + 5; // skip 5 chars, the first string
+  cout << "second string=\"" << c << "\"" << endl;
+  cout << "b=\"";
+  cout.write(b, 11); // 11 characters in the buffer, excluding the final null char
+  cout << "\"" << endl;
+  return 0;
+}
+paul@alice:~$ g++ a.cpp -o a.exe && ./a.exe
+second string="string"
+b="teststring"
+```
+<br/><br/>
+Sure, the C language also offers a lot of functions for doing common operations
+with C-strings. These functions are declared in the `cstring` header, so, we'll
+have to include that header in our cpp. I'll just show some of these here, these
+are not all of the available functions.
+```cpp
+paul@alice:~$ cat a.cpp
+#include <cstring>
+#include <iostream>
+using namespace ::std;
+int main() {
+  const char * a = "test";
+  const char * b = "string";
+
+  cout << "a=\"" << a << "\"" << endl;
+  cout << "b=\"" << b << "\"" << endl;
+
+  // Length of a C-string
+  cout << "length of b=" << strlen(b) << endl;
+
+  // Concatenate 2 C-strings
+  char sum_sizes = strlen(a) + strlen(b) + 1; // +1 for null char at the end
+  char c[sum_sizes] = {0}; // initialize all values with zero ("empty string")
+  strcat(c, a); // add a to c
+  strcat(c, b); // then add b to c (after a)
+  cout << "concatenation of a and b is \"" << c << "\"" << endl;
+
+  // Compare 2 C-strings
+  int result = strcmp(a, b);
+  if(result == 0)
+  {
+    cout << "\"" << a << "\" is equal with \"" << b << "\"" << endl;
+  }
+  else if(result < 0)
+  {
+    cout << "\"" << a << "\" is smaller than \"" << b << "\"" << endl;
+  }
+  else // if(result > 0)
+  {
+    cout << "\"" << a << "\" is greater than \"" << b << "\"" << endl;
+  }
+
+  // Search for a character in a string(return first occurrence or NULL)
+  const char * found_character = strchr(a, 's');
+  if(found_character != NULL)
+  {
+    // I'm converting the char pointer to an integer in order to print it
+    // or else, it would print the string starting from the 's' char to
+    // the end of the string (null char).
+    cout << "The character 's' was found in the string \"" << a << "\""
+      " at memory address " << (int*)found_character << endl;
+    unsigned short int index_in_string = found_character - a;
+    cout << "That is, at index " << index_in_string << " inside the string"
+      << endl;
+  }
+  else
+  {
+    cout << "The character 's' was not found in the string \"" << a
+      << "\"" << endl;
+  }
+
+  return 0;
+}
+paul@alice:~$ g++ a.cpp -o a.exe && ./a.exe
+a="test"
+b="string"
+length of b=6
+concatenation of a and b is "teststring"
+"test" is greater than "string"
+The character 's' was found in the string "test" at memory address 0x55a7d903900a
+That is, at index 2 inside the string
+```
+<br/><br/>
 
 
 
+
+
+
+
+
+
+
+<br/><br/>
+<br/><br/>
+
+### 13. CPP ::std::string
+C++ comes with a class for working with strings. The class named `string` from
+the `std` namespace, which is defined in the `string` header from the C++
+standard library (libstdc++) is of great help.
+<br/><br/>
+Again, this text doesn't try to show everything you can do with the class, but
+I'll do the same operations we did earlier with C-strings, but this time using
+`::std::string`, just to show a bit of how you can work with it:
+```cpp
+paul@alice:~$ cat a.cpp
+#include <string>
+#include <iostream>
+using namespace ::std;
+int main() {
+  string a = "test";
+  string b = "string";
+
+  cout << "a=\"" << a << "\"" << endl;
+  cout << "b=\"" << b << "\"" << endl;
+
+  // Length of a string
+  cout << "length of b=" << b.length() << endl;
+
+  // Concatenate 2 strings
+  cout << "concatenation of a and b is \"" << a+b << "\"" << endl;
+
+  // Compare 2 C-strings
+  if(a == b)
+  {
+    cout << "\"" << a << "\" is equal with \"" << b << "\"" << endl;
+  }
+  else if(a < b)
+  {
+    cout << "\"" << a << "\" is smaller than \"" << b << "\"" << endl;
+  }
+  else // if(a > b)
+  {
+    cout << "\"" << a << "\" is greater than \"" << b << "\"" << endl;
+  }
+
+  // Search for a string in a string(return first occurrence or npos)
+  unsigned long long int found_character = a.find("s");
+  if(found_character != ::std::string::npos)
+  {
+    cout << "The string \"s\" was found in the string \"" << a << "\""
+      " at index " << found_character << endl;
+  }
+  else
+  {
+    cout << "The string \"s\" was not found in the string \"" << a
+      << "\"" << endl;
+  }
+
+  return 0;
+}
+paul@alice:~$ g++ a.cpp -o a.exe && ./a.exe
+a="test"
+b="string"
+length of b=6
+concatenation of a and b is "teststring"
+"test" is greater than "string"
+The string "s" was found in the string "test" at index 2
+```
+<br/><br/>
+Please remember that a C++ `::std::string` can also be used as a buffer. In
+other words, it can be used to hold any byte values, not just printable
+characters. So a `::std::string` can be used to store `.mp3` files, or any
+binary data.
+<br/><br/>
+Also remember that you can convert from a C-string to a C++ string using:
+```cpp
+  const char * a = "test"; // this is a C-string
+  const string b = ::std::string(a); // this is a C++ string
+```
+So, just call the constructor and it can take a C-string and produce a C++
+string. To convert it from a C++ string into a C-string, you can use the
+`.c_str()` method:
+```cpp
+  const string b = "some string"; // this is a C++ string
+  const char * c = b.c_str(); // this is a C-string
+```
+<br/><br/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<br/><br/>
+<br/><br/>
+
+### 14. Endianness
+As wikipedia says: "<i>In computing, endianness is the order or sequence of
+bytes of a word of digital data in computer memory. Endianness is primarily
+expressed as <b>big-endian</b> (BE) or <b>little-endian</b> (LE). A big-endian
+system stores the most significant byte of a word at the smallest memory address
+and the least significant byte at the largest. A little-endian system, in
+contrast, stores the least-significant byte at the smallest address.</i>"
+<br/><br/>
+Let's see how the value `789` is stored in the memory as a `unsigned short int`:
+```cpp
+paul@alice:~$ cat a.cpp
+#include <iostream>
+using namespace ::std;
+
+int main()
+{
+  unsigned short int a = 789;
+  const char * p = (const char*)(&a);
+  for(unsigned char i=0; i<sizeof(unsigned short int); i++)
+  {
+    // pointer to each byte of a, and print that byte
+    cout << " " << (int)(*(p+i));
+  }
+  cout << endl;
+  return 0;
+}
+paul@alice:~$ g++ a.cpp -o a.exe && ./a.exe
+ 21 3
+```
+As you know, one byte can only hold one of the 256 different values - it can't
+hold more than that. So `789` is seen as `3 * 256 + 21`. And as you can see, the
+computer stores our `unsigned short int` on `2` bytes, and the value of the
+first byte is `21` and the value of the second byte is `3`.
+<br/><br/>
+So, instead of representing this `unsigned short int` as we used to:
+<table class="memory_table">
+  <tr>
+    <td style="width: 180px;">memory byte <b>address</b></td>
+    <td>0</td>
+    <td>1</td>
+    <td>2</td>
+    <td>3</td>
+    <td>4</td>
+    <td>5</td>
+    <td>6</td>
+    <td>...</td>
+  </tr>
+  <tr>
+    <td style="width: 180px;">memory byte <b>value</b></td>
+    <td></td>
+    <td></td>
+    <td style="background-color: green;" colspan="2">789</td>
+    <td></td>
+    <td></td>
+    <td>...</td>
+  </tr>
+</table>
+We can now represent it more accurately as:
+<table class="memory_table">
+  <tr>
+    <td style="width: 180px;">memory byte <b>address</b></td>
+    <td>0</td>
+    <td>1</td>
+    <td>2</td>
+    <td>3</td>
+    <td>4</td>
+    <td>5</td>
+    <td>6</td>
+    <td>...</td>
+  </tr>
+  <tr>
+    <td style="width: 180px;">memory byte <b>value</b></td>
+    <td></td>
+    <td></td>
+    <td style="background-color: green;">21</td>
+    <td style="background-color: green;">3</td>
+    <td></td>
+    <td></td>
+    <td>...</td>
+  </tr>
+</table>
+<br/><br/>
+In general, a numeric value `X` is stored as 1-byte values `a`, `b`, `c`, ...,
+where `X = a*256^0 + b*256^1 + c*256^2 + ...`. So `a`, `b`, `c`, ... are each
+multiplied by powers of `256` and then summed up. 
+<br/><br/>
+For example `83293 = 93*256^0 + 69*256^1 + 1*256^2` would require 3 bytes to be
+stored, the bytes `93`, `69` and `1`. But since we don't have 3-byte integer
+data types, and since this can't fit into a 2-bytes integer, we must store it
+in a 4-bytes integer. So, for our 4th byte we could consider `+ 0*256^3`, so the
+4th byte would be `0`.
+<br/><br/>
+Comming back to our previous example, `789 = 21*256^0 + 3*256^1` so our byte
+values(`a` and `b`) are `21` and `3`.
+<br/><br/>
+Now let's come back to the endianness. Our most significant byte is `3` because
+that byte's value is multiplied with the highest power of 256. In our case byte
+`21` is multiplied by 256 to the power of `0`, and byte `3` is multiplied by 256
+to the power of `1`. So the highest power of 256 is `1` and the value of that
+corresponding byte is `3`.
+<br/><br/>
+OK, and because our most significant byte is stored at the largest memory
+address, we conclude that our program is ran on a little-endian system.
+<br/><br/>
+All processors must be designated as either big-endian or little-endian. For
+example, the 80×86 processors from Intel® and their clones are little-endian,
+while Sun's SPARC, Motorola's 68K, and the PowerPC® families are all big-endian.
+<br/><br/>
+Big-endian and little-endian are only "normal order" and "reverse order" from a
+human perspective. Big-endian is indeed easier for humans because it does not
+require rearranging the bytes. So, it is a matter of seeing `789` as
+`21*256^0 + 3*256^1`, so, as bytes `21` and `3` on a little-endian or seeing
+`789` as `3*256^1 + 21*256^0`, so, as bytes `3` and `21`. In other words,
+little-endian uses increasing powers of 256, and big-endian uses decreasing
+powers of 256. As humans, we're used to think "<i><b>256</b> goes <b>3</b> times
+into <b>789</b></i>" and after a short math (<i>3 * 256 = 768</i> and <i>789 -
+768 = <b>21</b></i>) we conclude that the remainder is <b>21</b>. So that's why
+Big endian seems like the "normal order" of bytes for us, humans. But for other
+reasons(that I won't get into), some processors preffer the little endianness.
+<br/><br/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<br/><br/>
+<br/><br/>
+
+### 15. Bits in a byte
+If you want to go even deeper into how values are kept in memory, you can even
+look at the individual bits inside a byte.
+<br/><br/>
+So, let's go just a little bit into these details, maybe it would be important
+at some point to know the bit values.
+<br/><br/>
+Sure, you can compute the bits of a number using the mathematical approach, I'm
+going to skip that, and offer something that's easier to use. There is a
+function (template function) that is defined in the `bitset` header. The name of
+the function is also `bitset`. The function receives 2 arguments. The first one
+is a template argument, which represents the number of digits(bits) that you
+want in the output, and the second argument(which is a normal function argument)
+is the numeric value that you want to convert to base 2(binary).
+<br/><br/>
+I will not go into the details of template functions or templates in general.
+But here's the code, the function ss pretty simple to use:
+```cpp
+paul@alice:~$ cat a.cpp
+#include <iostream>
+#include <bitset>
+using namespace ::std;
+int main()
+{
+  unsigned char a = 254;
+  cout << ::std::bitset<8>(a) << endl;
+  return 0;
+}
+paul@alice:~$ g++ a.cpp -o a.exe && ./a.exe
+11111110
+```
+So the number `254` in base 10 (decimal) is the number `11111110` in base 2
+(binary). Here's a short check:
+`0*2^0 + 1*2^1 + 1*2^2 + 1*2^3 + 1*2^4 + 1*2^5 + 1*2^6 + 1*2^7 = 254`.
+<br/><br/>
+So, now thinking about the endianness above, it kind of feels like the entire
+memory / disk is just a, single, big, number, in base `256`, doesn't it :-D? As
+if the digits of the number are kept in memory bytes, and the 256 base is
+implied.
+<br/><br/>
+A short remark here. Throughout the history, the number of bits in a byte was
+not a constant `8`. There are still hardware machines that use bytes with more
+or less than `8` bits. So, you can imagine that this has a big impact on
+everything else  .
+<br/><br/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<br/><br/>
+<br/><br/>
+
+### 16. Function calls - behind the scenes
+As part of this mini-training text, I would like to also describe what happens
+on the stack when you call a function.
+<br/><br/>
+Let's take the following example:
+```cpp
+paul@alice:~$ cat a.cpp
+#include <iostream>
+using namespace ::std;
+int f(int d, int e)
+{
+  int g = 0;
+  g = d + e;
+  return g;
+}
+
+int main()
+{
+  int a = 1;
+  int b = 2;
+  int c = 0;
+  c = f(a, b);
+  cout << c << endl;
+  return 0;
+}
+paul@alice:~$ g++ a.cpp -o a.exe && ./a.exe
+3
+```
+It unsurprisingly returns `3` as the sum of `1` and `2`. "Wow" ! But wait, this
+isn't about the result, it's about what happens until it reaches to the result.
+<br/><br/>
+So, we can see that in our program, in the `main` function, we are calling the
+`f` function and we are passing the `a` and `b` parameters. Then we store the
+return value into `c`. Let's dig deeper into this.
+<br/><br/>
+1. allocate space for return type/value
+2. allocate space for every parameter, and copy values(parameters are added to stack in reverse order compared with the parameter list)
+3. save address of the next instruction(line of code) immediately after the call instruction - to return here later
+4. jump to function's first instruction
+(when function's return is reached):
+5. copy value to return's allocated memory (see 1.)
+6. delete in-function stack members
+7. return execution to caller/parent function (see 3.)
+
+See <a href="https://www.youtube.com/watch?v=Q2sFmqvpBe0" target="_blank">
+https://www.youtube.com/watch?v=Q2sFmqvpBe0</a> and
+<a href="https://www.youtube.com/watch?v=XbZQ-EonR_I" target="_blank">https://www.youtube.com/watch?v=XbZQ-EonR_I</a>
+<br/><br/>
+<br/><br/>
+<br/><br/>
+
+<br/><br/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<br/><br/>
+<br/><br/>
+
+To be continued ...
+- heap vs stack
+- malloc and free
+- new and delete
 
