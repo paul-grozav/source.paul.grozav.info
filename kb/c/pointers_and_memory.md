@@ -54,7 +54,7 @@ variable, when you print it on the screen, it will actually print the equivalent
 character. That is in contrast with 2-byte integers for example (known as
 `short int`):
 ```cpp
-paul@alice:~$ cat a.cpp 
+paul@alice:~$ cat a.cpp
 #include <iostream>
 using namespace ::std;
 int main(){
@@ -67,7 +67,7 @@ b
 
 # ============================================================================ #
 
-paul@alice:~$ cat a.cpp 
+paul@alice:~$ cat a.cpp
 #include <iostream>
 using namespace ::std;
 int main(){
@@ -89,7 +89,7 @@ d
 
 # ============================================================================ #
 
-paul@alice:~$ cat a.cpp 
+paul@alice:~$ cat a.cpp
 #include <iostream>
 using namespace ::std;
 int main(){
@@ -111,7 +111,7 @@ paul@alice:~$ g++ a.cpp -o a.exe && ./a.exe
 
 # ============================================================================ #
 
-paul@alice:~$ cat a.cpp 
+paul@alice:~$ cat a.cpp
 #include <iostream>
 using namespace ::std;
 int main(){
@@ -143,7 +143,7 @@ valid.
 <br/><br/>
 Here's a little example that will not work as expected:
 ```cpp
-paul@alice:~$ cat a.cpp 
+paul@alice:~$ cat a.cpp
 #include <iostream>
 using namespace ::std;
 int main(){
@@ -200,7 +200,7 @@ s
 this
 A
 
-paul@alice:~$ 
+paul@alice:~$
 ```
 
 The compilation succeded, but it threw some warnings. The first 5 lines of
@@ -210,7 +210,7 @@ You can see that the program output is `A` when printing `char a`, then for `cha
 only an `s` is printed, instead of `this`. There was even a warning for this,
 and as I said, the program will not work as expected, that character data type
 can not hold more than one character (numeric value). Then for `char *` c, d and
-e the output is what we expect, the value that was assigned. 
+e the output is what we expect, the value that was assigned.
 
 
 
@@ -342,7 +342,7 @@ called the memory `address`, because it tells you where a certain value is
 placed in the memory. Just like an address tells you where a person lives in a
 city. Remember that every time we refer to a "memory address", that's just the
 index of a byte in the memory. So, a memory address is, in the end, just a
-natural number, ..., an integer number that is >= 0 . 
+natural number, ..., an integer number that is >= 0 .
 
 <table class="memory_table">
   <tr>
@@ -532,7 +532,7 @@ But let's look at the indexes in a "real world" example. But can we know
 the <i>address</i> of our variable `a`? Well, it turns out we can. The address
 of variable `a` is: `&a`:
 ```cpp
-paul@alice:~$ cat a.cpp 
+paul@alice:~$ cat a.cpp
 #include <iostream>
 using namespace ::std;
 int main() {
@@ -591,7 +591,7 @@ index `140 727 427 697 398` and `140 727 427 697 399`.
 You should know that if you run the program above, you'll probably not get the
 same value of `0x7ffda8568af6` as I did. Well, even if I run the same program
 again, I'll not get the same value at the second run. That is because every time
-a program starts, it stores it's variables in a different memory space. 
+a program starts, it stores it's variables in a different memory space.
 ```cpp
 paul@alice:~$ ./a.exe
 0x7ffed2a45166
@@ -721,7 +721,7 @@ contains the index of the first byte of variable `a`. And that index is `3`, so,
 <br/><br/>
 So, let's see this in action:
 ```cpp
-paul@alice:~$ cat a.cpp 
+paul@alice:~$ cat a.cpp
 #include <iostream>
 using namespace ::std;
 int main() {
@@ -809,7 +809,7 @@ it points to variable `b`, which starts in memory at index `6`.
 <br/><br/>
 So, let's see this in action:
 ```cpp
-paul@alice:~$ cat a.cpp 
+paul@alice:~$ cat a.cpp
 #include <iostream>
 using namespace ::std;
 int main() {
@@ -846,7 +846,7 @@ the value is located in the memory. Now, I can introduce the `*` (asterisk)
 operator, which, when applied to a pointer variable, returns the <b>value</b>
 from that memory address(that the pointer points to).
 ```cpp
-paul@alice:~$ cat a.cpp 
+paul@alice:~$ cat a.cpp
 #include <iostream>
 using namespace ::std;
 int main() {
@@ -959,7 +959,7 @@ to the value of `a`, through(using) the pointer.
 You can see that I am reading and writing from/to the variable `a`, using the
 pointer `b`:
 ```cpp
-paul@alice:~$ cat a.cpp 
+paul@alice:~$ cat a.cpp
 #include <iostream>
 using namespace ::std;
 int main() {
@@ -1018,7 +1018,7 @@ dereference it.
 ### 7. Dereferencing a pointer to a pointer
 So, let's dereference a pointer to a pointer :) ...
 ```cpp
-paul@alice:~$ cat a.cpp 
+paul@alice:~$ cat a.cpp
 #include <iostream>
 using namespace ::std;
 int main() {
@@ -1194,7 +1194,7 @@ can add them, subtract them, increment them, and so on.
 <br/><br/>
 Here's an example:
 ```cpp
-paul@alice:~$ cat a.cpp 
+paul@alice:~$ cat a.cpp
 #include <iostream>
 using namespace ::std;
 int main() {
@@ -1377,7 +1377,7 @@ start, and at the end it's `888`, though we didn't change it ... or did we?
 Although we didn't mean to change it, when we did `r = b;`, that doesn't change
 the reference, in order to make it point to `b`. Instead, our reference `r` is
 still pointing (referring) to `a`, so instead of assigning to `r`, we're
-actually assigning to `a`. So `r = b;` is, in fact, `a = b;`. 
+actually assigning to `a`. So `r = b;` is, in fact, `a = b;`.
 <br/><br/>
 Also, with references, you can't link them in order to create a reference to a
 reference. But you can do this with pointers.
@@ -1390,7 +1390,7 @@ when it's needed. References are easier to understand and you'll find that more
 people know how to handle references in code, but a lot of people are confused
 when working with pointers. So, if you want your code to be easy to understand
 and change by other developers, then you might want to use references where
-possible. 
+possible.
 <br/><br/>
 
 
@@ -1631,7 +1631,7 @@ reserve.
 <br/><br/>
 If it's not clear enough, the index in the array `X a[N]` goes from `0` to `N-1`
 , so you shouldn't access `a[N]` , `a[N+1]` , and so on. They don't exist in the
-array, although the memory formula would work, and you could access those bytes: 
+array, although the memory formula would work, and you could access those bytes:
 ```cpp
 paul@alice:~$ cat a.cpp
 #include <iostream>
@@ -2099,6 +2099,7 @@ So, instead of representing this `unsigned short int` as we used to:
     <td style="background-color: green;" colspan="2">789</td>
     <td></td>
     <td></td>
+    <td></td>
     <td>...</td>
   </tr>
 </table>
@@ -2123,13 +2124,14 @@ We can now represent it more accurately as:
     <td style="background-color: green;">3</td>
     <td></td>
     <td></td>
+    <td></td>
     <td>...</td>
   </tr>
 </table>
 <br/><br/>
 In general, a numeric value `X` is stored as 1-byte values `a`, `b`, `c`, ...,
 where `X = a*256^0 + b*256^1 + c*256^2 + ...`. So `a`, `b`, `c`, ... are each
-multiplied by powers of `256` and then summed up. 
+multiplied by powers of `256` and then summed up.
 <br/><br/>
 For example `83293 = 93*256^0 + 69*256^1 + 1*256^2` would require 3 bytes to be
 stored, the bytes `93`, `69` and `1`. But since we don't have 3-byte integer
@@ -2156,14 +2158,15 @@ while Sun's SPARC, Motorola's 68K, and the PowerPC® families are all big-endian
 Big-endian and little-endian are only "normal order" and "reverse order" from a
 human perspective. Big-endian is indeed easier for humans because it does not
 require rearranging the bytes. So, it is a matter of seeing `789` as
-`21*256^0 + 3*256^1`, so, as bytes `21` and `3` on a little-endian or seeing
-`789` as `3*256^1 + 21*256^0`, so, as bytes `3` and `21`. In other words,
-little-endian uses increasing powers of 256, and big-endian uses decreasing
-powers of 256. As humans, we're used to think "<i><b>256</b> goes <b>3</b> times
-into <b>789</b></i>" and after a short math (<i>3 * 256 = 768</i> and <i>789 -
-768 = <b>21</b></i>) we conclude that the remainder is <b>21</b>. So that's why
-Big endian seems like the "normal order" of bytes for us, humans. But for other
-reasons(that I won't get into), some processors preffer the little endianness.
+`21*256^0 + 3*256^1`, so, as bytes `21` and `3` on a little-endian system or
+seeing `789` as `3*256^1 + 21*256^0`, so, as bytes `3` and `21` on a big-endian
+system. In other words, little-endian uses increasing powers of 256, and
+big-endian uses decreasing powers of 256. As humans, we're used to think
+"<i><b>256</b> goes <b>3</b> times into <b>789</b></i>" and after a short math
+(<i>3 * 256 = 768</i> and <i>789 - 768 = <b>21</b></i>) we conclude that the
+remainder is <b>21</b>. So that's why big endian seems like the "normal order"
+of bytes for us, humans. But for other reasons(that I won't get into), some
+processors preffer the little endianness.
 <br/><br/>
 
 
@@ -2252,6 +2255,7 @@ Let's take the following example:
 paul@alice:~$ cat a.cpp
 #include <iostream>
 using namespace ::std;
+
 int f(int d, int e)
 {
   int g = 0;
@@ -2278,41 +2282,657 @@ So, we can see that in our program, in the `main` function, we are calling the
 `f` function and we are passing the `a` and `b` parameters. Then we store the
 return value into `c`. Let's dig deeper into this.
 <br/><br/>
-1. allocate space for return type/value
-2. allocate space for every parameter, and copy values(parameters are added to stack in reverse order compared with the parameter list)
-3. save address of the next instruction(line of code) immediately after the call instruction - to return here later
-4. jump to function's first instruction
-(when function's return is reached):
-5. copy value to return's allocated memory (see 1.)
-6. delete in-function stack members
-7. return execution to caller/parent function (see 3.)
+1. `main` will allocate space on stack for the return value of the function `f`.
+  Since `f` returns an `int`, `main` will allocate `4` bytes. Note that in some
+  situations, a function's return value might be passed from the calee to the
+  caller through a CPU's register.
+2. `main` will next allocate space on the stack for the parameters that should
+  be passed to function `f` (`d` and `e`). But it will allocate the space in
+  reverse order. So it will allocate the space for `e` and then allocate the
+  space for `d`. Since both are of type `int`, it will allocate `8=2*4` bytes.
+  Once the memory is allocated in the stack, `main` will copy the values of `a`
+  into the space of `d`, and copy the value of `b` into the space of `e`.
+3. `main` will save address of the next instruction(line of code) immediately
+  after the call instruction to function `f`. This address will be used later,
+  when the `f` function returns, to jump the execution, back to this address
+  (here), to the caller function, `main`.
+4. Jump to function `f`'s first instruction, and continue execution.
 
-See <a href="https://www.youtube.com/watch?v=Q2sFmqvpBe0" target="_blank">
-https://www.youtube.com/watch?v=Q2sFmqvpBe0</a> and
-<a href="https://www.youtube.com/watch?v=XbZQ-EonR_I" target="_blank">https://www.youtube.com/watch?v=XbZQ-EonR_I</a>
-<br/><br/>
-<br/><br/>
-<br/><br/>
-
-<br/><br/>
-
-
-
-
-
-
-
-
-
-
-
-
+(when function `f`'s return is reached):
+5. Function `f` will copy the returned value (value of `g`) to the return
+  allocated memory on stack - see item 1. above.
+6. `f` will free any stack variables defined inside the `f` function(in this
+  case, variable `g`).
+7. `f` will jump back to the caller/parent function (`main`), using the address
+  saved in the item 3. above, while also removing the address from the stack.
+8. Function `main` is now back in control, and it's responsible for freeing the
+  stack space allocated for parameters `d` and `e`.
+9. Function `main` can now resume it's operations/instructions, and use the
+  returned value from the stack memory. In this case, to save it to `c`.
 
 <br/><br/>
+For more details, see:
+1. <a href="https://www.youtube.com/watch?v=Q2sFmqvpBe0" target="_blank">
+  https://www.youtube.com/watch?v=Q2sFmqvpBe0</a> and
+2. <a href="https://www.youtube.com/watch?v=XbZQ-EonR_I" target="_blank">
+  https://www.youtube.com/watch?v=XbZQ-EonR_I</a>
 <br/><br/>
 
-To be continued ...
-- heap vs stack
-- malloc and free
-- new and delete
+
+
+
+
+
+
+
+
+
+
+
+
+
+<br/><br/>
+<br/><br/>
+
+### 17. Stack and heap memories
+When an operating system starts executing a program, it will allocate some of
+the computer's RAM memory as "<b><i>the stack</i></b>" RAM memory of that
+program. The GNU/Linux operating system usually allocates <b>~ 8 MiB</b> of RAM
+for every new process / program that it starts. When the process ends it's
+execution, the OS reclaims the stack memory, and is free to use it for something
+else.
+<br/><br/>
+You can imagine it something like this:
+<table class="memory_table">
+  <tr>
+    <td style="width: 180px;">memory byte <b>address</b></td>
+    <td style="width: 50px;">0</td>
+    <td style="width: 50px;">1</td>
+    <td style="width: 50px;">2</td>
+    <td style="width: 50px;">3</td>
+    <td style="width: 50px;">...</td>
+    <td style="width: 50px;">a-1</td>
+    <td style="width: 50px;">a</td>
+    <td style="width: 50px;">a+1</td>
+    <td style="width: 50px;">...</td>
+    <td style="width: 50px;">a+b-2</td>
+    <td style="width: 50px;">a+b-1</td>
+    <td style="width: 50px;">a+b</td>
+    <td style="width: 50px;">a+b+1</td>
+    <td style="width: 50px;">...</td>
+    <td style="width: 50px;">n</td>
+  </tr>
+  <tr>
+    <td style="width: 180px;">memory byte <b>value</b></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td style="background-color: lightgreen;"></td>
+    <td style="background-color: lightgreen;"></td>
+    <td style="background-color: lightgreen;">...</td>
+    <td style="background-color: lightgreen;"></td>
+    <td style="background-color: lightgreen;"></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+</table>
+This might look too complicated, but in fact it is simple. The stack (the light
+green part of the memory) is just one part of the memory. It's probably not the
+first bytes, and probably not the last bytes of the entire memory. It's probably
+somewhere in the middle of the memory space(that doesn't mean it has to be at
+the exact center, either). In the table above, we assume that the computer has
+<b>n</b> bytes of memory, and the stack starts at byte <b>a</b> and the stack is
+of size <b>b</b> bytes. So, as I said, <b>b</b> is usually ~8 MiB on GNU/Linux,
+and <b>a</b>(the start position of the stack) is random.
+<br/><br/>
+<b>The heap</b> memory, on the other side, is everything else. The rest of the
+memory available to that machine / operating system.
+<br/><br/>
+So let's picture this again. The stack is colored in light-green, and the heap
+is colored in light blue:
+<table class="memory_table">
+  <tr>
+    <td style="width: 180px;">memory byte <b>address</b></td>
+    <td style="width: 50px;">0</td>
+    <td style="width: 50px;">1</td>
+    <td style="width: 50px;">2</td>
+    <td style="width: 50px;">3</td>
+    <td style="width: 50px;">...</td>
+    <td style="width: 50px;">a-1</td>
+    <td style="width: 50px;">a</td>
+    <td style="width: 50px;">a+1</td>
+    <td style="width: 50px;">...</td>
+    <td style="width: 50px;">a+b-2</td>
+    <td style="width: 50px;">a+b-1</td>
+    <td style="width: 50px;">a+b</td>
+    <td style="width: 50px;">a+b+1</td>
+    <td style="width: 50px;">...</td>
+    <td style="width: 50px;">n</td>
+  </tr>
+  <tr>
+    <td style="width: 180px;">memory byte <b>value</b></td>
+    <td style="background-color: lightblue;"></td>
+    <td style="background-color: lightblue;"></td>
+    <td style="background-color: lightblue;"></td>
+    <td style="background-color: lightblue;"></td>
+    <td style="background-color: lightblue;"></td>
+    <td style="background-color: lightblue;"></td>
+    <td style="background-color: lightgreen;"></td>
+    <td style="background-color: lightgreen;"></td>
+    <td style="background-color: lightgreen;">...</td>
+    <td style="background-color: lightgreen;"></td>
+    <td style="background-color: lightgreen;"></td>
+    <td style="background-color: lightblue;"></td>
+    <td style="background-color: lightblue;"></td>
+    <td style="background-color: lightblue;"></td>
+    <td style="background-color: lightblue;"></td>
+  </tr>
+</table>
+<br/><br/>
+Now, whenever you are declaring a variable like `char x = 7;`, the memory space
+of that variable will be allocated on(assigned into) the stack. So, the value of
+that variable will be stored in the stack memory. Here you can see the variable
+`x` colored in green:
+<table class="memory_table">
+  <tr>
+    <td style="width: 180px;">memory byte <b>address</b></td>
+    <td style="width: 50px;">0</td>
+    <td style="width: 50px;">1</td>
+    <td style="width: 50px;">2</td>
+    <td style="width: 50px;">3</td>
+    <td style="width: 50px;">...</td>
+    <td style="width: 50px;">a-1</td>
+    <td style="width: 50px;">a</td>
+    <td style="width: 50px;">a+1</td>
+    <td style="width: 50px;">...</td>
+    <td style="width: 50px;">a+b-2</td>
+    <td style="width: 50px;">a+b-1</td>
+    <td style="width: 50px;">a+b</td>
+    <td style="width: 50px;">a+b+1</td>
+    <td style="width: 50px;">...</td>
+    <td style="width: 50px;">n</td>
+  </tr>
+  <tr>
+    <td style="width: 180px;">memory byte <b>value</b></td>
+    <td style="background-color: lightblue;"></td>
+    <td style="background-color: lightblue;"></td>
+    <td style="background-color: lightblue;"></td>
+    <td style="background-color: lightblue;"></td>
+    <td style="background-color: lightblue;"></td>
+    <td style="background-color: lightblue;"></td>
+    <td style="background-color: green;">7</td>
+    <td style="background-color: lightgreen;"></td>
+    <td style="background-color: lightgreen;">...</td>
+    <td style="background-color: lightgreen;"></td>
+    <td style="background-color: lightgreen;"></td>
+    <td style="background-color: lightblue;"></td>
+    <td style="background-color: lightblue;"></td>
+    <td style="background-color: lightblue;"></td>
+    <td style="background-color: lightblue;"></td>
+  </tr>
+</table>
+But, since the stack is relatively small, you can't fit enough data into it. So
+whenever you think you might need to hold a lot of data, like a very-very long
+string, with a lot of characters(maybe one book of text inside a single string
+variable), you can store it on the heap memory.
+<br/><br/>
+You can choose when you are creating a variable, if you want to store it on the
+stack memory, or on the heap memory.
+<br/><br/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<br/><br/>
+<br/><br/>
+
+### 18. malloc() and free()
+In C, if you want to store a variable on the heap, you must know the exact
+number of bytes, required to store that variable / data. Let's say you need <b>s
+</b> bytes. Then you can "allocate" / "reserve" / "prepare" those <b>s
+<u>contiguous</u></b> bytes by calling the `malloc` function provided by C,
+and offering the value <b>s</b> as a parameter to the `malloc` function. The
+function will return a generic pointer of type `void *` - it doesn't use a
+specific data type, because it doesn't know what you want to hold in that memory
+space. But you can later cast it into your prefered data type pointer. This
+pointer will point to the <b>first byte</b> out of those <b>s</b> bytes that you
+requested. If, when you are calling `malloc`, the operating system is not able
+to allocate those <b>s <u>contiguous</u></b> bytes, the malloc function will
+return a NULL void pointer.
+```cpp
+paul@alice:~$ cat a.cpp
+#include <iostream>
+using namespace ::std;
+int main()
+{
+  void * p = malloc(10);
+  if( p == NULL ){
+    cout << "Allocation has failed" << endl;
+  } else {
+    cout << "Allocation was successful" << endl;
+  }
+  return 0;
+}
+paul@alice:~$ g++ a.cpp -o a.exe && ./a.exe
+Allocation was successful
+```
+In this program I try to allocate `10` bytes, and then check to see if the
+allocation was successful or not. <b>Note!</b> that the pointer variable `p` is
+using `8` bytes (as any pointer) on the <u>stack</u> memory. But I have
+allocated another space of `10` bytes on the heap memory. I am storing the
+address of those 10 bytes from heap, I'm storing that address on the stack. Of
+course, if you are trying to allocate more memry than you currently have
+available, the allocation will fail. But remember that your program is not the
+only program running on the operating system. The OS keeps track of all
+allocated memory and shares statistics about the total memory, total allocated
+memory(for all programs running) and total free memory. You should also know
+that the heap memory can be fragmented. I'll not go too much into this topic,
+but you might not be able to allocate X bytes of memory even though the
+operating system has much more the X bytes available. This can be, because of
+fragmentation - because malloc is only allocating contiguous / continuous bytes.
+<br/><br/>
+Now let's store a value into a memory space allocated on heap. I will allocate
+1 byte on the heap, in order to store a `char` variable. But instead of giving
+the value `1` to `malloc`, I'll give it `sizeof(char)` which is `1`, suggesting
+(to the other developers reading this code) that I am trying to allocate space
+on the heap for an `char` variable.
+```cpp
+paul@alice:~$ cat a.cpp
+#include <iostream>
+using namespace ::std;
+int main()
+{
+  char x = 7; // on stack
+  void * p = malloc(sizeof(char));
+  if( p == NULL ){
+    cout << "Allocation has failed" << endl;
+  } else {
+    cout << "Allocation was successful" << endl;
+    char * y = (char *)p; // on heap
+    *y = 8;
+    cout << "y=" << (int)(*y) << endl;
+  }
+  return 0;
+}
+paul@alice:~$ g++ a.cpp -o a.exe && ./a.exe
+Allocation was successful
+y=8
+```
+If the allocation was successful, I am converting that void pointer, into an int
+pointer, in order to store my int value inside that heap memory space. Please
+note that I am not dereferencing the pointer, if the pointer is `NULL`. Doing
+that will crash your program.
+<br/><br/>
+Let's see it in memory, again. This is a continuation of chapter 17, where I
+also created a variable on the stack, `x`, which will contrast with our heap
+variable `y`(colored in blue):
+<table class="memory_table">
+  <tr>
+    <td style="width: 180px;">memory byte <b>address</b></td>
+    <td style="width: 50px;">0</td>
+    <td style="width: 50px;">1</td>
+    <td style="width: 50px;">2</td>
+    <td style="width: 50px;">3</td>
+    <td style="width: 50px;">...</td>
+    <td style="width: 50px;">a-1</td>
+    <td style="width: 50px;">a</td>
+    <td style="width: 50px;">a+1</td>
+    <td style="width: 50px;">...</td>
+    <td style="width: 50px;">a+b-2</td>
+    <td style="width: 50px;">a+b-1</td>
+    <td style="width: 50px;">a+b</td>
+    <td style="width: 50px;">a+b+1</td>
+    <td style="width: 50px;">...</td>
+    <td style="width: 50px;">n</td>
+  </tr>
+  <tr>
+    <td style="width: 180px;">memory byte <b>value</b></td>
+    <td style="background-color: lightblue;"></td>
+    <td style="background-color: lightblue;"></td>
+    <td style="background-color: blue;">8</td>
+    <td style="background-color: lightblue;"></td>
+    <td style="background-color: lightblue;"></td>
+    <td style="background-color: lightblue;"></td>
+    <td style="background-color: green;">7</td>
+    <td style="background-color: lightgreen;"></td>
+    <td style="background-color: lightgreen;">...</td>
+    <td style="background-color: lightgreen;"></td>
+    <td style="background-color: lightgreen;"></td>
+    <td style="background-color: lightblue;"></td>
+    <td style="background-color: lightblue;"></td>
+    <td style="background-color: lightblue;"></td>
+    <td style="background-color: lightblue;"></td>
+  </tr>
+</table>
+<br/><br/>
+Everything is fine, except, this program has a "<b>memory leak</b>". A memory
+leak is a memory space that was allocated on heap, and was not freed until the
+end of the program. So, you are asking for memory, you tell the operating system
+that you need memory to store your data, and it gives you the memory, but then
+you should give it back when you no longer need it. That is <i>at least</i> a
+good practice. If you are not giving that memory back to the operating system,
+the OS will take it back, anyway, when your program ends execution. For this
+reason, some people don't care about memory leaks, or memory leaks go unnoticed.
+You will not get an error from your program and you'll not get an error from the
+OS, that you forgot to free the allocated memory. However, there are tools that
+can help you track memory allocations and report any leaks that your program
+might have. Again, I'll not go deeper into mem leak detection tools. But, I will
+get back to say that it is <i><b>at least</b></i> a good practice to free your
+memory. If you don't you can get into trouble. If you are developing an
+application that will not end it's execution anytime soon (like a server that
+will be running for months or even years in a row), then you can't afford to
+have any memory leaks. That is because that memory will remain allocated / used
+and if you repeat the process and keep allocating memory and you never free it,
+then, it's only natural that the machine will run out of memory, and your
+program will not be able to allocate more memory and might start misbehaving, or
+worst, the OS might even kill(abruptly end the execution of) your program.
+<br/><br/>
+But don't worry, your program is safe, as long as you call the `free` function,
+and give it the pointer that you received from `malloc()`, once you no longer
+need that heap memory space. So, let's fix our program:
+```cpp
+paul@alice:~$ cat a.cpp
+#include <iostream>
+using namespace ::std;
+int main()
+{
+  char x = 7; // on stack
+  char * y = (char *)malloc(sizeof(char)); // on heap
+  if( y == NULL ){
+    cout << "Allocation has failed" << endl;
+  } else {
+    cout << "Allocation was successful" << endl;
+    *y = 8;
+    cout << "y=" << (int)(*y) << endl;
+    free(y); // avoid memory leak !
+  }
+  return 0;
+}
+paul@alice:~$ g++ a.cpp -o a.exe && ./a.exe
+Allocation was successful
+y=8
+```
+Note that I casted the result of `malloc` and saved it directly in a `char *`,
+thus, avoiding / hiding the `void *`. This is OK, I can cast the pointer even if
+it is NULL. I only have to pay attention when dereferencing the pointer, because
+(again): "<i>Dereferencing a NULL pointer will crash my application<i>" :-) .
+Also note that `free` returns `void`, so it returns nothing back. It should
+never fail.
+<br/><br/>
+Also, very important, note that after `free`-ing the `y` pointer, the `y`
+pointer is still holding the memory address of the memory space that was
+previously allocated. So, nothing is preventing me from reading / writing to
+that memory space. Again, I should not do that. If I freed the memory I should
+not use it anymore - I should not read from it, I should not write to it. If I
+still need to use it, then I should not free it. However, printing the address
+inside pointer `y` wil not hurt, is not illegal. If, despite all these warnings,
+I am writing to the memory behind `y`, after freeing it, I should expect
+"undefined behavior". That means that the program might crash, it might also not
+crash - it depends on other factors, and we can consider the effect random. So,
+it's definitely something you would not do in production / if you want your
+program to have a predictable outcome.
+<br/><br/>
+"Undefined behavior" is worst than crashing your program. If your program is
+always crashing, at least you can study/investigate the problem and come up with
+a fix. But if other/random factors are involved and sometimes your program is
+crashing and other times it is not crashing(beyond your control) - then that is
+harder to study and fix. So, it's a little bit better if your program is always
+crashing.
+<br/><br/>
+With that in mind, we can avoid the "undefined behavior" by setting a pointer to
+`NULL` after `free`-ing it. The use of that memory afterwards (by dereferencing
+the pointer), will definitely crash your program. So, doing that is a good
+practice too:
+```cpp
+paul@alice:~$ cat a.cpp
+#include <iostream>
+using namespace ::std;
+int main()
+{
+  char x = 7; // on stack
+  char * y = (char *)malloc(sizeof(char)); // on heap
+  if( y == NULL ){
+    cout << "Allocation has failed" << endl;
+  } else {
+    cout << "Allocation was successful" << endl;
+    *y = 8;
+    cout << "y=" << (int)(*y) << endl;
+    free(y); // avoid memory leak !
+    y = NULL; // avoid further use
+  }
+  return 0;
+}
+paul@alice:~$ g++ a.cpp -o a.exe && ./a.exe
+Allocation was successful
+y=8
+```
+<br/><br/>
+Also note that the address returned by malloc is "random", in the sense that
+your program can not predict where the operating system will reserve that memory
+space. But of course that the OS is probably reserving the space in a
+predictable way, not randomly. However, you should know that allocating space on
+the heap takes some time, it is not instant. The OS needs some time to search
+for a contiguous space, big enough to fit your data. So if performance/execution
+speed is important for your program, and you can't avoid allocating on the heap,
+then you might want to minimize the number of calls to `malloc`.
+<br/><br/>
+Another note:
+```cpp
+paul@alice:~$ cat a.cpp
+#include <iostream>
+using namespace ::std;
+int main()
+{
+  int * y = NULL;
+  for(int i=0; i<20; i++){
+    y = (int *)malloc(sizeof(int));
+    if(y != NULL){
+      *y = i;
+    }
+  }
+  if(y != NULL){
+    cout << "Last value=" << *y << endl;
+  }else{
+    cout << "Last value=NULL" << endl;
+  }
+  return 0;
+}
+paul@alice:~$ g++ a.cpp -o a.exe && ./a.exe
+Last value=19
+```
+This is an example of bad program design! My program is leaking memory and there
+is no "easy" way to fix it. So I am allocating 20 `int`s and assigning a number
+0-19 to each one. Those are 20 `malloc` function calls, 20 different memory
+spaces, they might not even be next to eachother in memory. Each malloc is
+returning 4 bytes of contiguous memory space, 4 consecutive bytes. But those 20
+blocks of memory might be randomly spread across the heap memory. And every call
+to malloc is replacing the old pointer, thus losing that address before
+`free`-ing it. So, if I am attempting to fix this bug by free-ing the pointer
+at the end of the for loop, I am breaking the final `cout` which is trying to
+print the value inside the last allocated space. So, you should definitely think
+about memory allocation and deallocation when you are designing a program,
+otherwise you'll get into trouble :-) . I'm not giving you a solution to this
+problem. Food for thought :-) .
+<br/><br/>
+Another note:
+```cpp
+paul@alice:~$ cat a.cpp
+#include <iostream>
+using namespace ::std;
+int main()
+{
+  int * y = NULL;
+  y = (int *)malloc(9999999999999);
+  // allocation will fail - required space too big
+  if(y == NULL){
+    free(y);
+    cout << "OK" << endl;
+  }
+  y = (int *)malloc(99);
+  if(y != NULL){
+    free(y); // OK
+    cout << "freed the memory 1st time" << endl;
+    free(y); // not OK !
+    cout << "never printing" << endl;
+  }
+  return 0;
+}
+paul@alice:~$ g++ a.cpp -o a.exe && ./a.exe
+OK
+freed the memory 1st time
+free(): double free detected in tcache 2
+Aborted (core dumped)
+```
+You can't free the same pointer a 2nd time - the program will crash.
+<br/><br/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<br/><br/>
+<br/><br/>
+
+### 19. new and delete
+In C++ the `malloc` and `free` that we talked about are also working, but there
+is also the benefit of `new` and `delete`.
+<br/><br/>
+`new` is doing almost the same thing as `malloc`, but it detects the data-type
+that you trying to construct and knows how many bytes to allocate, and if the
+allocation fails, it throws an exception, instead of returning `nullptr`. `new`
+will also call the constructor if it's creating an object(a class data type).
+<br/><br/>
+`delete` is doing almost the same thing as `free`, but it also calls the
+destructor if it is dealing with a class data type.
+<br/><br/>
+Here are short examples:
+```cpp
+paul@alice:~$ cat a.cpp
+#include <iostream>
+using namespace ::std;
+class Dog{
+public:
+  int legs=4;
+  Dog(){ cout << "Dog created" << endl; }
+  ~Dog(){ cout << "Dog destroyed" << endl; }
+};
+int main()
+{
+  int * a = new int(7);
+  cout << "a=" << *a << endl;
+  delete a;
+
+  Dog * b = new Dog();
+  cout << "Dog b legs=" << b->legs << endl;
+  delete b;
+
+  Dog c;
+  c.legs -= 1;
+  cout << "Dog c legs=" << c.legs << endl;
+  // c is on stack, will free automatically
+
+  Dog * d = (Dog *)malloc(sizeof(Dog));
+  if (d != nullptr){
+    cout << "Dog d legs=" << d->legs << endl;
+  }
+  free(d);
+
+  Dog * e = new Dog[2]();
+  e[0].legs = 0;
+  e[1].legs = 1;
+  delete[] e;
+
+  // c is on stack, will free now
+  return 0;
+}
+paul@alice:~$ g++ a.cpp -o a.exe && ./a.exe
+a=7
+Dog created
+Dog b legs=4
+Dog destroyed
+Dog created
+Dog c legs=3
+Dog d legs=1588645207
+Dog created
+Dog created
+Dog destroyed
+Dog destroyed
+Dog destroyed
+```
+You can see that `a` is an `int` on heap, allocated using `new`. `b` is a Dog on
+heap. Note how the Dog constructor and destructor is called for `b` (before and
+after printing the number of legs - 4). Note how `c` is a Dog on stack, and will
+be freed when we exit the `main` scope. `d` is a Dog that was allocated with
+`malloc`, but it memory space was not initialized by calling the constructor, so
+the number of legs contains a random value that was in memory (`1588645207`).
+`e` is actually an array of 2 `Dog`s. These 2 dogs are next to each other in the
+heap memory, and they are constructed and destroyed at once (as the whole
+array) - that's why you see 2 Dogs being created, and then 2 being destroyed.
+Finally, the last "destroy" message comes from `c` which is freed automatically
+as we exit the scope.
+<br/><br/>
+<br/><br/>
+Note that while `string s = "My string"` seems to be on stack - the string
+contents, the characters, the long text that you can store in it - is actually
+in the heap. The string object is on stack, but behind the scenes, inside the
+`string` class, it allocates memory in the heap and it stores there the data. So
+, things might not be what they seem :-) .
+<br/><br/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<br/><br/>
+<br/><br/>
+### 20. Other
+Funny things with HEAP memory - you should try creating these scenarios in short
+programs to test these theories:
+- void* malloc (size_t size) and void free (void* ptr);
+  - do not free a reserved memory - mem leak
+  - free on stack - Invalid pointer crash
+  - call free two times on same mem - double free or corruption
+  - call free on a random/hardcoded address - Segmentation fault
+  - write to deleted memory - silent corruption
+  - write to random/hardcoded address - Segmentation fault
+  - free memory allocated with new
+  - delete/free on NULL, is ok, it will check and do nothing
+- setting a pointer to NULL
 
