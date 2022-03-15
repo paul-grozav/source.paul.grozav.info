@@ -63,6 +63,23 @@ The PEM RSAPublicKey format uses the header and footer lines:
   -----END RSA PUBLIC KEY-----
 ```
 
+#### 3.3. Convert RSA PEM PKCS#1 key to RSA PEM PKCS#8
+```bash
+# This will generate an RSA PKCS#1 private key
+> openssl genrsa -out ./private.key 1024
+> cat ./private.key
+-----BEGIN RSA PRIVATE KEY-----
+...
+-----END RSA PRIVATE KEY-----
+
+# To convert it to PKCS#8 you can:
+> openssl pkcs8 -topk8 -inform PEM -outform PEM -nocrypt -in private.key -out private.pkcs8.key
+> cat private.pkcs8.key
+-----BEGIN PRIVATE KEY-----
+...
+-----END PRIVATE KEY-----
+```
+
 ## 4. RSA PEM key examples
 #### 4.1. RSA Private key
 This is how you can generate a "private" key and how looks like:
