@@ -80,6 +80,103 @@ The PEM RSAPublicKey format uses the header and footer lines:
 -----END PRIVATE KEY-----
 ```
 
+#### 3.4. Key content
+```bash
+# Showing the numbers inside a private key
+> openssl pkey -in private.key -text
+-----BEGIN PRIVATE KEY-----
+MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBAJ/5ReH2133izTRl
+QSYGjoJZqD4TkOE2aX8hxvG7wIY4WYc0hE+eSb7WZ2SzRiTeZ104GQIVfRjWvb0t
+9GBrAZICZCp/5B9dp9Z3WqGpK7PCAVjbTYu+Z3qjr1Eeizo8xt7+sHmCOlH1pWep
+LIyh2yvfvMhNWDEBnlfB/J57osblAgMBAAECgYBb3acu6zS2mv7ift8ZuhwuaNQ/
+ybaiTj/o/PmlKf+WVFe9WAA/RJPu3msDnhvC4mETXDqoQrTTBcZyFCjJEcoVKYv1
+GElfJqjp3JLBYwkxP6kQ3YffE2L2PtgY7OG92cfnJ919/mDQEy/AJGeOw3IRXc6X
+qa8TJUKg0GlrU4RfYQJBAM2IBVRag/nPVLKVHWDvKOsdJBK0BnG/tFuIcUoRB0NW
+eE/xiKr6fcFpO0Hafuz+j1z8wD7tWyQgm54zTOOd020CQQDHQXBaVxPSh8SvZtZk
+h5UAvH3SQrUJDhhtIExWpySXTIUhd42JZJW2YeAtZSxe5aAjHJzb4QEHkG1C7pbz
+A55ZAkB6mmdDeHM9s3X8yYKq7j9kcQ+xsH4foJHAAFZELoA8pPpEBfrWs3IMy+8z
+S1lnmjp+567uWryBgooSBtwY827JAkAEhJlVkw/iAC4XhA9sbB6Wy69WqyiLsgQf
+xVG1zUhpHdUO8zUEXoF+hy2cGeUtqas94JI18h4h28Z+dAZ8MCLRAkEAmN4Ib+Ha
+vvXck11X/M7w6ri28S9afjbRwbuY0iYN8VrkekhuL1t70AR1JuA/aJF7hWyjOeXF
+sqYyeKAsNg/QUg==
+-----END PRIVATE KEY-----
+RSA Private-Key: (1024 bit, 2 primes)
+modulus:
+    00:9f:f9:45:e1:f6:d7:7d:e2:cd:34:65:41:26:06:
+    8e:82:59:a8:3e:13:90:e1:36:69:7f:21:c6:f1:bb:
+    c0:86:38:59:87:34:84:4f:9e:49:be:d6:67:64:b3:
+    46:24:de:67:5d:38:19:02:15:7d:18:d6:bd:bd:2d:
+    f4:60:6b:01:92:02:64:2a:7f:e4:1f:5d:a7:d6:77:
+    5a:a1:a9:2b:b3:c2:01:58:db:4d:8b:be:67:7a:a3:
+    af:51:1e:8b:3a:3c:c6:de:fe:b0:79:82:3a:51:f5:
+    a5:67:a9:2c:8c:a1:db:2b:df:bc:c8:4d:58:31:01:
+    9e:57:c1:fc:9e:7b:a2:c6:e5
+publicExponent: 65537 (0x10001)
+privateExponent:
+    5b:dd:a7:2e:eb:34:b6:9a:fe:e2:7e:df:19:ba:1c:
+    2e:68:d4:3f:c9:b6:a2:4e:3f:e8:fc:f9:a5:29:ff:
+    96:54:57:bd:58:00:3f:44:93:ee:de:6b:03:9e:1b:
+    c2:e2:61:13:5c:3a:a8:42:b4:d3:05:c6:72:14:28:
+    c9:11:ca:15:29:8b:f5:18:49:5f:26:a8:e9:dc:92:
+    c1:63:09:31:3f:a9:10:dd:87:df:13:62:f6:3e:d8:
+    18:ec:e1:bd:d9:c7:e7:27:dd:7d:fe:60:d0:13:2f:
+    c0:24:67:8e:c3:72:11:5d:ce:97:a9:af:13:25:42:
+    a0:d0:69:6b:53:84:5f:61
+prime1:
+    00:cd:88:05:54:5a:83:f9:cf:54:b2:95:1d:60:ef:
+    28:eb:1d:24:12:b4:06:71:bf:b4:5b:88:71:4a:11:
+    07:43:56:78:4f:f1:88:aa:fa:7d:c1:69:3b:41:da:
+    7e:ec:fe:8f:5c:fc:c0:3e:ed:5b:24:20:9b:9e:33:
+    4c:e3:9d:d3:6d
+prime2:
+    00:c7:41:70:5a:57:13:d2:87:c4:af:66:d6:64:87:
+    95:00:bc:7d:d2:42:b5:09:0e:18:6d:20:4c:56:a7:
+    24:97:4c:85:21:77:8d:89:64:95:b6:61:e0:2d:65:
+    2c:5e:e5:a0:23:1c:9c:db:e1:01:07:90:6d:42:ee:
+    96:f3:03:9e:59
+exponent1:
+    7a:9a:67:43:78:73:3d:b3:75:fc:c9:82:aa:ee:3f:
+    64:71:0f:b1:b0:7e:1f:a0:91:c0:00:56:44:2e:80:
+    3c:a4:fa:44:05:fa:d6:b3:72:0c:cb:ef:33:4b:59:
+    67:9a:3a:7e:e7:ae:ee:5a:bc:81:82:8a:12:06:dc:
+    18:f3:6e:c9
+exponent2:
+    04:84:99:55:93:0f:e2:00:2e:17:84:0f:6c:6c:1e:
+    96:cb:af:56:ab:28:8b:b2:04:1f:c5:51:b5:cd:48:
+    69:1d:d5:0e:f3:35:04:5e:81:7e:87:2d:9c:19:e5:
+    2d:a9:ab:3d:e0:92:35:f2:1e:21:db:c6:7e:74:06:
+    7c:30:22:d1
+coefficient:
+    00:98:de:08:6f:e1:da:be:f5:dc:93:5d:57:fc:ce:
+    f0:ea:b8:b6:f1:2f:5a:7e:36:d1:c1:bb:98:d2:26:
+    0d:f1:5a:e4:7a:48:6e:2f:5b:7b:d0:04:75:26:e0:
+    3f:68:91:7b:85:6c:a3:39:e5:c5:b2:a6:32:78:a0:
+    2c:36:0f:d0:52
+
+
+
+# Showing the contents of a public key
+> openssl pkey -in public.key -pubin -text
+-----BEGIN PUBLIC KEY-----
+MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCf+UXh9td94s00ZUEmBo6CWag+
+E5DhNml/Icbxu8CGOFmHNIRPnkm+1mdks0Yk3mddOBkCFX0Y1r29LfRgawGSAmQq
+f+QfXafWd1qhqSuzwgFY202Lvmd6o69RHos6PMbe/rB5gjpR9aVnqSyModsr37zI
+TVgxAZ5Xwfyee6LG5QIDAQAB
+-----END PUBLIC KEY-----
+RSA Public-Key: (1024 bit)
+Modulus:
+    00:9f:f9:45:e1:f6:d7:7d:e2:cd:34:65:41:26:06:
+    8e:82:59:a8:3e:13:90:e1:36:69:7f:21:c6:f1:bb:
+    c0:86:38:59:87:34:84:4f:9e:49:be:d6:67:64:b3:
+    46:24:de:67:5d:38:19:02:15:7d:18:d6:bd:bd:2d:
+    f4:60:6b:01:92:02:64:2a:7f:e4:1f:5d:a7:d6:77:
+    5a:a1:a9:2b:b3:c2:01:58:db:4d:8b:be:67:7a:a3:
+    af:51:1e:8b:3a:3c:c6:de:fe:b0:79:82:3a:51:f5:
+    a5:67:a9:2c:8c:a1:db:2b:df:bc:c8:4d:58:31:01:
+    9e:57:c1:fc:9e:7b:a2:c6:e5
+Exponent: 65537 (0x10001)
+```
+
 ## 4. RSA PEM key examples
 #### 4.1. RSA Private key
 This is how you can generate a "private" key and how looks like:
