@@ -85,6 +85,9 @@ GIT_COMMITTER_NAME="Tancredi-Paul Grozav" GIT_COMMITTER_EMAIL="paul@grozav.info"
 git diff > ../my.patch
 # Apply patch:
 git apply ../my.patch
+
+# Diff with meld
+git difftool --tool meld --no-prompt config.sql
 {% endhighlight %}
 
 
