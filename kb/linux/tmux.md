@@ -27,6 +27,7 @@ ptitle: Terminal multiplexer
 - `Ctrl+b %` - Create pane by splitting window vertically(exit bash instance to close split).
 - `Ctrl+b “` - Create pane by splitting window horizontally(exit bash instance to close split).
 - `Ctrl+b Space` - Switches to next layout - Arrange panes in one of the five preset layouts: even-horizontal, even-vertical, main-horizontal, main-vertical, or tiled.
+- `Ctrl+b x` - Kill the current pane.
 - `Ctrl+b z` - Toggle current pane between zoomed (occupying the whole of the window) and unzoomed (its normal position in the layout).
 - `Ctrl+b PageUp and PageDown` - Scroll up and down in the current window/pane(exit with q).
 - `set-option -g history-limit 3000` - Set scroll buffer size.
