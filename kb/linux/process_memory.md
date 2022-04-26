@@ -64,6 +64,8 @@ int main()
 ### OOM killer
 The OOM (Out Of Memory) killer, is invoked by the kernel when the memory is full(or almost full?). This will kill a process in order to free memory on the system. It will try to kill the process which uses most memory, thus to free as much memory as possible. But it will also try to kill the most unimportant process. For more details see the oom_score of processes. See also: https://unix.stackexchange.com/a/153586 . Note that OOM Killer can also be invoked per control-group. Thus having an OOM Killer kill your process only means that a certain memory limit was reached, not necessary that the host ran out of RAM - maybe you just had a container memory limit set to your process.
 
+Remember that the default linux page size is 4KB = 4 * 1000 bytes. And in the kernel logs, when the OOM killer is invoked, the vm and rss memories are expressed in pages of (4000 bytes each).
+
 # core dump
 Using a kernel parameter config variable, you can configure it where to dump the core files. Core files contain memory used by the application, and can be used together with the tool `gdb` and your binary file(that produced the core), in order to debug the problem and see call-stack, variable values and so on.
 
