@@ -44,5 +44,26 @@ BUG_REPORT_URL="https://bugs.debian.org/"
 root@9116b919a484:/# exit
 exit
 pgrozav@cvst-pgrozav:/$ 
+```
 
+#### 2. Running docker in podman
+```bash
+podman stop -t0 docker_in_podman ;
+podman \
+  run \
+  --name=docker_in_podman \
+  -d \
+  --rm=true \
+  --privileged \
+  ` # Expose any ports that you might need - that are then exposed from docker`
+  -p 1025:1025 \
+  -p 20070:2375 \
+  -p 20071:2376 \
+  -p 8443:8443 \
+  -p 10080:80 \
+  -p 10000:10000/udp \
+  -e DOCKER_TLS_CERTDIR="" \
+  docker.io/docker:20.10.12-dind-alpine3.14 \
+  ;
+podman logs -f docker_in_podman
 ```
