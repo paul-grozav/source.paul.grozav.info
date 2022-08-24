@@ -6,26 +6,36 @@ ptitle: Cryptography
 ## 0. Introduction
 Symmetric encryption is an old technique, that relies on a shared "key" between conversation participants. For example the [Caesar Cipher](https://en.wikipedia.org/wiki/Caesar_cipher) can be considered a shared "key". An agreement(key) that both the emitter and the receiver have to know, in order to be able to encrypt and decrypt the message using this procedure(key). Or you could say that the Caesar Cipher is the encryption algorithm, and the key is "shift right by 3".
 <br/>
+<br/>
 Symmetric encryption is efficient in terms of computation, but can only be secure if the conversation participants have an initial way of talking (in private) and agreeing upon the key. If the key is transmitted in plain text / over a public channel, a man in the middle attack could happen. That is an eavesdropper could obtain the key and use it to further decrypt all supposedly private conversation.
 <br/>
+<br/>
 A more secure way of encrypting, is by using an asymmetric key. The RSA algorithm for encrypting and decrypting messages based on asymmetric keys, was discovered in 1977 and is widely used these days because it does not require the conversation participants to physically meet in order to exchange a secret shared key. So, RSA can ensure secure communication over insecure channels between any two participants.
+<br/>
 <br/>
 ## 0.1. Simple math example
 So, let's take a mathematical example (based on [this video](https://www.youtube.com/watch?v=UjIPMJd6Xks)).
 <br/>
+<br/>
 1. **Bob** wants to send a secret message to **Alice**. This can be a number, say **m=89**. But how can he send his message over a public, insecure communication channel, where **Eve** is always eavesdropping/listening. Eve will receive/see everthing that Alice and Bob communicate.
-2. **Alice** will start by generating her key **pair**, consisting of a **private key** and a **public key**. For this, she picks two random large prime numbers, of similar size, say (we'll keep them small for this example) **p1=53** and **p2=59**. Then she multiplies them together `p1 * p2 = 53 * 59` = **3127 = n** . Then, Alice will calculate `f(p1, p2) = (p1 - 1) * (p2 - 1) = f_n` to be `(53-1) * (59-1) = 52 * 58` = **3016 = f_n**. Next, Alice picks a small number **e** that it is an odd number and does not share a factor with **f_n**. For example **e = 3** . Finally, Alice will calculate `d = (2 * f_n + 1)/e$ , which in this case `d = (2 * 3016 + 1)/3` = **2011 = d**.
+2. **Alice** will start by generating her key **pair**, consisting of a **private key** and a **public key**. For this, she picks two random large prime numbers, of similar size, say (we'll keep them small for this example) **p1=53** and **p2=59**. Then she multiplies them together `p1 * p2 = 53 * 59` = **3127 = n** . Then, Alice will calculate `f(p1, p2) = (p1 - 1) * (p2 - 1) = f_n` to be `(53-1) * (59-1) = 52 * 58` = **3016 = f_n**. Next, Alice picks a small number **e** that it is an odd number and does not share a factor with **f_n**. For example **e = 3** . Finally, Alice will calculate `d = (2 * f_n + 1)/e` , which in this case `d = (2 * 3016 + 1)/3` = **2011 = d**.
 3. At this point Alice has her public key consisting of numbers **n**(=3127) and **e**(=3).
 4. Alice also has her private key, consisting of the number **d** (=2011)
 5. Alice sends the public key to Bob (over an insecure communication channel), to secure his message.
 6. Bob will encrypt the message(m=89) by calculating **c**`=m^e mod n` that is `89^3 mod 3127 =` **1394 = c**, his encrypted message, which he sends back to Alice.
 7. Alice can decrypt the encrypted message **c=1394** by applying the private key, **d**, to it. That is `c^d mod n` will be equal to `m`, the original message of Bob. Doing the math it is `1394^2011 mod 3127 =` **89 = m**.
+
+<br/>
 <br/>
 Note that **Eve** which only has Alice's public key ( that is **n=3127** and **e=3** ) and Bob's encrypted message **c=1394** can not decrypt the message, because it would need **d** which depends on **f_n** which she doesn't have. And **f_n** is hard to guess because it requires Eve to guess the numbers **p1** and **p2** which are large, and are the prime factors of **n**.
 <br/>
+<br/>
 This whole trick relies on the formula `n = p1 * p2` - the fact that prime factors(p1 and p2) are hard(take a lot of time - maybe thousands of years for machines - but not impossible) to calculate if you only know `n`, as the numbers get large. While multiplying large numbers(`p1 * p2`) is far easier to do.
 <br/>
+<br/>
 So, a public key contains 2 numbers, a large number (`n`) and an exponent(`e`). While a private key, needs the decryption exponent (`d`), which can undo the effect of the encryption exponent (`e`).
+
+<br/>
 <br/>
 ## 0.2. TLS
 
