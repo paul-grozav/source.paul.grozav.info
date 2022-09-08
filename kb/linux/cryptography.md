@@ -422,8 +422,8 @@ Then continue with:
 
 ```bash
 # Generate CA key and certificate
-openssl genrsa -out ca.key 1024 &&
-openssl req -x509 -new -nodes -sha256 -days $((5 * 365)) \
+openssl genrsa -out ca.key 2048 &&
+openssl req -x509 -new -nodes -sha256 -days $((100 * 365)) \
   -key ca.key \
   -out ca.crt \
   -subj "\
@@ -451,11 +451,15 @@ details="\
 /CN=www.one.com\
 " &&
 
-# Generate Certificate Signing Request (CSR)
+# Generate Certificate Signing Request (CSR) and key
 openssl req -new \
+  -subj "${details}" \
   -key ca.key \
   -out my.csr \
-  -subj "${details}" &&
+  -newkey rsa:2048 \
+  -nodes \
+  -keyout ${out_file}.key.pem \
+  &&
 
 # Show .csr info:
 openssl req -text -noout -verify -in my.csr &&
