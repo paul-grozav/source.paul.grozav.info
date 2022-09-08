@@ -480,8 +480,24 @@ openssl verify -verbose -CAfile ca.crt ${cert_file} &&
 cat ${cert_file} | grep -A999 "^-----BEGIN CERTIFICATE-----$" | cat - \
   > ${out_file} &&
 
+# Check that the certificate and private key match(are a pair)
+# These 2 hashes should match
+check_output="$(openssl x509 -noout -modulus -in ${out_file} | openssl md5 &&
+  openssl rsa -noout -modulus -in ${out_file}.key.pem | openssl md5)" &&
+echo "${check_output}" &&
+if [ "$(echo "${check_output}" | uniq | wc -l)" == "1" ] && \
+  [ "$(echo "${check_output}" | uniq -c | awk '{print $1}')" == "2" ]
+then
+  echo "Private key is pair of (matches) the generated certificate"
+else
+  echo "ERROR Private key is NOT a pair of (does NOT match) the generated" \
+    "certificate"
+fi &&
+
 # This is your certificate:
 cat ${out_file}
+# This is your key:
+cat ${out_file}.key.pem
 ```
 Will generate a private `key.pem` file(also contains the public part), and a certificate file: `cert.pem`(public file)
 
