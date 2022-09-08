@@ -396,8 +396,9 @@ certificate = ./ca.crt
 # the file contaning the CA private key. Mandatory
 private_key = ./ca.key
 
-# the message digest algorithm. Remember to not use MD5
-default_md = sha1
+# the message digest algorithm. Remember to not use MD5. SHA1 is also deprecated
+# from OpenSSL 3. Will throw: "error:0A00018E:SSL routines::ca md too weak"
+default_md = sha512
 
 # for how many days will the signed certificate be valid
 default_days = 365
