@@ -393,8 +393,10 @@ apt-cache show g++
 apt-get install wxmaxima
 # Remove a package from the list of installed packages.
 apt-get purge wxmaxima
-# Show which packages depend on given package
+# Show which packages depend on the given package
 apt-cache rdepends libxen-4.8
+# Show the dependencies of the given package
+apt-cache depends podman
 # Fix "dpkg: error processing package some_package (--remove): package is in a very bad inconsistent state; you should reinstall it before attempting a removal"
 dpkg --remove --force-remove-reinstreq some_package
 {% endhighlight %}
