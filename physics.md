@@ -129,6 +129,31 @@ $$ dim \ Q = L^a \cdot M^b \cdot T^c \cdot I^d \cdot {\Theta}^e \cdot N^f
   \cdot J^g $$
 where `a`, `b`, `c`, `d`, `e`, `f`, `g` are the dimensional exponents.
 
+<br/>Derived units:
+<table border="1px">
+  <tr>
+    <td colspan="2"><center><b>Quantity</b></center></td>
+    <td colspan="2"><center><b>Unit</b></center></td>
+    <td rowspan="2"><center><b>Dimension<br/>Symbol</b></center></td>
+    <td rowspan="2"><center><b>Details</b></center></td>
+  </tr>
+  <tr>
+    <td><b>Name</b></td>
+    <td><b>Symbol</b></td>
+    <td><b>Name</b></td>
+    <td><b>Symbol</b></td>
+  </tr>
+  <tr>
+    <td><a href="https://en.wikipedia.org/wiki/Velocity" target="_blank">
+      Velocity</a></td>
+    <td>$$ v $$</td>
+    <td><a href="https://en.wikipedia.org/wiki/Metre_per_second"
+      target="_blank">metre / second</a></td>
+    <td>$$ \frac{m}{s} $$</td>
+    <td>$$ L \cdot T^{-1} $$</td>
+    <td><a href="#2.8._velocity">Read more</a></td>
+  </tr>
+</table>
 See <a href="https://en.wikipedia.org/wiki/SI_derived_unit" target="_blank">this
 </a>.
 
