@@ -67,3 +67,19 @@ podman \
   ;
 podman logs -f docker_in_podman
 ```
+
+#### 3. Other podman commands
+```bash
+# [podman specific] Launches a process in a new user namespace:
+podman unshare cat /proc/self/uid_map
+
+# Check if it's a podman pause process:
+server:~ $ ps faux | grep ^myuser | grep podman$                                                                                                          
+myuser   9144  0.0  0.0  80800   416 ?        S    Nov11   0:00 podman                                                                                                                      
+server:~ $ egrep -nirw pause /proc/9144/{status,sched,comm,stat}                                                                             
+/proc/9144/status:1:Name:       podman pause                               
+/proc/9144/sched:1:podman pause (9144, #threads: 1)          
+/proc/9144/comm:1:podman pause                                    
+/proc/9144/stat:1:9144 (podman pause) S 1 9143 9143 0 -1 4202496 8770 0 0 0 0 1 0 0 20 0 1 0 118314610 82739200 104 18446744073709551615 94792096985088 94792132131532 140734602984848 140734602980152 139984983891680 0 2147139327 394276871 0 18446744071608946956 0 0 17 5 0 0 0 0 0 94792134232760 94792161715232 94792179630080 140734602987386 140734602987393 140734602987393 140734602989548 0
+
+```
