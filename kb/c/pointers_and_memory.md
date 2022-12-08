@@ -1843,25 +1843,6 @@ Note how, when printing the entire buffer, the output is `"teststring"`, which
 seems to be missing the null character inside it. But in fact the null character
 is there, but it is not printable / printed.
 <br/><br/>
-Here are just a few functions offered by C in order to work with C-strings:
-```cpp
-paul@alice:~$ cat a.cpp
-#include <iostream>
-using namespace ::std;
-int main() {
-  const char * b = "test\0string";
-  const char * c = b + 5; // skip 5 chars, the first string
-  cout << "second string=\"" << c << "\"" << endl;
-  cout << "b=\"";
-  cout.write(b, 11); // 11 characters in the buffer, excluding the final null char
-  cout << "\"" << endl;
-  return 0;
-}
-paul@alice:~$ g++ a.cpp -o a.exe && ./a.exe
-second string="string"
-b="teststring"
-```
-<br/><br/>
 Sure, the C language also offers a lot of functions for doing common operations
 with C-strings. These functions are declared in the `cstring` header, so, we'll
 have to include that header in our cpp. I'll just show some of these here, these
