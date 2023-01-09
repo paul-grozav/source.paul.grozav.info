@@ -505,8 +505,10 @@ Will generate a private `key.pem` file(also contains the public part), and a cer
 #### 5.3. Other operations
 ```bash
 # Check that certificate is offered by web server, using a debugger
-# client which shows certificate info:
+# client which shows (all) certificate info:
 openssl s_client -connect 127.0.0.1:443
+# Show just expiration dates for example
+openssl s_client -connect 127.0.0.1:443 2>/dev/null | openssl x509 -noout -dates
 
 # Get the certificate from a server
 echo -n | openssl s_client -connect google.com:443 2>/dev/null | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' > downloaded.cert
