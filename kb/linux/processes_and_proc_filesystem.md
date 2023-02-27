@@ -12,14 +12,14 @@ Not all the content from this document applies to OpenBSD.
 ## 1. Processes
 
 Print all processes:
-```bash
+{% highlight sh %}
 # ps faux
 USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
 ...
 paul     12648  0.1  0.7 527000 62676 ?        Sl   Jun10   9:37 konsole
 paul     12656  0.0  0.0  24672  6640 pts/1    Ss+  Jun10   0:01  \_ /bin/bash
 ...
-```
+{% endhighlight %}
 In the output above you can see the following columns:
 1. **USER** - The owner of the process. The process is limited by limits that apply to that user.
 2. **PID** - **P**rocess **I**dentifier. A unique natural number.
@@ -29,7 +29,7 @@ In the output above you can see the following columns:
 6. **RSS** - Resident set size, the non-swapped physical memory that a task has used (inkiloBytes). Actual RAM usage (stack & heap).
 7. **TTY** - Controlling tty (terminal).
 8. **STAT** - Multi-character process state. See section PROCESS STATE CODES for the different values meaning.
-```txt
+{% highlight txt %}
 PROCESS STATE CODES
        Here are the different values that the s, stat and state output specifiers (header "STAT" or "S") will display to describe the state of a process:
 
@@ -49,7 +49,7 @@ PROCESS STATE CODES
                s    is a session leader
                l    is multi-threaded (using CLONE_THREAD, like NPTL pthreads do)
                +    is in the foreground process group
-```
+{% endhighlight %}
 9. **START** - Time the command started.
 10. **TIME** - Accumulated cpu time, user + system.  The display format is usually 'MMM:SS", but can be shifted to the right if the process used more than 999 minutes of cpu time.
 11. **COMMAND** - Command with all its arguments as a string. The output in this column may contain spaces. A process marked <defunct> is partly dead, waiting to be fully destroyed by its parent.
@@ -61,7 +61,7 @@ example, in the output above, we can see that the `konsole` process started a
 `/bin/bash` process is the child of `konsole`.
 
 ### 1.1. Process threads
-```bash
+{% highlight sh %}
 pgrozav:/>ps aux -e -T
 USER       PID  SPID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
 ...
@@ -77,7 +77,7 @@ paul     15534 21970  0.0  4.9 2028272 393016 ?      Sl   Jun14   0:00 /home/pau
 
 # This also prints thread ID & name
 [root@centos7 ~]# ps -eTl
-```
+{% endhighlight %}
 In the example above, we ran `ps aux -e -T` and an extra column was added:
 `SPID`, which is a light weight process (thread) ID. In the output above we have
 the qtcreator application that started 8 threads. The qtcreator is a process
@@ -88,7 +88,7 @@ identifier(SPID).
 
 **IF** your operating system supports the proc filesystem, you can see more
 details about each process in `/proc/PID` like this:
-```bash
+{% highlight sh %}
 pgrozav:/>tree /proc/12656
 /proc/12656
 ├── attr
@@ -333,13 +333,13 @@ pgrozav:/>tree /proc/12656
 └── wchan
 
 29 directories, 211 files
-```
+{% endhighlight %}
 TO DO: Explain cwd, exe, task, fd, and other known members
 
 Thanks to:
-1. http://man7.org/linux/man-pages/man5/proc.5.html
+1. <a href="http://man7.org/linux/man-pages/man5/proc.5.html" target="_blank">http://man7.org/linux/man-pages/man5/proc.5.html</a>
 
-#### 2.1. Socket file descriptors
+### 2.1. Socket file descriptors
 {% highlight sh %}
 (0)paul@server:/home/paul $ ls -l /proc/23674/fd | grep socket
 lrwx——. 1 paul paul 64 May 17 11:37 10 -> socket:[1842046202]
@@ -351,7 +351,7 @@ lrwx——. 1 paul paul 64 May 17 11:37 8 -> socket:[1897079922]
 {% endhighlight %}
 You will see that those IDs between square brackets are device ids, and you can
 match them with these:
-```bash
+{% highlight sh %}
 (0)paul@server:/home/paul $ lsof -i -a -p 23674
 COMMAND PID USER FD TYPE DEVICE SIZE/OFF NODE NAME
 serverapp 23674 paul 7u IPv4 1842045162 0t0 TCP *:54321 (LISTEN)
@@ -364,4 +364,15 @@ serverapp 23674 paul 26u IPv4 1887900892 0t0 TCP s1.paul.grozav.info:54321->some
 # List all open files, with numbers for hostname and ports
 [root@centos7 ~]# lsof -P -a -i -n
 
-```
+{% endhighlight %}
+
+### 2.2. Call stack of process/thread
+{% highlight sh %}
+[root@centos7 ~]# cat /proc/1865/task/1874/stack                                                                                                                                                                  
+[<ffffffff916720c5>] poll_schedule_timeout+0x55/0xc0
+[<ffffffff91672c51>] do_select+0x6c1/0x7b0
+[<ffffffff91672f3f>] core_sys_select+0x1ff/0x340
+[<ffffffff9167314a>] SyS_select+0xca/0x130
+[<ffffffff91bc562e>] tracesys+0xa6/0xcc
+[<ffffffffffffffff>] 0xffffffffffffffff
+{% endhighlight %}
