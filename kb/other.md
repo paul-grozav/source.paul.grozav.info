@@ -592,6 +592,8 @@ int main(int argc, char* argv[])
 }
 ```
 
+See also, non-blocking socket IO : <a href="https://www.ibm.com/docs/en/i/7.1?topic=designs-example-nonblocking-io-select" target="_blank">https://www.ibm.com/docs/en/i/7.1?topic=designs-example-nonblocking-io-select</a>
+
 ---
 ---
 ---
