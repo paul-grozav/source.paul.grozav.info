@@ -5147,3 +5147,32 @@ b=4
 joe=is_cool
 
 ```
+### 79. problem investigation, reproduction and fixing
+```mermaid
+%% =============================================================================
+%% Author: Tancredi-Paul Grozav <paul@grozav.info>
+%% =============================================================================
+%% To view the diagram:
+%% - go to: https://mermaid.live/
+%% - paste the source
+%% =============================================================================
+graph TB
+read_issue("read_issue()")
+reproduce("reproduce()")
+study("study()")
+is_problem_reproducible("? is_problem_reproducible() ?")
+close_issue("close_issue()")
+is_fully_understood("? is_fully_understood() ?")
+apply_fix("apply_fix()")
+
+read_issue --> reproduce
+reproduce --> study
+study --> is_problem_reproducible
+is_problem_reproducible --no----> close_issue
+is_problem_reproducible --yes--> is_fully_understood
+is_fully_understood --no--> reproduce
+is_fully_understood --yes--> apply_fix
+apply_fix --> reproduce
+
+%% =============================================================================
+```
