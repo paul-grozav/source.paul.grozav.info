@@ -23,6 +23,10 @@ You can think of images like a GNU/Linux .iso which you can use to install the s
 
 You can also think of it like OOP - Images are classes and containers are objects/instances. You can create multiple instances(containers) of the same image(class). Even better, you can create new images by extending existing images - just like classes.
 
+Install docker: <a href="https://docs.docker.com/engine/installation/linux/docker-ce/debian/" target="_blank">https://docs.docker.com/engine/installation/linux/docker-ce/debian/<a/>.
+
+Check this docker registry(hub): <a href="https://hub.docker.com/explore/" target="_blank">https://hub.docker.com/explore/</a>.
+
 #### 1. General
 
 I'm mostly going to describe commands based on `podman`, which I preffer because it's rootless - but `docker` has the same interface, so you should be fine if you replace `podman` with `docker` and keep the rest of the command.
@@ -82,4 +86,94 @@ server:~ $ egrep -nirw pause /proc/9144/{status,sched,comm,stat}
 /proc/9144/comm:1:podman pause                                    
 /proc/9144/stat:1:9144 (podman pause) S 1 9143 9143 0 -1 4202496 8770 0 0 0 0 1 0 0 20 0 1 0 118314610 82739200 104 18446744073709551615 94792096985088 94792132131532 140734602984848 140734602980152 139984983891680 0 2147139327 394276871 0 18446744071608946956 0 0 17 5 0 0 0 0 0 94792134232760 94792161715232 94792179630080 140734602987386 140734602987393 140734602987393 140734602989548 0
 
+# ===
+
+# Docker commands (works in a similar way with podman)
+# Show available docker images
+docker images
+
+# Download image
+docker pull debian
+
+# Delete image
+docker image rm <IMAGE_ID>
+
+# Show containers
+docker ps -a
+
+# Create container from image
+docker run -it --name="<CONTAINER_NAME>" <IMAGE_ID>
+# You can forward ports with -p <HOST_PORT>:<CONTAINER_PORT>
+# You can mount folders with -v /host/dir:/container/dest
+
+# Delete container
+docker rm <CONTAINER_ID>
+
+# Run image interactively (creates container and removes it on exit)
+docker run -it --rm=true <IMAGE_ID>
+
+# Build docker image from Dockerfile, will be accessible by name <IMAGE_NAME>
+docker build -t <IMAGE_NAME> .
+
+# Stop container
+docker stop <CONTAINER_ID>
+
+# Start existing container
+
+docker start <CONTAINER_ID>
+
+# List volumes
+docker volume ls
+
+# Rename container
+docker rename <CURRENT_CONTAINER_NAME> <NEW_CONTAINER_NAME>
+
+# Add docker network
+docker network create --subnet=172.18.0.0/16 <NETWORK_NAME>
+
+# List docker networks
+docker network list
+
+# Delete docker network
+docker network remove <NETWORK_ID>
+
+# Run image (by starting new container) with given IP in given network
+docker run --net <NETWORK_NAME> --ip 172.18.0.2 -it --rm=true <IMAGE_NAME>
+
+# Run image (by starting new container) container with given host name
+docker run -it --rm=true -h <HOST_NAME> <IMAGE_NAME>
+
+# Rename container
+docker rename <CONTAINER_ID> <NEW_CONTAINER_NAME>
+
+# Update a running container to auto-restart
+docker update --restart=always <CONTAINER_ID>
+
+# Save docker image to file:
+docker save -o <PATH_TO_FILE> <IMAGE_NAME>
+
+# Load docker image from file:
+docker load -i <PATH_TO_FILE>
+# ============================================================================ #
+# This seems like a nice UI for docker:
+docker run -d -p 10086:10086 -v /var/run/docker.sock:/var/run/docker.sock tobegit3hub/seagull
+# Then go to http://127.0.0.1:10086
+# Or you can use portainer: https://www.portainer.io/
+# ============================================================================ #
+# Clean up your package manager when building images, to keep them small !
+
+# To undo apt-get update you can:
+rm -Rf /var/lib/apt/lists/*
+# or, even better
+apt clean
+
+# Run GUI apps in containers
+# Version 1:
+# It seems that doing "xhost +local:paul" and a "xhost -..." after, is not needed !
+podman run -it --rm -v /tmp/.X11-unix:/tmp/.X11-unix:rw -e DISPLAY debian:10.7 bash -c "apt update && apt install -y x11-apps && xeyes"
+
+# Version 2:
+# Local with net=host and without xhost permissions but requires .Xauthority
+# (also works over ssh -X with X11 fwd)
+docker run -it --rm -v ${HOME}/.Xauthority:/root/.Xauthority -e DISPLAY --net host debian bash -c "apt update && apt install -y x11-apps && xeyes"
 ```
