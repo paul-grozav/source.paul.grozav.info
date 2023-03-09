@@ -36,6 +36,8 @@ qemu-system-x86_64 -m 512M -hda ./vm1.img -device e1000,netdev=net0 -netdev user
 
 You can do the same key-combination and key 1 for returning to the VGA console(emulated OS output).
 
+If `ESC , 2` does not work, you might want to try `Alt + 2` (that is, press and hold Alt, then press key 2 and then release both) - just make sure that `Alt + 2` isn't defined as a shortcut in your Terminal app(for example for switching to the 2nd terminal tab).
+
 ## 3. QEMU console commands
 ```bash
 # Suspend VM to file(while running) – IS THIS WORKING?: i guess not 😐
