@@ -51,3 +51,5 @@ If `ESC , 2` does not work, you might want to try `Alt + 2` (that is, press and 
 (qemu console) sendkey ctrl-alt-f1
 # Note the "minus" - between the keys
 ```
+See more here:
+<a href="https://qemu-project.gitlab.io/qemu/system/monitor.html" target="_blank">https://qemu-project.gitlab.io/qemu/system/monitor.html</a>.
