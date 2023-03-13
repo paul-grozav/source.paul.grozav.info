@@ -27,6 +27,10 @@ qemu-system-x86_64 -curses -cdrom ./debian-9.9.0-amd64-netinst.iso -m 512M
 
 # Port forward local to vm. In this case local 5556 is forwarded to vm's 22 (ssh)
 qemu-system-x86_64 -m 512M -hda ./vm1.img -device e1000,netdev=net0 -netdev user,id=net0,hostfwd=tcp::5556-:22
+
+# Boot from iPXE and display everything to stdio - Note that Ctrl+C will stop the VM
+# Use -serial mon:stdio to forward Ctrl+C to the VM instead of stopping the hypervisor.
+qemu-system-x86_64 -m 2G -cdrom ./ipxe.iso -boot d -device e1000,netdev=net0,mac=52:55:00:d1:55:01 -netdev user,id=net0,hostfwd=tcp::5556-:22 -serial stdio -display none -machine graphics=off
 ```
 
 ## 2. Going to the QEMU console (mode: 2)
@@ -38,7 +42,7 @@ You can do the same key-combination and key 1 for returning to the VGA console(e
 
 If `ESC , 2` does not work, you might want to try `Alt + 2` (that is, press and hold Alt, then press key 2 and then release both) - just make sure that `Alt + 2` isn't defined as a shortcut in your Terminal app(for example for switching to the 2nd terminal tab).
 
-## 3. QEMU console commands
+2.3. QEMU console commands
 ```bash
 # Suspend VM to file(while running) – IS THIS WORKING?: i guess not 😐
 (qemu console) savevm /path/to/save.file
