@@ -31,6 +31,9 @@ qemu-system-x86_64 -m 512M -hda ./vm1.img -device e1000,netdev=net0 -netdev user
 # Boot from iPXE and display everything to stdio - Note that Ctrl+C will stop the VM
 # Use -serial mon:stdio to forward Ctrl+C to the VM instead of stopping the hypervisor.
 qemu-system-x86_64 -m 2G -cdrom ./ipxe.iso -boot d -device e1000,netdev=net0,mac=52:55:00:d1:55:01 -netdev user,id=net0,hostfwd=tcp::5556-:22 -serial stdio -display none -machine graphics=off
+
+# Allow VM to use up to 4 CPU cores
+qemu-system-x86_64 -smp 4 -hda ./vm.hdd
 ```
 
 ## 2. Going to the QEMU console (mode: 2)
