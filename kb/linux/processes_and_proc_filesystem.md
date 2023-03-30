@@ -338,6 +338,7 @@ TO DO: Explain cwd, exe, task, fd, and other known members
 
 Thanks to:
 1. <a href="http://man7.org/linux/man-pages/man5/proc.5.html" target="_blank">http://man7.org/linux/man-pages/man5/proc.5.html</a>
+2. <a href="https://www.kernel.org/doc/Documentation/filesystems/proc.txt" target="_blank">https://www.kernel.org/doc/Documentation/filesystems/proc.txt</a>
 
 ### 2.1. Socket file descriptors
 {% highlight sh %}
