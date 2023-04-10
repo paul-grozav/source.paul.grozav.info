@@ -331,6 +331,9 @@ openssl rsa -RSAPublicKey_in -in ./public.key.rsa -pubout -out ./public.key
 # ====
 # PEM classic "public key" -> DER classic "public key"
 openssl rsa -pubin -inform pem -outform der -in ./public.key -out ./public.key.der
+
+# Convert RSA private key to OPENSSH private key
+cp rsa_private.key openssh_private.key && ssh-keygen -p -N "" -f ./openssh_private.key
 ```
 
 
