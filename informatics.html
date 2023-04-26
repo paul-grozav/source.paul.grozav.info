@@ -4,9 +4,18 @@ title: Informatics
 permalink: /informatics
 ---
 <style>
-  OL { counter-reset: item }
-  OL LI { display: block }
-  OL LI:before { content: counters(item, ".") ". "; counter-increment: item }
+  OL {
+    counter-reset: item
+  }
+
+  OL LI {
+    display: block
+  }
+
+  OL LI:before {
+    content: counters(item, ".") ". ";
+    counter-increment: item
+  }
 </style>
 <ol>
   <li>Linux:
@@ -58,6 +67,7 @@ permalink: /informatics
       <li><a href="/kb/system_administration/windows_maintenance">Windows maintenance</a></li>
       <li><a href="/kb/system_administration/password_management">Password management</a></li>
       <li><a href="/kb/system_administration/cgroup">CGroup</a></li>
+      <li><a href="/kb/system_administration/iPXE">iPXE</a></li>
     </ol>
   </li>
   <li>Containers:
