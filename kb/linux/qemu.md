@@ -34,6 +34,9 @@ qemu-system-x86_64 -m 2G -cdrom ./ipxe.iso -boot d -device e1000,netdev=net0,mac
 
 # Allow VM to use up to 4 CPU cores
 qemu-system-x86_64 -smp 4 -hda ./vm.hdd
+
+# UEFI boot
+qemu-system-x86_64 -drive if=pflash,format=raw,unit=0,file=/usr/share/qemu/OVMF.fd,readonly=on -serial stdio -display none -machine graphics=off -cdrom ~/ipxe.iso
 ```
 
 ## 2. Going to the QEMU console (mode: 2)
