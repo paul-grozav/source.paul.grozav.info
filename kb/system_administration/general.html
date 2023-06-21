@@ -69,6 +69,9 @@ grep . /sys/class/net/eth0/{carrier,speed}
 ip addr add 192.168.0.2/24 dev eth0
 # Delete an IP from an interface:
 ip address del 192.168.220.26/24 dev eth0
+# Bring the interface up & down
+ip link set ens3 down
+ip link set ens3 up
 {% endhighlight %}
       </li>
       <li>
