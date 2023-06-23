@@ -346,6 +346,8 @@ useradd user1 -m -s /bin/bash
 userdel user1
 # 2. Adding an existing user to a group:
 usermod -a -G developers samuel
+# Remove a user from a group:
+gpasswd -d samuel developers
 # Change the username:
 usermod -l newUserName1 user1
 # 3. Show the list of groups, that a user is member of:
