@@ -1,0 +1,258 @@
+<!-- ===================================================================== -->
+<!-- Author: Tancredi-Paul Grozav <paul@grozav.info>                       -->
+<!-- https://www.google.com/sitemap.xml                                    -->
+<!-- TODO: Try implementing with: https://github.com/jekyll/jekyll-sitemap -->
+<!-- ===================================================================== -->
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+  xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+    http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+<url>
+  <loc>https://paul.grozav.info/</loc>
+  <lastmod>2023-06-23T11:08:40+00:00</lastmod>
+  <priority>1.00</priority>
+</url>
+<url>
+  <loc>https://paul.grozav.info/about</loc>
+  <lastmod>2023-06-23T11:08:40+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://paul.grozav.info/dsu</loc>
+  <lastmod>2023-06-23T11:08:40+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://paul.grozav.info/informatics</loc>
+  <lastmod>2023-06-23T11:08:40+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://paul.grozav.info/physics</loc>
+  <lastmod>2023-06-23T11:08:40+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://paul.grozav.info/kb/linux/tmux</loc>
+  <lastmod>2023-06-23T11:08:40+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://paul.grozav.info/kb/linux/c_language</loc>
+  <lastmod>2023-06-23T11:08:40+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://paul.grozav.info/kb/linux/process_memory</loc>
+  <lastmod>2023-06-23T11:08:40+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://paul.grozav.info/kb/linux/gdb</loc>
+  <lastmod>2023-06-23T11:08:40+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://paul.grozav.info/kb/linux/ffmpeg</loc>
+  <lastmod>2023-06-23T11:08:40+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://paul.grozav.info/kb/linux/git</loc>
+  <lastmod>2023-06-23T11:08:40+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://paul.grozav.info/kb/linux/scanner</loc>
+  <lastmod>2023-06-23T11:08:40+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://paul.grozav.info/kb/linux/software_packages</loc>
+  <lastmod>2023-06-23T11:08:40+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://paul.grozav.info/kb/linux/network_hardware_software_discovery</loc>
+  <lastmod>2023-06-23T11:08:40+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://paul.grozav.info/kb/linux/systemd_service</loc>
+  <lastmod>2023-06-23T11:08:40+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://paul.grozav.info/kb/linux/qemu</loc>
+  <lastmod>2023-06-23T11:08:40+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://paul.grozav.info/kb/linux/cryptography</loc>
+  <lastmod>2023-06-23T11:08:40+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://paul.grozav.info/kb/linux/pdf_manipulation_tools</loc>
+  <lastmod>2023-06-23T11:08:40+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://paul.grozav.info/kb/linux/byte_order_mark__3_invisible_characters</loc>
+  <lastmod>2023-06-23T11:08:40+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://paul.grozav.info/kb/linux/2fa</loc>
+  <lastmod>2023-06-23T11:08:40+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://paul.grozav.info/kb/linux/mobile</loc>
+  <lastmod>2023-06-23T11:08:40+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://paul.grozav.info/kb/linux/processes_and_proc_filesystem</loc>
+  <lastmod>2023-06-23T11:08:40+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://paul.grozav.info/kb/c/numeric_limits</loc>
+  <lastmod>2023-06-23T11:08:40+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://paul.grozav.info/kb/c/pointers_asterisk_and_const</loc>
+  <lastmod>2023-06-23T11:08:40+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://paul.grozav.info/kb/c/pointers_and_memory</loc>
+  <lastmod>2023-06-23T11:08:40+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://paul.grozav.info/kb/c/time_functions</loc>
+  <lastmod>2023-06-23T11:08:40+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://paul.grozav.info/kb/c/binary_files</loc>
+  <lastmod>2023-06-23T11:08:40+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://paul.grozav.info/kb/system_administration/general</loc>
+  <lastmod>2023-06-23T11:08:40+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://paul.grozav.info/kb/system_administration/network</loc>
+  <lastmod>2023-06-23T11:08:40+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://paul.grozav.info/kb/system_administration/traceroute</loc>
+  <lastmod>2023-06-23T11:08:40+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://paul.grozav.info/kb/system_administration/disk_management</loc>
+  <lastmod>2023-06-23T11:08:40+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://paul.grozav.info/kb/system_administration/hardware_stress_testing</loc>
+  <lastmod>2023-06-23T11:08:40+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://paul.grozav.info/kb/system_administration/disk_error_testing</loc>
+  <lastmod>2023-06-23T11:08:40+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://paul.grozav.info/kb/system_administration/linux_network_tuning</loc>
+  <lastmod>2023-06-23T11:08:40+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://paul.grozav.info/kb/system_administration/mysql</loc>
+  <lastmod>2023-06-23T11:08:40+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://paul.grozav.info/kb/system_administration/os_update</loc>
+  <lastmod>2023-06-23T11:08:40+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://paul.grozav.info/kb/system_administration/other</loc>
+  <lastmod>2023-06-23T11:08:40+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://paul.grozav.info/kb/system_administration/socket_connection</loc>
+  <lastmod>2023-06-23T11:08:40+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://paul.grozav.info/kb/system_administration/ssh</loc>
+  <lastmod>2023-06-23T11:08:40+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://paul.grozav.info/kb/system_administration/syslog</loc>
+  <lastmod>2023-06-23T11:08:40+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://paul.grozav.info/kb/system_administration/unix_filesystem</loc>
+  <lastmod>2023-06-23T11:08:40+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://paul.grozav.info/kb/system_administration/windows_maintenance</loc>
+  <lastmod>2023-06-23T11:08:40+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://paul.grozav.info/kb/system_administration/password_management</loc>
+  <lastmod>2023-06-23T11:08:40+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://paul.grozav.info/kb/system_administration/cgroup</loc>
+  <lastmod>2023-06-23T11:08:40+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://paul.grozav.info/kb/system_administration/iPXE</loc>
+  <lastmod>2023-06-23T11:08:40+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://paul.grozav.info/kb/containers/podman_docker</loc>
+  <lastmod>2023-06-23T11:08:40+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://paul.grozav.info/kb/containers/kubernetes</loc>
+  <lastmod>2023-06-23T11:08:40+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://paul.grozav.info/test</loc>
+  <lastmod>2023-06-23T11:08:40+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://paul.grozav.info/kb/other</loc>
+  <lastmod>2023-06-23T11:08:40+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+</urlset>
+<!-- ===================================================================== -->

@@ -1,0 +1,12 @@
+# ============================================================================ #
+# Author: Tancredi-Paul Grozav <paul@grozav.info>
+# ============================================================================ #
+# Although a robots.txt file provides instructions, it can't enforce them. Think
+# of it as a code of conduct. Good bots (like search engine bots) will follow
+# the rules, but bad bots (like spam bots) will ignore them.
+# ============================================================================ #
+User-agent: *
+Allow: *
+
+Sitemap: https://paul.grozav.info/sitemap.xml
+# ============================================================================ #
