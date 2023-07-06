@@ -35,7 +35,7 @@ ptitle: Terminal multiplexer
 - `Hold Ctrl+b and press Up/Down/Left/Right arrow` - Resize current pane.
 
 #### Other
-- `Ctrl+b : setw synchronize-panes` - Broadcast input to all panes in window(toggle on/off).
+- `Ctrl+b : setw synchronize-panes on` - Broadcast input to all panes in window(toggle on/off).
 
 ```bash
 # Run multiple commands in multiple panes
