@@ -4,12 +4,11 @@ ptitle: Kubernetes k8s
 ---
 
 ### Design
+Read more at: https://kubernetes.io/docs/concepts/overview/components/ .
 ```yml
 # ============================================================================ #
 # Author: Tancredi-Paul Grozav <paul@grozav.info>
 # ============================================================================ #
-# See: https://kubernetes.io/docs/concepts/overview/components/
-
 kubelet:
   runs_on: all_nodes
   listen_port: [ 10248, 10250 ]
@@ -63,8 +62,8 @@ Diagram:
 ' Author: Tancredi-Paul Grozav <paul@grozav.info>
 '------------------------------------------------------------------------------'
 ' To view the diagram:
-' - go to: https://www.planttext.com/
-' - paste the source and press Alt + Enter or click Refresh btn
+' - go to: https://www.plantuml.com/
+' - paste the source and wait or click Submit btn
 '------------------------------------------------------------------------------'
 @startuml
 skin rose
