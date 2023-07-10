@@ -19,6 +19,7 @@ kubelet:
       For example ContainerD or other container runtime implementations.
       The container runtime actually manages the pods and the containers inside
       the pods.
+    It is connecting to the kube-apiserver.
 kube-proxy:
   runs_on: all_nodes
   listen_port: 10257
@@ -40,6 +41,8 @@ kube-apiserver:
   - kubelet
   description: |
     Talks to every kubelet from every worker node.
+    6443, this port, is the only one that needs to be opened on the node, to be
+      able to have a working k8s cluster. Plus any other, defined, NodePorts.
 etcd:
   runs_on: control_planes
   listen_port: [ 2379, 2380 ]
