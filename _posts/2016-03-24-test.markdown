@@ -4,4 +4,4 @@ title:  "Welcome to my site!"
 date:   2016-03-24 15:32:14 -0300
 categories: site update
 ---
-Check out my site: tancredi-paul-grozav.gitlab.io !
+Check out my site: https://paul.grozav.info/ !
