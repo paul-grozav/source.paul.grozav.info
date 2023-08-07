@@ -21,6 +21,14 @@ ptitle: iPXE
   # Make .iso
   # make bin/ipxe.iso EMBED=/mnt/my_script.ipxe &&
 
+  # For HTTPS support:
+  # apk add openssl openssl-dev &&
+  # make bin/ipxe.iso TRUST=/etc/ssl/certs/ca-certificates.crt \
+  #   DEBUG=tls,x509:3,certstore,privkey
+  # Or with TRUSTing LE's R3:
+  # curl https://letsencrypt.org/certs/lets-encrypt-r3.pem -o /root/r3.pem
+  # make bin/ipxe.iso TRUST=/root/r3.pem DEBUG=tls,x509:3,certstore,privkey
+
   cp bin/ipxe.dsk /mnt/ &&
   cp bin/ipxe.iso /mnt/ &&
   exit 0
