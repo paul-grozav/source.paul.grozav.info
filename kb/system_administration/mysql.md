@@ -75,3 +75,9 @@ create table users_backup like users;
 ```sql
 show processlist;
 ```
+
+## 7. Engine statistics:
+```sql
+# List of databases and size of each in MiB
+mysql -h server1 -P 3306 -u root -psecret -e "select table_schema as database_name, round(sum(data_length + index_length) / 1024 / 1024, 2) as size_mib from information_schema.tables group by table_schema order by size_mib desc;"
+```
