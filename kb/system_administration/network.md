@@ -72,3 +72,9 @@ Remember that for CentOS 6+ you need to set the `rp_filter` = `2` on the VLAN in
 # For VLAN interface eth0.11 do:
 sysctl -w net.ipv4.conf.eth0/11.rp_filter=2
 ```
+
+## 5. tcpdump
+```bash
+# Cpature with tcpdump remotely over ssh, and view locally in wireshark
+echo root_password | SSHPASS=root_password sshpass -e ssh user@server1 sudo -S tcpdump -i any -U -s0 -w - 'not port 22' | sudo wireshark -k -i -
+```
