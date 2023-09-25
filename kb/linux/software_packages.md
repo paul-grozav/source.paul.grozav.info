@@ -36,6 +36,9 @@ With the package management tool:
 apt --installed list
 # List available packages matching search pattern.
 apt-cache search wxmaxima # List all packages containing the word wxmaxima
+# List all available(installable) versions for the given package:
+apt-cache madison git
+apt list -a git
 # Show information about a package.
 apt-cache show g++
 # Install new package.
