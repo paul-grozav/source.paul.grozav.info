@@ -177,3 +177,97 @@ podman run -it --rm -v /tmp/.X11-unix:/tmp/.X11-unix:rw -e DISPLAY alpine:3.16.2
 # (also works over ssh -X with X11 fwd)
 docker run -it --rm -v ${HOME}/.Xauthority:/root/.Xauthority -e DISPLAY --net host debian bash -c "apt update && apt install -y x11-apps && xeyes"
 ```
+
+#### 4. podman compose
+```yml
+# ============================================================================ #
+# Author: Tancredi-Paul Grozav <paul@grozav.info>
+# ============================================================================ #
+# Start with:
+# podman-compose up -d
+# Check that it worked with:
+# podman-compose logs client
+# Stop with:
+# podman-compose down -t0
+# ============================================================================ #
+---
+version: '3'
+services:
+  server:
+    image: docker.io/nginx:1.25.2-alpine3.18-slim
+    restart: unless-stopped
+  client:
+    image: docker.io/alpine:3.18.3
+    restart: unless-stopped
+    command: |-
+      sh -c "
+        wget -O- http://server:80/
+        sleep infinity
+      "
+# ============================================================================ #
+```
+
+#### 4. podman play kube
+```yml
+# ============================================================================ #
+# Author: Tancredi-Paul Grozav <paul@grozav.info>
+# ============================================================================ #
+# Pod defined in kubernetes way.
+# Start:
+# podman play kube play_kube.yml
+# Check result:
+# podman logs foobar-client
+# Stop:
+# podman play kube --down play_kube.yml
+# ============================================================================ #
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: foo-env-var
+data:
+  FOO: bar
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: foo-cfg
+data:
+  foo.cfg: |
+    # My configuration file
+    hostname: google.com
+    listen.port: 8122
+    listen.address: 0.0.0.0
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: foobar
+spec:
+  volumes:
+  - name: vol1
+    configMap:
+      name: foo-cfg
+  containers:
+  - name: server
+    image: docker.io/nginx:1.25.2-alpine3.18-slim
+  - name: client
+    image: docker.io/alpine:3.18.3
+    command:
+    - sh
+    - -c
+    - |-
+        echo "Env var from ConfigMap: FOO="${FOO} &&
+        ls -la /root/mnt &&
+        cat /root/mnt/foo.cfg &&
+        wget -O- http://127.0.0.1:80/ &&
+        sleep infinity
+    envFrom:
+    - configMapRef:
+        name: foo-env-var
+        optional: false
+    volumeMounts:
+    - name: vol1
+      mountPath: /root/mnt
+# ============================================================================ #
+```
