@@ -248,6 +248,11 @@ spec:
   - name: vol1
     configMap:
       name: foo-cfg
+  - name: vol2
+    readOnly: true
+    hostPath:
+      type: Directory
+      path: /home
   containers:
   - name: server
     image: docker.io/nginx:1.25.2-alpine3.18-slim
@@ -260,6 +265,7 @@ spec:
         echo "Env var from ConfigMap: FOO="${FOO} &&
         ls -la /root/mnt &&
         cat /root/mnt/foo.cfg &&
+        ls -la /root/mnt2 &&
         wget -O- http://127.0.0.1:80/ &&
         sleep infinity
     envFrom:
@@ -269,5 +275,7 @@ spec:
     volumeMounts:
     - name: vol1
       mountPath: /root/mnt
+    - name: vol2
+      mountPath: /root/mnt2
 # ============================================================================ #
 ```
