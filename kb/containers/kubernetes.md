@@ -114,6 +114,7 @@ kubectl -down-( k8s_api_lb
 ### Reference
 <ol>
   <li><a href="https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands" target="_blank">kubectl</a></li>
+  <li><a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.27/#deployment-v1-apps" target="_blank">Kubernetes API</a></li>
 </ol>
 
 ### Commands
