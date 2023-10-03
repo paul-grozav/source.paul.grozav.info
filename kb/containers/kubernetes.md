@@ -111,6 +111,11 @@ kubectl -down-( k8s_api_lb
 '------------------------------------------------------------------------------'
 ```
 
+### Reference
+<ol>
+  <li><a href="https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands" target="_blank">kubectl</a></li>
+</ol>
+
 ### Commands
 ```bash
 # Start pod(container) interactively and delete it at the end 
