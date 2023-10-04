@@ -89,8 +89,12 @@ server:~ $ egrep -nirw pause /proc/9144/{status,sched,comm,stat}
 # ===
 
 # Docker commands (works in a similar way with podman)
-# Show available docker images
+# Show available container images
 docker images
+podman images
+
+# Show layers of given container image
+podman image tree docker.io/roundcube/roundcubemail:1.6.3-apache
 
 # Download image
 docker pull debian
