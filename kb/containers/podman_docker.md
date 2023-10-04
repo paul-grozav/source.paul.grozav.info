@@ -287,3 +287,83 @@ spec:
       mountPath: /root/mnt2
 # ============================================================================ #
 ```
+
+#### 5. Podman uses VFS storage driver by default on Debian 12.1
+VFS seems to use a lot of disk space:
+```bash
+paul@alice:~$ du -hcs /home/paul/.local/share/containers/storage/vfs/dir/* | sort -hr
+du: cannot access '/home/paul/.local/share/containers/storage/vfs/dir/*': No such file or directory
+0       total
+paul@alice:~$ podman pull docker.io/gogs/gogs:0.13.0
+Trying to pull docker.io/gogs/gogs:0.13.0...
+Getting image source signatures
+Copying blob 0ebc3ae9b1fd done
+Copying blob 0c5ce5d30fd2 done
+Copying blob 63b65145d645 done
+Copying blob 64ce99365c40 done
+Copying blob 8a60cbfeaf08 done
+Copying blob 592edf640933 done
+Copying blob b2fba8b9ffe9 done
+Copying config 4fa5cedc03 done
+Writing manifest to image destination
+Storing signatures
+4fa5cedc038517695cf354561e6eceec91d1803bc8b8d84744c796f2e47993b4
+paul@alice:~$ du -hcs /home/paul/.local/share/containers/storage/vfs/dir/* | sort -rh
+333M    total
+96M     /home/paul/.local/share/containers/storage/vfs/dir/9d975fa58001e89382abbb36d13348b2df9ee681eac1d2da40b66b9f84c83edc
+94M     /home/paul/.local/share/containers/storage/vfs/dir/2dad71847a365bab9b32bb1bc0b588fbe9b91873658808e99f2897461ab244f4
+34M     /home/paul/.local/share/containers/storage/vfs/dir/cd208f2c4da0a76b6fc593975bc070c80e3b2033a041dfdb626a17e1124d024e
+34M     /home/paul/.local/share/containers/storage/vfs/dir/bdc0a44bef096f2e2ba65a3da759a57ce38397b8c09fab104ef51dec0bee0f04
+34M     /home/paul/.local/share/containers/storage/vfs/dir/721f55cb9273f4e0f80a19a2842242cf577ce00b4effc9341e00b08048517d13
+34M     /home/paul/.local/share/containers/storage/vfs/dir/297c232b1f58420ed825219f2d4bd8871f54334bee29d0e10da234ccd5d6540b
+7.4M    /home/paul/.local/share/containers/storage/vfs/dir/7cd52847ad775a5ddc4b58326cf884beee34544296402c6292ed76474c686d39
+paul@alice:~$ podman image tree docker.io/gogs/gogs:0.13.0
+Image ID: 4fa5cedc0385
+Tags:     [docker.io/gogs/gogs:0.13.0]
+Size:     98MB
+Image Layers
+├── ID: 7cd52847ad77 Size: 7.338MB
+├── ID: bdc0a44bef09 Size: 25.52MB
+├── ID: cd208f2c4da0 Size:  2.56kB
+├── ID: 721f55cb9273 Size: 2.048kB
+├── ID: 297c232b1f58 Size: 39.94kB
+├── ID: 2dad71847a36 Size: 62.79MB
+└── ID: 9d975fa58001 Size: 2.307MB Top Layer of: [docker.io/gogs/gogs:0.13.0]
+
+paul@alice:~$ ls -la /home/paul/.local/share/containers/storage/vfs/dir/721f55cb9273f4e0f80a19a2842242cf577ce00b4effc9341e00b08048517d13
+total 80
+dr-xr-xr-x 20 paul paul 4096 Oct  4 13:42 .
+drwx------  9 paul paul 4096 Oct  4 13:42 ..
+drwxr-xr-x  3 paul paul 4096 Feb 25  2023 app
+drwxr-xr-x  2 paul paul 4096 Feb 25  2023 bin
+drwxr-xr-x  2 paul paul 4096 Feb 10  2023 dev
+drwxr-xr-x 23 paul paul 4096 Feb 25  2023 etc
+drwxr-xr-x  2 paul paul 4096 Feb 10  2023 home
+drwxr-xr-x 10 paul paul 4096 Feb 25  2023 lib
+drwxr-xr-x  5 paul paul 4096 Feb 10  2023 media
+```
+You can see that the layers actually add up using more disk space than it
+should.
+
+Solution:
+```bash
+# Configure podman from scratch
+podman system reset &&
+rm -rf \
+  ${HOME}/.local/share/containers \
+  ${HOME}/.config/cni \
+  rm -rf ${HOME}/.config/containers \
+  &&
+mkdir -p ${HOME}/.config/containers &&
+( cat - <<EOF > ${HOME}/.config/containers/storage.conf
+[storage]
+driver = "overlay"
+
+[storage.options.overlay]
+mount_program = "/usr/bin/fuse-overlayfs"
+EOF 
+) &&
+# After reset configure overlay as the storage driver
+podman info --storage-driver=overlay --debug --log-level=debug
+podman info | grep graphDriverName
+```
