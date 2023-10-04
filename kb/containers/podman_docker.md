@@ -158,6 +158,10 @@ docker save -o <PATH_TO_FILE> <IMAGE_NAME>
 
 # Load docker image from file:
 docker load -i <PATH_TO_FILE>
+
+# Remove all podman data(images, container, volumes, etc)
+podman system reset
+
 # ============================================================================ #
 # This seems like a nice UI for docker:
 docker run -d -p 10086:10086 -v /var/run/docker.sock:/var/run/docker.sock tobegit3hub/seagull
