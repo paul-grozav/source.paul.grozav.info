@@ -51,6 +51,8 @@ apt-cache rdepends libxen-4.8
 apt-cache depends podman
 # Fix "dpkg: error processing package some_package (--remove): package is in a very bad inconsistent state; you should reinstall it before attempting a removal"
 dpkg --remove --force-remove-reinstreq some_package
+# Install specific version of package
+apt-get install gparted=0.16.1-1
 {% endhighlight %}
 
 ## Centos
