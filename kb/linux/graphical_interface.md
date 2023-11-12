@@ -4,8 +4,7 @@ ptitle: Graphical interface
 ---
 ## 1. "X" server
 
-The `xorg` package, only allows you to run `startx` which will allow you to
-start a GUI session.
+The `xorg` package, allows you to start a GUI session.
 ```bash
 packages="" &&
 packages="${packages} xorg" && # xinit, xauth, xterm
@@ -22,7 +21,12 @@ apt-get install -y --no-install-recommends ${packages} &&
 true
 ```
 
-Starting the GUI session will require access to `/run/udev`.
+To start the GUI session you can run `startx`, which will require access to
+`/run/udev`.
+
+To list the available video modes, supported by your hardware, you can use
+`xrandr -d :0`. Then, to change the resolution, to one of the listed sizes you
+can run `xrandr -s 1280x960`.
 
 ## 2. Display/Login manager
 
