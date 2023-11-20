@@ -47,7 +47,7 @@ SUPPORT_URL="https://www.debian.org/support"
 BUG_REPORT_URL="https://bugs.debian.org/"
 root@9116b919a484:/# exit
 exit
-pgrozav@cvst-pgrozav:/$ 
+paul@server:/$
 ```
 
 #### 2. Running docker in podman
