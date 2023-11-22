@@ -215,7 +215,7 @@ services:
 # ============================================================================ #
 ```
 
-#### 4. podman play kube
+#### 5. podman play kube
 ```yml
 # ============================================================================ #
 # Author: Tancredi-Paul Grozav <paul@grozav.info>
@@ -288,7 +288,7 @@ spec:
 # ============================================================================ #
 ```
 
-#### 5. Podman uses VFS storage driver by default on Debian 12.1
+#### 6. Podman uses VFS storage driver by default on Debian 12.1
 VFS seems to use a lot of disk space:
 ```bash
 paul@alice:~$ du -hcs /home/paul/.local/share/containers/storage/vfs/dir/* | sort -hr
