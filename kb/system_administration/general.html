@@ -19,6 +19,7 @@ Table of contents:
   <li><a href="#services">Services</a></li>
   <li><a href="#users_and_groups">Users and Groups</a></li>
   <li><a href="#package_management">Package Management</a></li>
+  <li><a href="#ipmitool">ipmitool</a></li>
   <li><a href="#other_system_commands">Other system commands</a></li>
 </ol>
 <ol>
@@ -377,21 +378,35 @@ groupmod -n group1NewName group1
   </li>
 <!-- ======================================================================= -->
   <li>
+    <span id="ipmitool">ipmitool</span>
+    <br/>
+  {% highlight sh %}
+  # Open Serial Over LAN (SOL) mode
+  ssh -t server1 IPMI_PASSWORD=s3cr3t ipmitool -H 192.168.0.7 -U admin -E -I lanplus sol activate
+  # Set next boot flag, to boot into BIOS
+  IPMI_PASSWORD=s3cr3t ipmitool -H 192.168.0.7 -U admin -E chassis bootdev bios
+  # Reset the machine
+  IPMI_PASSWORD=s3cr3t ipmitool -H 192.168.0.7 -U admin -E chassis power reset
+  {% endhighlight %}
+  </li>
+<!-- ======================================================================= -->
+  <li>
     <span id="other_system_commands">Other system commands</span>
     <br/>
     To see when the system was installed you can check when the / partition(filesystem) was created using (requires root):
-{% highlight sh %}
-tune2fs -l $(df / | tail -n 1 | awk '{print $1}') | grep "Filesystem created:"
-{% endhighlight %}
+  {% highlight sh %}
+  tune2fs -l $(df / | tail -n 1 | awk '{print $1}') | grep "Filesystem created:"
+  {% endhighlight %}
     To set the hostname of a certain computer you can:
-{% highlight sh %}
-#On CentOS:
-hostnamectl set-hostname blecs
-#On Debian:
-echo "blecs" > /etc/hostname
-/etc/init.d/hostname.sh stop
-/etc/init.d/hostname.sh start
-{% endhighlight %}
+  {% highlight sh %}
+  #On CentOS:
+  hostnamectl set-hostname blecs
+  #On Debian:
+  echo "blecs" > /etc/hostname
+  /etc/init.d/hostname.sh stop
+  /etc/init.d/hostname.sh start
+  {% endhighlight %}
     Remember that you have to restart bash, in order to have it load
   </li>
 </ol>
+<!-- ======================================================================= -->
