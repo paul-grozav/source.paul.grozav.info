@@ -387,6 +387,9 @@ groupmod -n group1NewName group1
   IPMI_PASSWORD=s3cr3t ipmitool -H 192.168.0.7 -U admin -E chassis bootdev bios
   # Reset the machine
   IPMI_PASSWORD=s3cr3t ipmitool -H 192.168.0.7 -U admin -E chassis power reset
+  # Reset/reboot the BMC(IPMI device), if it is not stable. You should see that
+  # it should stop replying to ping for a while.
+  IPMI_PASSWORD=s3cr3t ipmitool -H 192.168.0.7 -U admin -E bmc reset cold
   {% endhighlight %}
   </li>
 <!-- ======================================================================= -->
