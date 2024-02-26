@@ -53,6 +53,13 @@ apt-cache depends podman
 dpkg --remove --force-remove-reinstreq some_package
 # Install specific version of package
 apt-get install gparted=0.16.1-1
+
+# Key management
+# Keys should be placed in /etc/apt/trusted.gpg.d/
+# Repos should be placed in /etc/apt/sources.list.d/
+# Shows keys in deprecated : /etc/apt/trusted.gpg
+apt-key list
+apt-key del "DBA3 6B51 81D0 C816 F630  E889 D980 A174 57F6 FB06"
 {% endhighlight %}
 
 ## Centos
