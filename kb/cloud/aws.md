@@ -20,6 +20,31 @@ alias aws='podman run --rm -it \
   public.ecr.aws/aws-cli/aws-cli:2.15.34'
 ```
 
+Otherwise, use the installer:
+```sh
+$ cat /data/programs/awscli/readme.txt
+# ============================================================================ #
+# Authors:
+# - Tancredi-Paul Grozav <paul@grozav.info>
+# ============================================================================ #
+current_ts="$(date +"%Y%m%d%H%M%S")" &&
+mkdir ${current_ts} &&
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" \
+  -o "${current_ts}/awscli.zip" &&
+(
+  cd ${current_ts} &&
+  unzip awscli.zip &&
+  mkdir install_path &&
+  $(pwd)/aws/install \
+    --install-dir $(pwd)/install_path \
+    --bin-dir ${HOME}/.local/bin \
+    &&
+  true
+) &&
+true
+# ============================================================================ #
+```
+
 First, we'll have to configure SSO (
 https://awscli.amazonaws.com/v2/documentation/api/latest/reference/configure/sso.html
 ), to gain access to the account.
