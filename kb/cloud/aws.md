@@ -8,6 +8,18 @@ Since this is not a binary that you just download, unzip and run, I decided to
 use a preinstalled version in a container. See the container page here:
 https://gallery.ecr.aws/aws-cli/aws-cli .
 
+I've created an alias for `aws` to run it inside the container. Add this to your
+`~/.bashrc`:
+```sh
+AWS_PATH=/data/aws &&
+mkdir -p ${AWS_PATH}{,/sso} &&
+alias aws='podman run --rm -it \
+  -v ${AWS_PATH}/config.ini:/root/.aws/config.ini:ro \
+  -v ${AWS_PATH}/sso:/root/.aws/sso:rw \
+  -e AWS_CONFIG_FILE=/root/.aws/config.ini \
+  public.ecr.aws/aws-cli/aws-cli:2.15.34'
+```
+
 First, we'll have to configure SSO (
 https://awscli.amazonaws.com/v2/documentation/api/latest/reference/configure/sso.html
 ), to gain access to the account.
@@ -41,17 +53,8 @@ sso_registration_scopes = sso:account:access
 # ============================================================================ #
 ```
 
-Then I login to get the token.
+Then I login to get the token: `sso login --no-browser`.
 
-```sh
-mkdir -p /data/aws{,/sso} &&
-podman run --rm -it \
-  -v /data/aws/config.ini:/root/.aws/config.ini:ro \
-  -v /data/aws/sso:/root/.aws/sso:rw \
-  -e AWS_CONFIG_FILE=/root/.aws/config.ini \
-  public.ecr.aws/aws-cli/aws-cli:2.15.34 \
-  sso login --no-browser
-```
 Open the link with the (prefilled) code at the end, and click "Confirm and
 continue" and then "Allow access". At this point the aws CLI client will create
 two `.json` files in `/data/aws/sso/cache` which contain the access tokens.
