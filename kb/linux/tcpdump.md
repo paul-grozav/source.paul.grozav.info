@@ -1,11 +1,11 @@
 ---
 layout: page
-ptitle: TCP dump
+ptitle: tcpdump and wireshark
 ---
 
 **Work In Progress**
 
-## 1. Description
+## 1. tcpdump
 
 The `tcpdump` tool allows you to sniff network packets being sent across 
 interfaces, even if they don't use the TCP protocol.
@@ -32,4 +32,30 @@ $ tcpdump host 192.168.0.2 and port 3306
 
 # Capture and save to a file
 $ tcpdump -w $(pwd)/my.pcap -U host 192.168.0.2 and port 3306
+
+# Capture just 1 packet, and print the packet contents, not just the headers
+$ tcpdump -c 1 -vvv -A host 192.168.0.2 and port 3306
+
+# Print packet summary for all packets in file
+$ tcpdump -qns 0 -r $(pwd)/my.pcap
+```
+
+## 2. wireshark
+
+Wireshark documentation:
+
+- https://www.wireshark.org/docs/wsug_html_chunked/ChWorkBuildDisplayFilterSection.html
+
+```sh
+# Open file with wireshark
+$ wireshark $(pwd)/my.pcap
+```
+
+Filters in wireshark:
+```txt
+# Packets with SYN flag set to ON, but ACK flag set to OFF
+tcp.flags.syn==1 && tcp.flags.ack==0
+
+# Show communication on TCP connection with index 3
+tcp.stream eq 3
 ```
