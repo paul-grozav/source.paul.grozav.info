@@ -92,4 +92,8 @@ You can remove the tokens by running `aws sso logout` and
 With these tokens in place, you can run commands like:
 - `aws ec2 describe-instances`
 - `aws s3 ls`
+- `aws iam get-role --role-name whatever --output yaml`
+- `aws eks describe-cluster --region us-east-1 --name eksctl --output yaml`
+- `aws ec2 describe-security-groups --group-ids sg-0f266e7d3bf5b8446
+     --output yaml --region ap-southeast-1`
 - and others ...
