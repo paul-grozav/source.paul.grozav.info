@@ -367,3 +367,29 @@ EOF
 podman info --storage-driver=overlay --debug --log-level=debug
 podman info | grep graphDriverName
 ```
+
+#### 7. GitHub Container Registry (GHCR)
+```bash
+# ============================================================================ #
+# Author: Tancredi-Paul Grozav <paul@grozav.info>
+# ============================================================================ #
+username="$(cat ./GHCR_PAT_username)" &&
+password="$(cat ./GHCR_PAT)" &&
+repo="paul-grozav/my-image" &&
+
+# Get the list of versions/tags available (in the registry) for that image.
+
+# High level - using skopeo
+podman run --rm quay.io/skopeo/stable:v1.15.0 list-tags \
+  --creds ${username}:${password} docker://ghcr.io/${repo} &&
+
+# Low level - using curl
+token="$( curl \
+  -s "https://ghcr.io/token?service=ghcr.io&scope=repository:${repo}:pull" \
+  -u "${username}:${password}" | jq -r '.token' )" &&
+curl -H "Authorization: Bearer ${token}" \
+  -s "https://ghcr.io/v2/${repo}/tags/list" | jq . &&
+
+true
+# ============================================================================ #
+```
