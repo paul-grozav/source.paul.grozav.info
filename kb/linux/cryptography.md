@@ -271,9 +271,9 @@ paul:test> openssl rsa -RSAPublicKey_in -in ./public.key.rsa -noout -text
 ```
 
 #### 4.3. Public key
-This format contains an extra `AlgorithmIdentifier` structure. It is encoded using a
-`SubjectPublicKeyInfo` structure and this is how you can generate such a public key
-based on a private key, and how the public key looks like:
+This format contains an extra `AlgorithmIdentifier` structure. It is encoded
+using a `SubjectPublicKeyInfo` structure and this is how you can generate such a
+public key based on a private key, and how the public key looks like:
 ```bash
 paul:test> openssl rsa -in ./private.key -pubout -out ./public.key
 paul:test> cat ./public.key
@@ -334,6 +334,9 @@ openssl rsa -pubin -inform pem -outform der -in ./public.key -out ./public.key.d
 
 # Convert RSA private key to OPENSSH private key
 cp rsa_private.key openssh_private.key && ssh-keygen -p -N "" -f ./openssh_private.key
+
+# Convert openssl rsa private key to OPENSSH public key
+ssh-keygen -y -f openssl_rsa_key.priv > openssh_key.pub
 ```
 
 
