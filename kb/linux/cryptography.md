@@ -45,7 +45,7 @@ The Transport Layer Security is a base of https, SSH protocols, and many other p
 With OpenSSL and Linux:
 ## 1. Signing a message and verifying the signature
 ```bash
-# Generate a set of private/public keys
+# Generate a private key and extract the public key from it
 openssl genrsa -out ./private.key 1024 && openssl rsa -in ./private.key -pubout -out ./public.key
 
 # Prepare a message, that will be signed
