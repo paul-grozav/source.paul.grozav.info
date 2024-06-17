@@ -66,3 +66,13 @@ Attempting to connect to 2D:E8:33:77:F4:AC
 [NEW] Transport /org/bluez/hci0/dev_2D_E8_33_77_F4_AC/sep1/fd15 
 Connection successful
 ```
+If `hcitool` lists your device but `bluetoothctl` doesn't, then you could try:
+```bash
+$ bluetoothctl
+Waiting to connect to bluetoothd...[bluetooth]# Agent registered
+[bluetooth]# power on
+[bluetooth]# agent on
+[bluetooth]# default-agent
+[bluetooth]# scan on
+[bluetooth]# pair 48:73:CB:20:F9:E73:CB:20:F9:E7
+```
