@@ -42,16 +42,17 @@ save more resources.
 Using K8s brings other benefits too:
 1. **Resilience** - Loads are moved automatically upon node failure, to a
 different node, thus eliminating the need for manual operations under
-high-pressure times (sometimes even during night time)
+high-pressure times (sometimes even during night time).
 2. Offers **internal DNS and Load Balancing** features out of the box -
 decreasing the load for maintaining these in the SysAdmin team. And the good
 part is that they are provided with almost no maintenance cost at all, as it's
 all handled automatically by K8s.
 3. Allows **better secret management** (required by HashiCorp Vault KMS for
-example)
+example).
 4. Finally we can **move away from shared accounts** at the OS/SSH level.
-5. Allows automatic horizontal **scaling** of apps based on demand
+5. Allows automatic horizontal **scaling** of apps based on demand.
 6. Allows automatic progressive **roll outs**/backs.
+7. Better resource utilization **monitoring**.
 
 This is just to name a few, but there are many more.
 
