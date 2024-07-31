@@ -12,7 +12,8 @@ description: >- # this means to ignore newlines until "baseurl:"
   Sharing what I know with the world.
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://paul.grozav.info" # the base hostname & protocol for your site
-gitlab_username:  tancredi-paul-grozav
+gitlab_username: tancredi-paul-grozav
+github_username: paul-grozav
 
 # Outputting
 permalink: /:categories/:year/:month/:day/:title
