@@ -52,7 +52,8 @@ example).
 4. Finally we can **move away from shared accounts** at the OS/SSH level.
 5. Allows automatic horizontal **scaling** of apps based on demand.
 6. Allows automatic progressive **roll outs**/backs.
-7. Better resource utilization **monitoring**.
+7. Resource utilization **monitoring** - native per container(,pod, NS) cpu
+usage, ram usage, network traffic(in/out), disk IO, and many more.
 
 This is just to name a few, but there are many more.
 
@@ -66,8 +67,19 @@ attached to any piece, we shouldn't invest lots of time and manual effort in a
 component(treating it like a pet, and suffering if it dies) - each component can
 be killed when the time comes, and recreated with almost no effort(cattle).
 
-Storage is a good example of differences in between nodes, and this plays an
-important role in K8s too.
+Storage plays an important role in K8s. Even though K8s has support for NFS
+volumes, which can be provided by a NAS with RAID support, I should emphasize
+that lots of the solutions are still suffering from a single point of failure,
+and are not really decentralized, because they have only one motherboard to
+which multiple storage devices are attached. So we have redundancy for the
+storage device, but not for the system(motherboard & OS) that exposes the
+storage to the network.
+
+There are a lot of [Cloud Native Storage](
+  https://pages.ubuntu.com/rs/066-EOV-335/images/Storage+for+containers+whitepaper.pdf)
+solutions, implemented to be really redundant and resilient, such as:
+[Ceph](https://ceph.io/en/), [Longhorn](https://longhorn.io/) or
+[OpenEBS](https://openebs.io/).
 
 
 [//]: # (======================================================================)
