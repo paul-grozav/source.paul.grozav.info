@@ -3,8 +3,7 @@ layout: page
 ptitle: Kubernetes k8s
 ---
 
-### Why K8s?
-# Kubernetes
+### Why Kubernetes?
 We are currently having the bare-metal hardware partitioned similar to: "3 nodes
 for DB, 8 nodes for web apps, 4 nodes for C++ backends, 2 nodes for storage,
 etc.". Each node has a pre-defined role in the infrastructure, determined by the
