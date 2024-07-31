@@ -9,6 +9,7 @@ for DB, 8 nodes for web apps, 4 nodes for C++ backends, 2 nodes for storage,
 etc.". Each node has a pre-defined role in the infrastructure, determined by the
 service/software that runs on it.
 
+
 This paradigm has a couple of problems:
 1. **Difficult maintenance** - Rebooting the Operating System of a node, or
 doing any low-level maintenance on a node is difficult, as it leads to down
