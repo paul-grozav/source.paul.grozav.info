@@ -47,7 +47,9 @@ high-pressure times (sometimes even during night time).
 decreasing the load for maintaining these in the SysAdmin team. And the good
 part is that they are provided with almost no maintenance cost at all, as it's
 all handled automatically by K8s.
-3. Allows **better secret management** (required by HashiCorp Vault KMS for
+3. Allows **better secret management** (required by
+[HashiCorp Vault](https://www.vaultproject.io/)
+[KMS](https://en.wikipedia.org/wiki/Key_management) for
 example).
 4. Finally we can **move away from shared accounts** at the OS/SSH level.
 5. Allows automatic horizontal **scaling** of apps based on demand.
