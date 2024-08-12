@@ -113,3 +113,48 @@ ExecStop=/usr/bin/podman stop -t0 prometheus_node_exporter
 WantedBy=default.target
 # ============================================================================ #
 {% endhighlight %}
+
+---
+## Example how to run command every second
+```sh
+paul@server:/ping_exporter$ cat metrics_push.service 
+[Unit]
+Description=Push metrics from local exporter to LAN push gateway
+[Service]
+ExecStart=/usr/bin/logger -i Hello World
+# Since this has to start very often, we have to disable the burst limit:
+# https://www.freedesktop.org/software/systemd/man/latest/systemd.unit.html#StartLimitIntervalSec=interval
+StartLimitBurst=0
+
+
+paul@server:/ping_exporter$ cat metrics_push.timer
+[Unit]
+Description=Trigger push metrics from local exporter to LAN push gateway
+[Timer]
+# start the service this many seconds after each boot.
+OnBootSec=1s
+# start the service this many seconds after the last time the service was
+# started. This is what causes the timer to repeat itself and behave like a cron
+# job.
+OnUnitActiveSec=1s
+# sets the accuracy of the timer. Timers are only as accurate as this field
+# sets, and the default is 1 minute (emulates cron). The main reason to not
+# demand the best accuracy is to improve power consumption - if SystemD can
+# schedule the next run to coincide with other events, it needs to wake the CPU
+# less often. The 1ms in the example above is not ideal - I usually set
+# accuracy to 1 (1 second) in my sub-minute scheduled jobs, but that would mean
+# that if you look at the log showing the "Hello World" messages, you'd see that
+# it is often late by 1 second. If you're OK with that, I suggest setting the
+# accuracy to 1 second or more.
+AccuracySec=1s
+[Install]
+WantedBy=timers.target
+```
+Then start it:
+```sh
+mkdir -p ${HOME}/.config/systemd/user &&
+cp ${script_dir}/ping_exporter/metrics_push.service ${HOME}/.config/systemd/user/ &&
+cp ${script_dir}/ping_exporter/metrics_push.timer ${HOME}/.config/systemd/user/ &&
+systemctl --user daemon-reload &&
+systemctl --user enable --now metrics_push.timer
+```
