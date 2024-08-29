@@ -61,23 +61,24 @@ mysqldump -h db1 -ppass databaseName tableName
 mysqldump -h db1 -ppass1 dbname tableX | mysql -h db2 -ppass2 dbname
 ```
 
-## 4. Repair table
+## 4. Other
 ```sql
+-- Repair table
 repair table tableX;
-```
 
-## 5. Create a new table using the same structure as another table:
-```sql
+-- Create a new table using the same structure as another table:
 create table users_backup like users;
-```
 
-## 6. Show currently running queries:
-```sql
+-- Show currently running queries:
 show processlist;
-```
 
-## 7. Engine statistics:
-```sql
-# List of databases and size of each in MiB
-mysql -h server1 -P 3306 -u root -psecret -e "select table_schema as database_name, round(sum(data_length + index_length) / 1024 / 1024, 2) as size_mib from information_schema.tables group by table_schema order by size_mib desc;"
+-- Engine statistics: List of databases and size of each in MiB
+select table_schema as database_name, round(sum(data_length + index_length) / 1024 / 1024, 2) as size_mib from information_schema.tables group by table_schema order by size_mib desc;
+
+-- Get current GTID position from binlog file & pos:
+select variable_value into @binlog_file from information_schema.global_status where variable_name="binlog_snapshot_file";
+-- select @binlog_file;
+select variable_value into @position from information_schema.global_status where variable_name="binlog_snapshot_position";
+-- select @position;
+select binlog_gtid_pos(@binlog_file, @position);
 ```
