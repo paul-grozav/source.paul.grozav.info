@@ -7,3 +7,12 @@ I am getting more and more annoyed by the fact the Android (the OS that comes wi
 While Ubuntu Touch seems to have a lot of funds, and growing, I'm also looking into Mobian ( a Debian for mobile devices ) - https://wiki.mobian.org/doku.php?id=install-android . Both of them seem to look into supporting Xiaomi devices.
 
 I'm also looking into a "Grub" like solution for my mobile, which would let me choose the OS . Maybe this would help: https://github.com/Teamwin/android_bootable_recovery/ .
+
+---
+
+## Termux
+
+https://github.com/termux/termux-app/releases
+
+plus a script that customizes the environment. Also, we can run X11 in another
+app, and have termux connected to it.
