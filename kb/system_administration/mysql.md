@@ -81,4 +81,7 @@ select variable_value into @binlog_file from information_schema.global_status wh
 select variable_value into @position from information_schema.global_status where variable_name="binlog_snapshot_position";
 -- select @position;
 select binlog_gtid_pos(@binlog_file, @position);
+
+-- Monitor DB dump import progress:
+$ watch -n1 -t -d "mysql -t -h 127.0.0.1 -P 3306 -u root -psecret -e \"select table_name, table_rows from information_schema.tables where table_schema='mydb' order by table_name asc;\" | tail"
 ```
