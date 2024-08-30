@@ -17,10 +17,10 @@ qemu-system-x86_64 -m 512M -hda EHC.avi
 qemu-system-x86_64 -m 512M -hda EHC.avi -loadvm /path/to/save.file
 
 # Install debian using text-based curses mode:
-qemu-system-x86_64 -curses -cdrom ./debian-9.9.0-amd64-netinst.iso -m 512M
+qemu-system-x86_64 -display curses -cdrom ./debian-12.6.0-amd64-netinst.iso -m 512M -serial stdio -machine graphics=off
 # Then wait for it to go into 640x480 graphics mode, and press <ESC> (Escape)
 # In a few seconds it will drop to text mode. You just have to type:
-# install fb=none vga=normal
+# install vga=off fb=none debug console=ttyS0,115200n8
 # And the installation will continue in text mode
 # Or you can boot using these flags to run an automated install:
 # install fb=none vga=normal auto-install/enable=true preseed/url=https://gitlab.com/tancredi-paul-grozav/snippets/-/raw/master/debian_example.preseed
