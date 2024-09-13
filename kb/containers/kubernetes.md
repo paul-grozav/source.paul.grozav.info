@@ -203,8 +203,10 @@ kubectl -down-( k8s_api_lb
 
 ### Commands
 ```bash
-# Start pod(container) interactively and delete it at the end 
+# Start pod(container) interactively and delete it at the end (NS must exist)
 kubectl -n my-ns run my-test-pod --image=alpine:3.15.1 --env k1=v1 --env k2=v2 --stdin --tty --rm=true -- /bin/sh
+# Start pod on certain node
+kubectl -n my-ns run my-test-pod --overrides='{ "apiVersion": "v1", "spec": { "affinity": { "nodeAffinity": { "requiredDuringSchedulingIgnoredDuringExecution": { "nodeSelectorTerms": [ { "matchExpressions": [ { "key": "kubernetes.io/hostname", "operator": "In", "values": [ "worker-784" ] } ] } ] } } } } }' --image=alpine:3.15.1 --env k1=v1 --env k2=v2 --stdin --tty --rm=true -- /bin/sh
 
 # Create configmap manually
 kubectl create configmap test--config --from-literal=special.how=very --from-literal=special.type=charm
