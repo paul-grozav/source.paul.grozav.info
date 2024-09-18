@@ -83,6 +83,7 @@ function set_mysql_host()
 mysql_config_editor reset &&
 set_mysql_host my-db1 192.168.0.76 3306 root SECRET1234 &&
 set_mysql_host my-db2 192.168.0.77 3305 root SECRET1235 &&
+mysql_config_editor print --all &&
 
 # Then login to one of the engines and run queries.
 mysql --login-path=my-db1 -e "show databases;"
