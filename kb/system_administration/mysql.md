@@ -62,6 +62,32 @@ mysqldump -h db1 -ppass1 dbname tableX | mysql -h db2 -ppass2 dbname
 ```
 
 ## 4. Other
+Configure login paths:
+
+```sh
+# Configure login-path:
+export MYSQL_TEST_LOGIN_FILE=${HOME}/.mylogin.cnf &&
+# Defines a new login-path in the .mylogin.cnf file (see MYSQL_TEST_LOGIN_FILE)
+function set_mysql_host()
+{
+  unbuffer expect -c "
+    spawn mysql_config_editor set \
+      --login-path=${1} \
+      --host=${2} \
+      --port=${3} \
+      --user=${4} \
+      --password
+    expect -nocase \"Enter password:\" {send \"${5}\r\"; interact}
+  "
+} &&
+mysql_config_editor reset &&
+set_mysql_host my-db1 192.168.0.76 3306 root SECRET1234 &&
+set_mysql_host my-db2 192.168.0.77 3305 root SECRET1235 &&
+
+# Then login to one of the engines and run queries.
+mysql --login-path=my-db1 -e "show databases;"
+```
+Other SQL queries:
 ```sql
 -- Repair table
 repair table tableX;
@@ -75,12 +101,17 @@ show processlist;
 -- Engine statistics: List of databases and size of each in MiB
 select table_schema as database_name, round(sum(data_length + index_length) / 1024 / 1024, 2) as size_mib from information_schema.tables group by table_schema order by size_mib desc;
 
--- Get current GTID position from binlog file & pos:
-select variable_value into @binlog_file from information_schema.global_status where variable_name="binlog_snapshot_file";
+-- Get current GTID position from binlog file & pos (on primary engine):
+select variable_value into @binlog_file from information_schema.global_status where variable_name='binlog_snapshot_file'; select variable_value into @position from information_schema.global_status where variable_name='binlog_snapshot_position'; select binlog_gtid_pos(@binlog_file, @position);
 -- select @binlog_file;
-select variable_value into @position from information_schema.global_status where variable_name="binlog_snapshot_position";
 -- select @position;
-select binlog_gtid_pos(@binlog_file, @position);
+
+-- Setup replica engine to replicate from GTID
+reset slave all; set global gtid_slave_pos = '0-2211-3345743'; change master to master_host = '192.168.0.76', master_port = 3306, master_user = 'replication_user', master_password = 'SECRET', master_ssl = 1, master_ssl_ca = '/mnt/my_ca.crt', master_ssl_cert = '/mnt/2024.crt', master_ssl_key = '/mnt/2024.key.pem', master_connect_retry=10, master_use_gtid=slave_pos; start slave; show slave status\G
+
+-- setup replica engine to replicate using binlog file and pos
+reset slave all; change master to master_host = '192.168.0.77', master_port = 3306, master_user = 'replication_user', master_password = 'SECRET', master_connect_retry=10, master_log_file = 'mysql-bin.001735', master_log_pos = 28364653; start slave; show slave status\G
+
 
 -- Monitor DB dump import progress:
 $ watch -n1 -t -d "mysql -t -h 127.0.0.1 -P 3306 -u root -psecret -e \"select table_name, table_rows from information_schema.tables where table_schema='mydb' order by table_name asc;\" | tail"
