@@ -113,7 +113,56 @@ reset slave all; set global gtid_slave_pos = '0-2211-3345743'; change master to 
 -- setup replica engine to replicate using binlog file and pos
 reset slave all; change master to master_host = '192.168.0.77', master_port = 3306, master_user = 'replication_user', master_password = 'SECRET', master_connect_retry=10, master_log_file = 'mysql-bin.001735', master_log_pos = 28364653; start slave; show slave status\G
 
-
 -- Monitor DB dump import progress:
 $ watch -n1 -t -d "mysql -t -h 127.0.0.1 -P 3306 -u root -psecret -e \"select table_name, table_rows from information_schema.tables where table_schema='mydb' order by table_name asc;\" | tail"
+```
+### 4.1. Binary log management
+```sh
+# Show binary log files and their size
+mysql --login-path=my-db -e "show binary logs;"
++-------------------+-----------+
+| Log_name          | File_size |
++-------------------+-----------+
+| binary_log.000001 |       376 |
+...
+| binary_log.000065 |  67366937 |
++-------------------+-----------+
+# Show events in a binlog(outputs lots of data)
+mysql --login-path=my-db -e "show binlog events in 'binary_log.000082';"
++-------------------+-------+------------+-----------+-------------+--------------------------+
+| Log_name          | Pos   | Event_type | Server_id | End_log_pos | Info                     |
++-------------------+-------+------------+-----------+-------------+--------------------------+
+...
+...
++-------------------+-------+------------+-----------+-------------+--------------------------+
+# Show a certain event in a binlog
+mysql --login-path=my-db -e "show binlog events in 'binary_log.000082' from 46322 limit 1;"
++-------------------+-------+------------+-----------+-------------+--------------------------+
+| Log_name          | Pos   | Event_type | Server_id | End_log_pos | Info                     |
++-------------------+-------+------------+-----------+-------------+--------------------------+
+| binary_log.000082 | 46322 | Xid        |      2013 |       46518 | COMMIT /* xid=6324789 */ |
++-------------------+-------+------------+-----------+-------------+--------------------------+
+# End_log_pos is the position at which the next event begins, which is equal to
+# Pos plus the size of the event.
+
+
+
+# Doing it with the binlog CLI processing tool, to better apply filters while
+# reading the binary log file.
+# Note: You will need to connect the tool to the running engine if the binlog is
+# encrypted.
+# Print all events from the file
+mariadb-binlog --host 127.0.0.1 --port 3306 -u root -psecret binary_log.000082 \
+  --base64-output=DECODE-ROWS -vvv --read-from-remote-server  \
+  --skip-gtid-strict-mode
+# you can also use the following parameters to the CLI binlog processing tool:
+# --start-position=8232
+# --stop-position=23566
+# or
+# --start-datetime="2024-09-15 12:33:29"
+# --stop-datetime="2024-09-15 13:33:29"
+# or
+# --offset=33 - to skip first 33 entries
+# --database=name - List entries for just this database (local log only).
+# --table=name - List entries for just this table (local log only).
 ```
