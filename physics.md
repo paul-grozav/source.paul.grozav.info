@@ -716,33 +716,17 @@ So, we have:
 
 $$ (2^{n-1})-1 $$
 
-$$ (2^{n-1})-1 $$
-
-$$ (2^{n-1})-1 $$
-
-$$ (2^{n-1})-1 $$
-
-$$ (2^{n-1})-1 $$
-
-$$ (2^{n-1})-1 $$
-
-$$ (2^{n-1})-1 $$
-
-$$ (2^{n-1})-1 $$
-
-$$ (2^{n-1})-1 $$
-
-$$ (2^{n-1})-1 $$
-
-$$ (2^{n-1})-1 $$
-
-$$ (2^{n-1})-1 $$
-
-$$ (2^{n-1})-1 $$
-
-$$ (2^{n-1})-1 $$
-
-$$ (2^{n-1})-1 $$
+3. I was thinking. In 2D cartoons, things can float, you can place an object in
+mid air, and it can stay there, if you don't simulate gravity. Same thing
+happens to a window/icon on a computer desktop, it does not fall. Or a pencil on
+a physical desk, you can place it anywhere in the 2D "plane" of the desk. But
+why can't we place a hammer in mid air to free your hand, and then pick it up
+later when you need it again? I was thinking that the reason why the hammer does
+not fall off the table is because gravity is a 1D force, cancelled by the table.
+Of course, the gravity can also be "cancelled" if you are "in space", or
+"in free fall". But I was thinking what if we think in 4 dimensions, and the
+gravity would be applied on the 4th dimension only, having no effect on the 3
+dimensions that we live in? would that be possible? :thinking:
 
 <br/><a href="#1._a_unit_of_measure">1. A unit of measure</a>
 <br/><a href="#2._international_system_of_units">2. International system of
