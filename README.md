@@ -86,8 +86,14 @@ Read more at Jekyll's [documentation][].
 
 Containers makes it even easier: `podman run --rm -d -p 8080:4000 -v $(pwd):/site docker.io/bretfisher/jekyll-serve`
 ```
-podman run --rm -it -v $(pwd):/srv/jekyll docker.io/jekyll/builder:4.2.0 jekyll build --verbose --trace
-podman run --rm -it -v $(pwd):/srv/jekyll -p 8080:4000 docker.io/jekyll/builder:4.2.0 jekyll serve
+# git clone ... && cd ...
+mkdir -p .jekyll-cache _site &&
+podman run --rm -it -v $(pwd):/srv/jekyll docker.io/jekyll/builder:4.2.0 jekyll build --verbose --trace &&
+podman run --rm -it -v $(pwd):/srv/jekyll -p 4000:4000/tcp -p 4001:4001/tcp docker.io/jekyll/builder:4.2.0 jekyll serve --watch --port 4000 --livereload --livereload-port 4001
+# Open URL in browser: http://127.0.0.1:4000/
+# If you want to avoid fetching the binaries, start /bin/bash in shell, and run
+# jekyll manually. Modules are saved in /usr/gem/gems where there are some
+# already.
 ```
 
 ## GitLab User or Group Pages
