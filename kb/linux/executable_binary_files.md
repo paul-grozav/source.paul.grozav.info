@@ -3,7 +3,16 @@ layout: page
 ptitle: Executable binary files
 ---
 
+## 1. What are these dynamic libraries?
+```sh
+linux-vdso.so.1
+libdl.so.2 => /lib64/libdl.so.2
+libm.so.6 => /lib64/libm.so.6
+libc.so.6 => /lib64/libc.so.6
+/lib64/ld-linux-x86-64.so.2
+```
 
+## 2. Dynamic Shared Objects
 
 See also:
 1. [Picking glibc versions at runtime](picking_glibc_versions_at_runtime)
