@@ -139,6 +139,9 @@ kube-scheduler:
 kube-controller-manager:
   runs_on: control_planes
   listen_port: 10257
+  description: |
+    Watches for changes in the state of the objects, and make sure that the
+    actual state converges towards the new desired state.
 # ============================================================================ #
 ```
 
