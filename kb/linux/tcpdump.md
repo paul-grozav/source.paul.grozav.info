@@ -22,7 +22,8 @@ Example commands:
 ```sh
 # This will ssh into a remote server, start there tcpdump as root(using sudo),
 # then it will output everything to stdout, which is piped into a local
-# wireshark instance, for viewing it in a nice GUI.
+# wireshark instance, for viewing it in a nice GUI. Or just authenticate with a
+# key as root directly.
 echo password | SSHPASS=password sshpass -e ssh -o StrictHostKeyChecking=no \
   user@server sudo -S tcpdump -i any -U -s0 -w - 'not port 22' |
   sudo wireshark -k -i -
