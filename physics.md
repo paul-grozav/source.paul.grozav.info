@@ -127,7 +127,8 @@ should be expressed in terms of the others?)
 Mathematically, the dimension of the quantity `Q` is given by:
 $$ dim \ Q = L^a \cdot M^b \cdot T^c \cdot I^d \cdot {\Theta}^e \cdot N^f
   \cdot J^g $$
-where `a`, `b`, `c`, `d`, `e`, `f`, `g` are the dimensional exponents.
+where `a`, `b`, `c`, `d`, `e`, `f`, `g` are the dimensional exponents. In other
+words, this is uniquely identified by a vector $$ (a, b, c, d, e, f, g) $$
 
 <br/>Derived units:
 <table border="1px">
@@ -136,6 +137,7 @@ where `a`, `b`, `c`, `d`, `e`, `f`, `g` are the dimensional exponents.
     <td colspan="2"><center><b>Unit</b></center></td>
     <td rowspan="2"><center><b>Dimension<br/>Symbol</b></center></td>
     <td rowspan="2"><center><b>Details</b></center></td>
+    <td rowspan="2"><center><b>Vector</b></center></td>
   </tr>
   <tr>
     <td><b>Name</b></td>
@@ -152,6 +154,7 @@ where `a`, `b`, `c`, `d`, `e`, `f`, `g` are the dimensional exponents.
     <td>$$ \frac{m}{s} $$</td>
     <td>$$ L \cdot T^{-1} $$</td>
     <td><a href="#2.8._velocity">Read more</a></td>
+    <td>$$ (1, 0, -1, 0, 0, 0, 0) $$</td>
   </tr>
 </table>
 See <a href="https://en.wikipedia.org/wiki/SI_derived_unit" target="_blank">this
