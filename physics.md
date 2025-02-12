@@ -731,6 +731,71 @@ Of course, the gravity can also be "cancelled" if you are "in space", or
 gravity would be applied on the 4th dimension only, having no effect on the 3
 dimensions that we live in? would that be possible? :thinking:
 
+
+<h2>4.2. Our universe - a perspective through time</h2>
+<!-- ----------------------------------------------------------------------- -->
+<table>
+  <tr>
+    <td><b>~ Years since now</b></td>
+    <td><b>Event</b></td>
+  </tr>
+  <tr>
+    <td>2B</td>
+    <td>After 2B years, even the remaining microbial life will likely be
+      extinct.</td>
+  </tr>
+  <tr>
+    <td>1B</td>
+    <td>
+      The Sun’s brightness will increase by 10%, causing extreme heat. Oceans
+      will evaporate, and Earth will become uninhabitable for complex life.
+      Extremophiles like:
+      <ol>
+        <li><b>Deep Underground Microbes</b> - bacteria that currently lives
+          kilometers below Earth's surface, feeding on rock minerals, could
+          survive long after surface life is gone.
+        </li>
+        <li><b>Thermophiles (Heat-Loving Microbes)</b> - Currently found in
+          deep-sea hydrothermal vents, could adapt to extreme heat and live in
+          deep subsurface water pockets.
+        </li>
+        <li><b>Tardigrades ("Water Bears")</b> - Will last for a while, even in
+          radiation, heat, dehydration and space vacuum, but extreme heat and
+          oxygen loss will eventually kill them.
+        </li>
+      </ol>
+    </td>
+  </tr>
+  <tr>
+    <td>0 (now)</td>
+    <td>Humans live "happily" and in "harmony" with other life forms.</td>
+  </tr>
+  <tr>
+    <td>- 370 M</td>
+    <td>First vertebrate animals (tetrapods) transitioned from water to
+      land.</td>
+  </tr>
+  <tr>
+    <td>- 400 - 350 M</td>
+    <td>Plants transitioned from water to land.</td>
+  </tr>
+  <tr>
+    <td>- 500 - 400 M</td>
+    <td>The first vertebrates(fish) evolved in the ocean.</td>
+  </tr>
+  <tr>
+    <td>- 1.5 B</td>
+    <td>First multicellular organisms appear. Believed to have evolved from
+      single-celled eukaryotes, where individual cells started to cooperate and
+      function together as a single organism.</td>
+  </tr>
+  <tr>
+    <td>- 4 - 3.5 B</td>
+    <td>First confirmed microbial life: simple single-celled bacteria and
+      stromatolites (layered microbial mats) appear.</td>
+  </tr>
+</table>
+<!-- ----------------------------------------------------------------------- -->
 <br/><a href="#1._a_unit_of_measure">1. A unit of measure</a>
 <br/><a href="#2._international_system_of_units">2. International system of
 units</a>
