@@ -773,6 +773,49 @@ can tell us many things about the future.
     <td>Humans live "happily" and in "harmony" with other life forms.</td>
   </tr>
   <tr>
+    <td>- 25 000 - 15 500</td>
+    <td>The Homo Sapiens reached Americas through the Bering Land Bridge that
+      connected East Asia(Siberia) with West North America (Alaska) during the
+      period of lower sea levels.</td>
+  </tr>
+  <tr>
+    <td>- 60 000 - 50 000</td>
+    <td>The Homo Sapiens left Africa and interbred with Neanderthals and
+      possibly the Denisovans species from eurasia. Then eventually reached
+      Australia through the south east Asian continent: Thailand, Malaysia,
+      and then island hopping(/sailing) through Indonesia.</td>
+  </tr>
+  <tr>
+    <td>- 315 000</td>
+    <td>The Homo Sapiens(modern humans) appeared in Africa and they had larger
+      brains and the capacity for symbolic thought(art and communication).</td>
+  </tr>
+  <tr>
+    <td>- 600 000 - 500 000</td>
+    <td>The homo erectus spread to EurAsia and formed distinct species like
+      Neanderthals and Denisovans.</td>
+  </tr>
+  <tr>
+    <td>- 7 - 6 M</td>
+    <td>First human acestor lives, known as Sahelanthropus tchadensis (Early
+    Hominids), it is the first one to be bipedal.Later ~4M years ago,
+    Australopithecus lives in Africa, and ~2.8M years ago Genus Homo appeared
+    (to which the modern humans belong). Homo habilis (-2.4 - 1.4 M years ago)
+    were the first ones to make and use tools, this is approximately the time
+    when the opposable thumb because fully developed. Homo erectus(-1.9 M -
+    110 000 years ago) were the first to use fire and may have lived in groups
+    and had a tool culture, they are also the first ones to leave Africa (around
+    1.8 M years ago) and go to other continents.
+    <br/>
+    At this point continents were arranged similarly to their present position.
+    </td>
+  </tr>
+  <tr>
+    <td>- 200 M</td>
+    <td>Pangaea supercontinent started breaking up into individual(smaller)
+    continents.</td>
+  </tr>
+  <tr>
     <td>- 370 M</td>
     <td>First vertebrate animals (tetrapods) transitioned from water to
       land.</td>
