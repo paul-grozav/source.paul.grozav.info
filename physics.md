@@ -733,8 +733,10 @@ dimensions that we live in? would that be possible? :thinking:
 
 
 <h2>4.2. Our universe - a perspective through time</h2>
+Learning about what happened in the past gives us a fantastic view over life and
+can tell us many things about the future.
 <!-- ----------------------------------------------------------------------- -->
-<table>
+<table border="1px">
   <tr>
     <td><b>~ Years since now</b></td>
     <td><b>Event</b></td>
@@ -792,7 +794,24 @@ dimensions that we live in? would that be possible? :thinking:
   <tr>
     <td>- 4 - 3.5 B</td>
     <td>First confirmed microbial life: simple single-celled bacteria and
-      stromatolites (layered microbial mats) appear.</td>
+      stromatolites (layered microbial mats) appear. At this time, earth was
+      fully covered in oceans, there was no land mass above water level.
+      If earth crust was a smooth ball, ocean depth would be 5.8 km.
+      Later, in this interval, small land masses began to emerge/rise above
+      water level.</td>
+  </tr>
+  <tr>
+    <td>- 4.4 B</td>
+    <td>Earth was cooling, water vapors from volcanic outgassing started to
+      condense and form liquid water on the surface, creating the first ocean.
+    </td>
+  </tr>
+  <tr>
+    <td>- 4.5 B</td>
+    <td>Earth was formed. Surface was molten due to intense volcanic activity
+      and had no stable liquid water. Atmosphere was made of gases like
+      hydrogen, helium, carbon dioxide and water vapors, with very little
+      oxygen.</td>
   </tr>
 </table>
 <!-- ----------------------------------------------------------------------- -->
