@@ -776,6 +776,14 @@ can tell us many things about the future.
     <td>- 25 000 - 15 500</td>
     <td>The Homo Sapiens reached Americas through the Bering Land Bridge that
       connected East Asia(Siberia) with West North America (Alaska) during the
+      period of lower sea levels. Much later in 2500 BCE they would reach
+      GreenLand and on January 24, 1895 they set foot on the last continent of
+      Antarctic.</td>
+  </tr>
+  <tr>
+    <td>- 25 000 - 15 500</td>
+    <td>The Homo Sapiens reached Americas through the Bering Land Bridge that
+      connected East Asia(Siberia) with West North America (Alaska) during the
       period of lower sea levels.</td>
   </tr>
   <tr>
