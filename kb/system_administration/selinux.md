@@ -19,4 +19,7 @@ restorecon -v -r /
 chcon -t httpd_sys_content_t /file
 
 # semanage sets the new security context, in a persistent way.
+
+# For chroot environment (/mnt/root), use:
+setfiles /mnt/root /etc/selinux/targeted/contexts/files/file_contexts /mnt/root
 ```
