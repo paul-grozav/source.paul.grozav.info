@@ -12,6 +12,7 @@ ps -efZ | grep sshd
 ls -Z file1
 
 # Restore the security context of a file/directory to default(correct one)
+# The default is defined in: /etc/selinux/targeted/contexts/files/file_contexts
 restorecon -v -r /
 
 # Set a temporary specific security context to a file
