@@ -14,6 +14,8 @@ ls -Z file1
 # Restore the security context of a file/directory to default(correct one)
 restorecon -v -r /
 
-# chcon
-# semanage
+# Set a temporary specific security context to a file
+chcon -t httpd_sys_content_t /file
+
+# semanage sets the new security context, in a persistent way.
 ```
