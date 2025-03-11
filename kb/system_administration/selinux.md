@@ -11,6 +11,8 @@ enforcing=1 - Set SELinux to Enforcing mode
 enforcing=0 - Set SELinux to Permissive mode
 ```
 
+Runtime commands:
+
 ```bash
 # Get enforcing mode (Enforcing, Permissive or Disabled)
 getenforce
