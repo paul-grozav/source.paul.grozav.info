@@ -35,6 +35,8 @@ ps -efZ | grep sshd
 # Show security context (a.k.a. security label) of a file
 ls -Z file1
 
+# Security contexts are stored in the form of extended file attributes.
+
 # Restore the security context of a file/directory to default(correct one)
 # The default is defined in: /etc/selinux/targeted/contexts/files/file_contexts
 restorecon -v -r /
