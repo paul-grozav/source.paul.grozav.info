@@ -32,10 +32,10 @@ TcpTestSucceeded        : True
 PS C:\>
 
 # Install package
-Install-Package Docker -ProviderName DockerMsftProvider -Force
+PS C:\> Install-Package Docker -ProviderName DockerMsftProvider -Force
 
 # List installed packages
-Get-Package
+PS C:\> Get-Package
 
 
 
@@ -145,3 +145,54 @@ End of script.
 
 C:\>
 ```
+
+## 4. Windows 11 install
+Get .iso from Microsoft's website. Note that writing it to a USB stick with `dd`
+is not ok, because the filesystem is copied as an ISO filesystem, and not as a
+FAT32 filesystem, that is required for UEFI boot. This can mislead you to think
+that the installer OS is missing a hardware driver, when in fact the installer
+OS was not loaded properly. The message it prints is:
+```txt
+Windows 11 Setup
+Install driver to show hardware
+Please select the driver you want to install to make your hardware discoverable
+
+Browse folder with drivers       Browse
+
+Driver description              |  Driver file path
+
+[x] Hide drivers that aren't compatible with this computer's hardware
+
+A media driver your computer needs is missing. This could be a DVD, USB or Hard disk driver. If you have a CD, DVD, or USB flash drive with the driver on it, please insert it now.
+
+Microsoft   Support   Legal    Back   Install
+```
+
+So, instead, an easy solution to make the USB bootable, is to use
+[Ventoy](https://github.com/ventoy/Ventoy/releases):
+```sh
+wget https://github.com/ventoy/Ventoy/releases/latest/download/ventoy-1.0.xx-linux.tar.gz
+tar -xf ventoy-1.0.xx-linux.tar.gz
+cd ventoy-1.0.xx
+sudo ./Ventoy2Disk.sh -i /dev/sdX
+```
+This will create 2 partitions, one for Ventoy itself, and another one that is
+empty. You can place your .iso files there and when you boot from the USB stick,
+the Ventoy software will display a boot menu with your .iso files as options.
+So simply copy the Windows 11 iso to that partition, and select it in the boot
+menu. This will start the installer properly.
+
+Of course, if you are running on a Windows operating system, you can use the
+[media creation tool](
+  https://www.microsoft.com/en-us/software-download/windows11).
+
+You can use `Shift + F10` during the installer, to open a Command Prompt and
+check the devices and drivers, using command:
+`pnputil /enum-devices /connected` which will list the devices and the driver
+if loaded.
+
+If you don't want to connect the computer to the internet, or don't want to
+login with your (/ create a) Microsoft account, then you can open a cmd prompt
+(`Shift + F10`) and type `OOBE\BYPASSNRO`, once you press enter, the computer
+will reboot and you will have an "I don't have internet" option that you can
+click, and create a local account. 
