@@ -182,4 +182,17 @@ blkid -s UUID -o value /dev/vg00/prometheus_data
 # Get data for a partition
 root@srv2:/# blkid /dev/sdc1
 /dev/sdc1: UUID="bf2cf6f5-b542-4520-8302-31a07e38a464" TYPE="ext4" PARTUUID="e207e1f3-01"
+
+
+# Show block storage devices
+lsblk -o +MODEL
+ls -la /dev/disk/by-id/
+lsscsi -v
+ls -la /sys/class/scsi_host/host*
+ls -l /sys/block
+# Remove device from kernel abruptly(even if in use) but remember host index (0)
+sudo sh -c "echo 1 > /sys/block/sdc/device/delete"
+# Rescan for devices on that port
+sudo sh -c 'echo "- - -" > /sys/class/scsi_host/host0/scan'
+sudo dmsetup ls --tree
 ```

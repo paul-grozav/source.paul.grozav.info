@@ -28,17 +28,20 @@ echo password | SSHPASS=password sshpass -e ssh -o StrictHostKeyChecking=no \
   user@server sudo -S tcpdump -i any -U -s0 -w - 'not port 22' |
   sudo wireshark -k -i -
 
-# Filter by host (both source or destination) and port
-$ tcpdump host 192.168.0.2 and port 3306
+# Filter by host IP (both source or destination) and port
+tcpdump host 192.168.0.2 and port 3306
+
+# Filter by host MAC address (both source and destination)
+tcpdump ether host e8:2a:ea:44:55:66
 
 # Capture and save to a file
-$ tcpdump -w $(pwd)/my.pcap -U host 192.168.0.2 and port 3306
+tcpdump -w $(pwd)/my.pcap -U host 192.168.0.2 and port 3306
 
 # Capture just 1 packet, and print the packet contents, not just the headers
-$ tcpdump -c 1 -vvv -A host 192.168.0.2 and port 3306
+tcpdump -c 1 -vvv -A host 192.168.0.2 and port 3306
 
 # Print packet summary for all packets in file
-$ tcpdump -qns 0 -r $(pwd)/my.pcap
+tcpdump -qns 0 -r $(pwd)/my.pcap
 ```
 
 ## 2. wireshark
@@ -49,7 +52,7 @@ Wireshark documentation:
 
 ```sh
 # Open file with wireshark
-$ wireshark $(pwd)/my.pcap
+wireshark $(pwd)/my.pcap
 ```
 
 Filters in wireshark:

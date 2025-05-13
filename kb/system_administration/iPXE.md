@@ -18,6 +18,9 @@ ptitle: iPXE
   # Make all (default config)
   make &&
 
+  # echo -e '#!ipxe'"\necho Starting iPXE embeded script!\nifstat\ndhcp\nshell"\
+  #   > /mnt/my_script.ipxe
+
   # Make .iso
   # make bin/ipxe.iso EMBED=/mnt/my_script.ipxe &&
 
@@ -28,6 +31,8 @@ ptitle: iPXE
   # Or with TRUSTing LE's R3:
   # curl https://letsencrypt.org/certs/lets-encrypt-r3.pem -o /root/r3.pem
   # make bin/ipxe.iso TRUST=/root/r3.pem DEBUG=tls,x509:3,certstore,privkey
+  # See also: make bin-x86_64-efi/ipxe.efi -j10 \
+  #   DEBUG=dhcp,tftp,http EMBED=/mnt/my_script.ipxe
 
   cp bin/ipxe.dsk /mnt/ &&
   cp bin/ipxe.iso /mnt/ &&

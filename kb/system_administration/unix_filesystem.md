@@ -67,3 +67,11 @@ paul@paul:~/test$ rm -r "$(find -inum 393323)"
 paul@paul:~/test$ ls -l
 total 0
 {% endhighlight %}
+
+# lsattr /mnt/bin/agent
+----i---------e------- /mnt/bin/agent
+chattr -i # immutability
+chattr +i
+# getfacl && setfacl
+sticky bit
+chcon - selinux labels

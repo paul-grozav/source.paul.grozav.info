@@ -197,6 +197,61 @@ kubectl -down-( k8s_api_lb
 '------------------------------------------------------------------------------'
 ```
 
+### Rename StatefulSet and preserve the volume it claimed.
+```bash
+# delete current SS first
+namespace="httpd--aleph--pgrozav" &&
+
+old_ss_name="httpd-aleph" &&
+old_ss_index=0 &&
+old_claim_name="httpd-claim" &&
+
+new_ss_name="http-aleph" &&
+new_ss_index=0 &&
+new_claim_name="http-claim" &&
+
+old_pvc_name="${old_claim_name}-${old_ss_name}-${old_ss_index}" &&
+new_pvc_name="${new_claim_name}-${new_ss_name}-${new_ss_index}" &&
+
+# Get PV name, from PVC
+# pv_name="$(kubectl -n ${namespace} get \
+#   pvc ${old_pvc_name} -o jsonpath='{.spec.volumeName}')" &&
+pv_name=pvc-51895257-5482-4007-af28-462a6604e225 &&
+
+# Ensure existing PV is not Deleted when PVC is removed
+# kubectl patch pv ${pv_name} \
+#   -p '{"spec":{"persistentVolumeReclaimPolicy":"Retain"}}' &&
+
+# Remove PVC (but not PV - data is safe)
+# kubectl -n ${namespace} delete pvc ${old_pvc_name} &&
+
+# Ensure PV(data) is there, just Released
+# kubectl get pv ${pv_name} &&
+
+# Get yml of PVC before removing it, and just replace the .metadata.name or
+# create a custom one from scratch:
+( kubectl apply -f - <<EOF
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: ${new_pvc_name}
+  namespace: ${namespace}
+  annotations:
+    helm.sh/resource-policy: keep
+spec:
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: 15Gi
+  volumeName: ${pv_name}
+  storageClassName: longhorn-ssd-1replica
+EOF
+) &&
+# Recreate new SS
+true
+```
+
 ### Reference
 <ol>
   <li><a href="https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands" target="_blank">kubectl</a></li>
@@ -214,4 +269,21 @@ kubectl -n my-ns run my-test-pod --overrides='{ "apiVersion": "v1", "spec": { "a
 # Create configmap manually
 kubectl create configmap test--config --from-literal=special.how=very --from-literal=special.type=charm
 kubectl get configmap test--config -o yaml
+```
+
+### Annotations vs Labels
+Use annotations for things like: build information, versioning, timestamps, or
+links to related data, description(a longer sentence).
+
+Use labels for things like: environment, tier, region, or role. Labels are
+restricted to a length of 63 characters.
+
+
+### Joining a cluster
+```sh
+# List non-expired join tokens on a control-plane:
+kubeadm token list
+# Create new join token:
+kubeadm token create --print-join-command
+
 ```
