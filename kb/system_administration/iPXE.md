@@ -3,7 +3,9 @@ layout: page
 ptitle: iPXE
 ---
 
-<a href="https://ipxe.org/" target="_blank">ipxe.org</a>:
+<a href="https://ipxe.org/" target="_blank">ipxe.org</a>
+<br/><a href="https://ipxe.org/appnote/hardware_drivers" target="_blank">
+Supported hardware</a>
 ```bash
 # ============================================================================ #
 # This will generate a floppy image and an .iso image in your current directory:
@@ -21,6 +23,7 @@ ptitle: iPXE
   # echo -e '#!ipxe'"\necho Starting iPXE embeded script!\nifstat\ndhcp\nshell"\
   #   > /mnt/my_script.ipxe
 
+  # See: https://ipxe.org/appnote/buildtargets
   # Make .iso
   # make bin/ipxe.iso EMBED=/mnt/my_script.ipxe &&
 
@@ -33,6 +36,11 @@ ptitle: iPXE
   # make bin/ipxe.iso TRUST=/root/r3.pem DEBUG=tls,x509:3,certstore,privkey
   # See also: make bin-x86_64-efi/ipxe.efi -j10 \
   #   DEBUG=dhcp,tftp,http EMBED=/mnt/my_script.ipxe
+  # make bin-x86_64-efi/snponly.efi -j10 \
+  #   DEBUG=dhcp,tftp,http
+  # Note that embeding a script in snponly seems to corrupt the initramfs
+  # However, snponly has support for running autoexec.ipxe that gets pulled from
+  # the TFTP server that offers the .efi binary.
 
   cp bin/ipxe.dsk /mnt/ &&
   cp bin/ipxe.iso /mnt/ &&
