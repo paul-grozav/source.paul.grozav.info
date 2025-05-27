@@ -285,5 +285,117 @@ restricted to a length of 63 characters.
 kubeadm token list
 # Create new join token:
 kubeadm token create --print-join-command
-
 ```
+
+### Resource management
+At the container level(inside a pod), you can specify
+`Pod.spec.containers[0].resources`:
+```yaml
+resources:
+  request:
+    memory: 100Mi
+    cpu: 0.1
+  limits:
+    memory: 150Mi
+    cpu: 0.15
+```
+The **request** defines what would be the normal resource usage of the
+application / container. So, this is treated as a minimum resource usage, and
+this is used by the Kubernetes Scheduler when it is deciding where to schedule
+the pod for running/execution, based on the resource requirements of the pod
+(summed for each container inside it), and also based on what is the
+availability (in terms of free resources), of each node. This makes sure that
+pods are scheduled on nodes that have at least the required resources to run the
+pod under normal circumstances.
+
+If the request object(/section) is missing in the definition, the values will
+default to the values of the limits object if the limits object exists. If the
+limits object does not exist, there will be no restrictions in scheduling the
+pod.
+
+The **limits** object defined the maximum amount of resources that can be used
+by that pod. Meaning that if the memory used reached the limit, the OOM
+(Out-Of-Memory) killer will be invoked, killing processes in that cgroup /
+container. And, the CPU usage will be throttled to the limit. However, there is
+no guarantee that the container/process will succeed in allocating/using more
+memory or cpu, than the amount requested. These extra resource requests will be
+authorized by the OS if and only if, there are free resources.
+
+So, for the example above, our application needs (typically) 100 MiB of RAM
+memory and 10% of one CPU core to run properly. `0.1` is actually `1/10` of a
+CPU core, or `10%`, or also known as `100 millicores` (1000 millicores is a CPU
+core) - The yaml values `0.1` and `100m` are valid and have the same meaning.
+However, this is the typical usage of our app, but under heavy load, it might
+use up to 150 MiB of RAM and 15% of a core, and that is OK, it is acceptable and
+should be approved by the OS if possible. That means that our application will
+be guaranteed to be allowed to allocate RAM memory up to 100MiB, and the extra
+50MiB might be approved or not, based on the OS' availability on that node. So,
+at some points in time it might work, at some points it might not. CPU usage is
+subject to the same limitations, if there are lots of things to process and the
+app needs more than the basic 10%, the extra 5% will be given to our process if
+and only if the CPU is idle.
+
+### Resource monitoring
+To get resource usage at runtime, you can use:
+```sh
+paul@alice:~$ kubectl top pod my-server --namespace one
+NAME        CPU(cores)   MEMORY(bytes)
+my-server   2m           44Mi
+
+paul@alice:~ $ sudo crictl stats 5d704999232ba
+CONTAINER       NAME        CPU %   MEM       DISK      INODES   SWAP
+5d704999232ba   my-server   0.18    46.74MB   18.78MB   246      0B
+```
+`kubectl top` expresses the CPU in millicores (the `m` unit at the end). So, the
+pod currenly uses 2 millicores, out of those 100m that it is expected to use
+under normal circumstances.
+
+`crictl stats` expresses the CPU as % of 1 full CPU core. So, the server,
+currently uses (expressed in % or a core): `0.18` out of the `10` that it is
+expected to use under normal circumstances.
+
+To make things even more clear(or confusing), the pod with 1 container, uses
+approximately 2% of the node resources that "were allocated" by the scheduler
+for this pod. In millicores: 2 out of 100. In "% of 1 full core": 0.18 out
+of 10, this is the equivalent of 1.8 out of 100 (so, close to 2%). So, just to
+emphasize this again, there is a difference between percentage of the resources
+allocated for me, and percentage of the CPU core. The process is using 1.8% of
+the resources allocated for it. And the process was allocated 10% of 1 full CPU
+core. So, that means the process is currently using 0.18% of a CPU core.
+
+Also, if you have the
+[metrics-server](https://github.com/kubernetes-sigs/metrics-server) installed
+in the `kube-system` namespace, you can fetch metrics from it using:
+
+```sh
+paul@alice:~ $ kubectl get --raw \
+  "/apis/metrics.k8s.io/v1beta1/namespaces/one/pods" |
+  jq '.items[] | select(.metadata.name == "my-server") | .containers[0].usage'
+{
+  "cpu": "1953909n",
+  "memory": "39996Ki"
+}
+```
+This expresses CPU usage in nanocores. So, 1 CPU core = 10^3 millicores = 10^9
+nanocores. So, this 1953909n matches the ~2 millicores reported by kubectl top
+or ~0.18% reported by crictl stats.
+
+You can also query the kubelet endpoint for prometheus metrics, using:
+```sh
+# for kubelet_* metrics
+paul@alice:~ $ kubectl get --raw "/api/v1/nodes/node-name/proxy/metrics"
+# for container_* metrics
+paul@alice:~ $ kubectl get --raw \
+  "/api/v1/nodes/node-name/proxy/metrics/cadvisor"
+# metrics related to resource usage
+paul@alice:~ $ kubectl get --raw \
+  "/api/v1/nodes/node-name/proxy/metrics/resource"
+# Not prometheus metrics - just JSON, but still useful:
+paul@alice:~ $ kubectl get --raw \
+  "/api/v1/nodes/node-name/proxy/stats/summary"
+# Might offer liveness/readiness probe metrics
+paul@alice:~ $ kubectl get --raw \
+  "/api/v1/nodes/node-name/proxy/metrics/probes"
+```
+Remember that these are per-node, so each node exposes different metrics,
+related to the pods that run on it.
