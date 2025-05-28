@@ -399,3 +399,17 @@ paul@alice:~ $ kubectl get --raw \
 ```
 Remember that these are per-node, so each node exposes different metrics,
 related to the pods that run on it.
+
+Another approach would be to check the CGroup directly:
+```sh
+paul@alice:~ $ kubectl get pods --all-namespaces -o json | jq -r \
+  '.items[] | [.metadata.namespace, .metadata.name, .metadata.uid] | @tsv' |
+  grep my-server
+one  my-server  16e6a747-9d40-4120-bbac-ca7cd274fdd9
+
+# The UID of the pod is: 16e6a747-9d40-4120-bbac-ca7cd274fdd9
+# Replace - with _ : 16e6a747_9d40_4120_bbac_ca7cd274fdd9
+# Check sudo ls -la /sys/fs/cgroup/kubepods.slice/kubepods-pod<NEW_UID>.slice
+paul@alice:~ $ ls -l /sys/fs/cgroup/kubepods.slice/kubepods-pod16e6a747_9d40_4120_bbac_ca7cd274fdd9.slice
+```
+There you can find info about the memory and other resource usage.
