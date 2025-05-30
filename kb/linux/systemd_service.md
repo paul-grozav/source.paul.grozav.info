@@ -158,3 +158,55 @@ cp ${script_dir}/ping_exporter/metrics_push.timer ${HOME}/.config/systemd/user/ 
 systemctl --user daemon-reload &&
 systemctl --user enable --now metrics_push.timer
 ```
+
+---
+
+`systemctl --user` needs to interact with the `/lib/systemd/systemd --user` 
+systemd process that runs as your limited user. In order to do that IPC(Inter
+Process Communication), it requries a connection to the user bus via DBus. The
+DBus socket is in the `${XDG_RUNTIME_DIR}` directory, and it's called `bus`. The
+`XDG_RUNTIME_DIR` env var, points to where the user-specific IPC files are,
+which is usually `/run/user/$(id -u)`.
+
+So, in order to run `systemctl --user` you will need to have the
+`DBUS_SESSION_BUS_ADDRESS` environment variable properly defined, which will not
+exist for scripts invoked through CronD.
+
+```sh
+export DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$(id -u)/bus &&
+systemctl --user status container__podman__http
+```
+Otherwise you'll get an error like:
+```txt
+Failed to connect to bus: No medium found
+```
+
+The [D-Bus](https://en.wikipedia.org/wiki/D-Bus) (Desktop-Bus) daemon is usually
+started by the system's desktop manager, when you login, when you start your
+session. However, if you enable lingering, you are basically asking systemd to
+keep the `systemd --user` process running even when the user is not logged in,
+meaning that `systemd --user` will be started automatically at boot, and it will
+be kept running, even when there is no active session (no local or remote
+terminal or GUI), allowing the user to run processes/services, even if no login
+occured, or long after the logout occured.
+
+You can check the status of a user's configuration, including if lingering is
+enabled, and where the `XDG_RUNTIME_DIR` is configured, by running:
+```sh
+# To show all
+loginctl show-user ${USER}
+
+# To show one of them
+loginctl show-user ${USER} --property=Linger
+loginctl show-user ${USER} --property=RuntimePath
+
+# To enable lingering
+loginctl enable-linger ${USER}
+```
+
+XDG stands for [X Desktop Group](https://en.wikipedia.org/wiki/Freedesktop.org).
+
+Also, `systemd --user` is started by PID=1 (systemd) through
+`user@1000.service`, which is the User Manager for that UID=1000. And you can
+check it with: `systemctl status user@$(id -u).service`. Then `systemd --user`
+is managing/starting the `dbus-daemon` instance for and as the limited user. 
