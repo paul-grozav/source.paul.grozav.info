@@ -7,7 +7,7 @@ ptitle: The GNU Privacy Guard
 
 [project website](https://www.gnupg.org/)
 
-[wikipedia](https://ro.wikipedia.org/wiki/GNU_Privacy_Guard)
+[wikipedia](https://en.wikipedia.org/wiki/GNU_Privacy_Guard)
 
 # Key management
 ## Generate
