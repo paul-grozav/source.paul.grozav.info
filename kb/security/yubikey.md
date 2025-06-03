@@ -27,6 +27,7 @@ $ powershell.exe -Command "Get-PnpDevice | Where-Object { \$_.InstanceId -like '
 <details>
   <summary>Click to expand YAML output</summary>
 
+
 ```yaml
 - CimClass:
     CimSuperClassName: CIM_LogicalDevice
@@ -2765,6 +2766,7 @@ $ powershell.exe -Command "Get-PnpDevice | Where-Object { \$_.InstanceId -like '
   Service: null
   PSComputerName: null
 ```
+
 </details>
 
 ---
