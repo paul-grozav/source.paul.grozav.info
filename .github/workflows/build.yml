@@ -40,6 +40,20 @@ jobs:
       uses: actions/configure-pages@v5
     - name: Build web app
       run: |
+        ( ruby <<RUBY
+        require 'yaml'
+
+        file = '_config.yml'
+        data = YAML.load_file(file)
+
+        # Set the value
+        data['build']['commit'] = "$(echo ${{ github.sha }} | cut -c1-8 )"
+        data['build']['date'] = "$(date --date="${{ github.event.head_commit.timestamp }}" +"%Y-%m-%dT%H:%M:%S%:z")"
+
+        # Write it back
+        File.open(file, 'w') { |f| f.write(data.to_yaml) }
+        RUBY
+        ) &&
         bundle install &&
         bundle exec jekyll build -d public &&
         # ls -la public &&
