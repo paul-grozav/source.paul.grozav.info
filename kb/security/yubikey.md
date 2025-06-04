@@ -27,8 +27,7 @@ $ powershell.exe -Command "Get-PnpDevice | Where-Object { \$_.InstanceId -like '
 <details>
   <summary>Click to expand YAML output</summary>
 
-
-```yaml
+<pre>
 - CimClass:
     CimSuperClassName: CIM_LogicalDevice
     CimSuperClass:
@@ -2871,7 +2870,7 @@ $ powershell.exe -Command "Get-PnpDevice | Where-Object { \$_.InstanceId -like '
         "DEVPKEY_Device_BusReportedDeviceDesc":  "Smart Card Device Information Node"
     }
 ]
-```
+</pre>
 
 </details>
 
