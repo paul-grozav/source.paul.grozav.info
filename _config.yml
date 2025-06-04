@@ -14,6 +14,13 @@ baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://paul.grozav.info" # the base hostname & protocol for your site
 gitlab_username: tancredi-paul-grozav
 github_username: paul-grozav
+linkedin_username: tancredipaulgrozav
+# Site build (compilation to static) details
+build:
+  version: 3.0.1
+  # The commit and date will be filled in at build time
+  commit: null
+  date: YYYY-MM-DD HH:MM:SS
 
 # Outputting
 permalink: /:categories/:year/:month/:day/:title

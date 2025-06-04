@@ -6,21 +6,26 @@
         <ul class="contact-list">
           <li>{{ site.title }}</li>
           <li><a href="mailto:{{ site.email }}">{{ site.email }}</a></li>
+          <li>{% include icon-website.html url="https://paul.grozav.info" %}</li>
         </ul>
       </div>
       <div class="footer-col footer-col-2">
         <ul class="social-media-list">
-          <li>{% include icon-website.html url="https://paul.grozav.info" %}</li>
           {% if site.github_username %}
             <li>{% include icon-github.html username=site.github_username %}</li>
           {% endif %}
           {% if site.gitlab_username %}
             <li>{% include icon-gitlab.html username=site.gitlab_username %}</li>
           {% endif %}
+          {% if site.linkedin_username %}
+            <li>{% include icon-linkedin.html username=site.linkedin_username %}</li>
+          {% endif %}
         </ul>
       </div>
       <div class="footer-col footer-col-3">
         <p>{{ site.description }}</p>
+        <p>build_version: {{ site.build.version | append: "_" | append: site.build.commit }}</p>
+        <p>build_date: {{ site.build.date }} UTC</p>
       </div>
     </div>
   </div>
