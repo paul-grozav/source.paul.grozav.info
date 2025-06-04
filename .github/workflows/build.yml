@@ -32,8 +32,8 @@ jobs:
     # runs-on: self-hosted
     runs-on: ubuntu-latest # Uses a free GitHub runner
     container:
-      # image: ruby:3.0.3
-      image: ruby:3.0.3-alpine3.15
+      image: ruby:3.0.3
+      # image: ruby:3.0.3-alpine3.15
       # image: ruby:3.4.4-alpine3.22
     steps:
     - name: Checkout
