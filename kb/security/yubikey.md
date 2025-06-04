@@ -2764,7 +2764,7 @@ $ powershell.exe -Command "Get-PnpDevice | Where-Object { \$_.InstanceId -like '
   Present: true
   Service: null
   PSComputerName: null
-```
+</pre>
 
 </details>
 
