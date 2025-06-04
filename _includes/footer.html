@@ -5,7 +5,8 @@
       <div class="footer-col footer-col-1">
         <ul class="contact-list">
           <li>{{ site.title }}</li>
-          <li><a href="mailto:{{ site.email }}">{{ site.email }}</a></li>
+          <!-- <li><a href="mailto:{{ site.email }}">{{ site.email }}</a></li> -->
+          <li>{% include icon-email.html email="https://paul.grozav.info" %}</li>
           <li>{% include icon-website.html url="https://paul.grozav.info" %}</li>
         </ul>
       </div>
