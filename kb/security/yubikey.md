@@ -3055,7 +3055,23 @@ details on how to use the tool. For Android, there is a Yubico Authenticator
 ```sh
 # Install PC/SC Smart Card Daemon, YubiKey manager, and other tools
 $ sudo apt install -y libusb-1.0-0 pcscd scdaemon gnupg2 yubikey-manager \
-  pcsc-tools
+  pcsc-tools libfido2-1 libfido2-dev libu2f-udev fido2-tools
+$ sudo usermod -aG plugdev ${USER} # Restart WSL
+
+$ ( cat - <<EOF | sudo tee /etc/udev/rules.d/70-u2f.rules
+# YubiKey and other FIDO2 devices
+KERNEL=="hidraw*", SUBSYSTEM=="hidraw", ATTRS{idVendor}=="1050", MODE="0660", GROUP="plugdev"
+KERNEL=="hidraw*", SUBSYSTEM=="hidraw", ATTRS{idVendor}=="20a0", MODE="0660", GROUP="plugdev"
+EOF
+)
+$ sudo udevadm control --reload-rules
+$ sudo udevadm trigger
+# Unplug-replug YubiKey USB device
+
+# Now fido2-token -L should work without sudo
+$ fido2-token -L
+/dev/hidraw1: vendor=0x1050, product=0x0407 (Yubico YubiKey OTP+FIDO+CCID)
+
 # Start daemon
 $ sudo service pcscd start
 
@@ -3154,12 +3170,12 @@ need to protect the credentials with a [PIN](https://en.wikipedia.org/wiki/Perso
 alphanumeric.
 ```sh
 # Setting a PIN
-$ sudo ykman fido info
+$ ykman fido info
 PIN is not set.
-$ sudo ykman fido access change-pin
+$ ykman fido access change-pin
 Enter your new PIN:
 Repeat for confirmation:
-$ sudo ykman fido info
+$ ykman fido info
 PIN is set, with 8 attempt(s) remaining.
 # PIN attempts are reset to 8 when it is correctly introduced, after some
 # failures
@@ -3190,7 +3206,7 @@ credentials that will not show up in the credentials list.
 ## Reading resident credentials
 ```sh
 # Assuming that your PIN is in: export my_fido_pin="SECRET_PIN"
-sudo ykman fido credentials list --pin ${my_fido_pin}
+$ ykman fido credentials list --pin ${my_fido_pin}
 Credential ID  RP ID  Username  Display name
 
 # After registering to https://demo.yubico.com/webauthn-technical/registration
@@ -3198,25 +3214,39 @@ Credential ID  RP ID  Username  Display name
 # the credentials list command.
 
 # After registering to https://webauthn.io/
-$ sudo ykman fido credentials list --pin ${my_fido_pin}
+$ ykman fido credentials list --pin ${my_fido_pin}
 Credential ID  RP ID        Username  Display name
 b03574fa...    webauthn.io  tedi      tedi
 ```
 ## Deleting resident credentials
 ```sh
-sudo ykman fido credentials delete b03574fa --force --pin ${my_fido_pin}
+$ ykman fido credentials delete b03574fa --force --pin ${my_fido_pin}
+```
+
+## FIDO2 SSH
+```sh
+# The generated ${HOME}/.ssh/id_ed25519_sk does not contain the full private key
+# It contains only a reference to the key inside of the YubiKey, so you still
+# can't login without the YubiKey.
+$ ssh-keygen -t ed25519-sk -f ${HOME}/.ssh/id_ed25519_sk # enter FIDO PIN
+$ cat ${HOME}/.ssh/id_ed25519_sk.pub # copy to remote host
+$ ssh-copy-id -i ${HOME}/.ssh/id_ed25519_sk user@remote-server
+$ ssh user@remote-server # Touch YubiKey to confirm user presence
+Confirm user presence for key ED25519-SK SHA256:Jaw5yThf/XoOBLY+xdMop4NO0J3cUNqTuGYJS6cZM8g
+User presence confirmed
+Welcome to remote-server ...
 ```
 
 # OATH
 32 OATH accounts can be added on this YubiKey.
 ```sh
 # Show OATH info
-$ sudo ykman oath info
+$ ykman oath info
 OATH version: 5.4.3
 Password protection: disabled
 
 # List OATH accounts
-$ sudo ykman oath accounts list
+$ ykman oath accounts list
 GitHub:john.doe
 Google:sign_into user@gmail.com
 Google:sign_into_user@gmail.com
@@ -3225,7 +3255,7 @@ Google_account:sign_into_user@gmail.com
 TestAccount:user@example.com
 
 # Add OATH TOTP account - test with https://totp.danhersam.com/
-$ sudo ykman oath accounts add \
+$ ykman oath accounts add \
   --oath-type TOTP \
   --digits 6 \
   --period 30 \
@@ -3235,14 +3265,30 @@ $ sudo ykman oath accounts add \
   JBSWY3DPEHPK3PXP
 
 # Getting the TOTP code - 617463 in this case
-$ sudo ykman oath accounts code \
+$ ykman oath accounts code \
   "Google account:sign into GMail with user@gmail.com"
 Google account:sign into GMail with user@gmail.com  617463
 
 # Delete OATH TOTP account
-$ sudo ykman oath accounts delete --force \
+$ ykman oath accounts delete --force \
   "Google account:sign into GMail with user@gmail.com"
 ```
 
 # PIV
-...
+
+```sh
+$ sudo apt-get install yubico-piv-tool ykcs11 opensc
+
+$ ykman piv info
+PIV version:              5.4.3
+PIN tries remaining:      3/3
+PUK tries remaining:      3/3
+Management key algorithm: TDES
+WARNING: Using default PIN!
+WARNING: Using default PUK!
+WARNING: Using default Management key!
+CHUID: No data available
+CCC:   No data available
+
+# ... to be continued ...
+```
