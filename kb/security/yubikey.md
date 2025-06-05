@@ -2878,6 +2878,270 @@ correct driver, and install it. Once installed, the device will be moved into
 the `Smart cards` section, and it might be named: `Identity Device (NIST SP
 800-73 [PIV])`.
 
+Once the Driver is installed, this patch will be applied to the
+yaml above:
+
+
+<details>
+  <summary>Click to expand diff output</summary>
+{% highlight diff %}
+1198c1198
+<       Value: Smart Card
+---
+>       Value: Identity Device (NIST SP 800-73 [PIV])
+1203c1203
+<       Value: Smart Card
+---
+>       Value: Identity Device (NIST SP 800-73 [PIV])
+1213c1213
+<       Value: Smart Card
+---
+>       Value: Identity Device (NIST SP 800-73 [PIV])
+1218c1218
+<       Value: Error
+---
+>       Value: OK
+1228c1228
+<       Value: 28
+---
+>       Value: 0
+1293c1293
+<       Value: null
+---
+>       Value: '{990a2bd7-e738-46c7-b26f-1cf8fb9f1391}'
+1295c1295
+<       Flags: Property, ReadOnly, NotModified, NullValue
+---
+>       Flags: Property, ReadOnly, NotModified
+1310c1310
+<       Value: null
+---
+>       Value: Microsoft
+1312c1312
+<       Flags: Property, ReadOnly, NotModified, NullValue
+---
+>       Flags: Property, ReadOnly, NotModified
+1315c1315
+<       Value: null
+---
+>       Value: SmartCard
+1317c1317
+<       Flags: Property, ReadOnly, NotModified, NullValue
+---
+>       Flags: Property, ReadOnly, NotModified
+1325c1325
+<       Value: null
+---
+>       Value: UmPass
+1327c1327
+<       Flags: Property, ReadOnly, NotModified, NullValue
+---
+>       Flags: Property, ReadOnly, NotModified
+1334,1335c1334,1335
+<   Class: null
+<   FriendlyName: Smart Card
+---
+>   Class: SmartCard
+>   FriendlyName: Identity Device (NIST SP 800-73 [PIV])
+1337,1341c1337,1341
+<   Problem: 28
+<   ConfigManagerErrorCode: 28
+<   ProblemDescription: ''
+<   Caption: Smart Card
+<   Description: Smart Card
+---
+>   Problem: 0
+>   ConfigManagerErrorCode: 0
+>   ProblemDescription: null
+>   Caption: Identity Device (NIST SP 800-73 [PIV])
+>   Description: Identity Device (NIST SP 800-73 [PIV])
+1343,1344c1343,1344
+<   Name: Smart Card
+<   Status: Error
+---
+>   Name: Identity Device (NIST SP 800-73 [PIV])
+>   Status: OK
+1358c1358
+<   ClassGuid: null
+---
+>   ClassGuid: '{990a2bd7-e738-46c7-b26f-1cf8fb9f1391}'
+1363,1364c1363,1364
+<   Manufacturer: null
+<   PNPClass: null
+---
+>   Manufacturer: Microsoft
+>   PNPClass: SmartCard
+1366c1366
+<   Service: null
+---
+>   Service: UmPass
+{% endhighlight %}
+</details>
+
+## Sharing it with WSL
+The USB device needs to be shared with the VM where the WSL kernel is running.
+To do that, we will use this project: https://github.com/dorssel/usbipd-win .
+```bat
+:: Download
+curl "https://github.com/dorssel/usbipd-win/releases/download/v5.1.0/usbipd-win_5.1.0_x64.msi" -o D:\data\programs\usbipd-win_5.1.0_x64.msi
+:: Start powershell as admin:
+:: Elevate through password
+:: runas /user:Administrator "powershell.exe"
+:: OR,Elevate through UAC(User Account Control), just saying yes
+powershell -Command "Start-Process -Verb RunAs powershell"
+```
+Then, in the elevated powershell, run:
+```powershell
+# Quiet (non-interactive) install
+PS C:\WINDOWS\system32> powershell -Command "Start-Process msiexec.exe -ArgumentList '/i \"D:\data\programs\usbipd-win_5.1.0_x64.msi\" /qn' -Verb RunAs"
+# OR, UI / guided installer
+# powershell -Command "Start-Process msiexec.exe -ArgumentList '/i \"D:\data\programs\usbipd-win_5.1.0_x64.msi\"' -Verb RunAs"
+
+# Then list the USB devices:
+PS C:\WINDOWS\system32> usbipd list
+Connected:
+BUSID  VID:PID    DEVICE                                                        STATE
+2-7    1050:0407  USB Input Device, Microsoft Usbccid Smartcard Reader (WUDF)   Not shared
+
+# Share it (this will change State to Shared)
+PS C:\WINDOWS\system32> usbipd bind --busid 2-7
+# Later you can unbind it using:
+# PS C:\WINDOWS\system32> usbipd unbind --busid 2-7
+
+# Then just attach it to the WSL 2. This will make it unavailable for the
+# Windows operating system.
+PS C:\WINDOWS\system32> usbipd attach --busid 2-7 --wsl
+usbipd: info: Using WSL distribution 'Ubuntu-24.04' to attach; the device will be available in all WSL 2 distributions.
+usbipd: info: Detected networking mode 'nat'.
+usbipd: info: Using IP address 172.21.176.1 to reach the host.
+# Later you can detach it using:
+# PS C:\WINDOWS\system32> usbipd detach --busid 2-7
+
+# Exit elevated session
+PS C:\WINDOWS\system32> exit
+```
+But now, you can see it in GNU/Linux:
+```sh
+$ lsusb
+Bus 001 Device 005: ID 1050:0407 Yubico.com Yubikey 4/5 OTP+U2F+CCID
+
+$ usb-devices
+T:  Bus=01 Lev=01 Prnt=01 Port=00 Cnt=01 Dev#=  5 Spd=12   MxCh= 0
+D:  Ver= 2.00 Cls=00(>ifc ) Sub=00 Prot=00 MxPS=64 #Cfgs=  1
+P:  Vendor=1050 ProdID=0407 Rev=05.43
+S:  Manufacturer=Yubico
+S:  Product=YubiKey OTP+FIDO+CCID
+C:  #Ifs= 3 Cfg#= 1 Atr=80 MxPwr=30mA
+I:  If#= 0 Alt= 0 #EPs= 1 Cls=03(HID  ) Sub=01 Prot=01 Driver=usbhid
+E:  Ad=81(I) Atr=03(Int.) MxPS=   8 Ivl=10ms
+I:  If#= 1 Alt= 0 #EPs= 2 Cls=03(HID  ) Sub=00 Prot=00 Driver=usbhid
+E:  Ad=04(O) Atr=03(Int.) MxPS=  64 Ivl=2ms
+E:  Ad=84(I) Atr=03(Int.) MxPS=  64 Ivl=2ms
+I:  If#= 2 Alt= 0 #EPs= 3 Cls=0b(scard) Sub=00 Prot=00 Driver=(none)
+E:  Ad=02(O) Atr=02(Bulk) MxPS=  64 Ivl=0ms
+E:  Ad=82(I) Atr=02(Bulk) MxPS=  64 Ivl=0ms
+E:  Ad=83(I) Atr=03(Int.) MxPS=   8 Ivl=32ms
+```
+
+## Installing GNU/Linux software
+```sh
+# Install PC/SC Smart Card Daemon, YubiKey manager, and other tools
+$ sudo apt install -y libusb-1.0-0 pcscd scdaemon gnupg2 yubikey-manager \
+  pcsc-tools
+# Start daemon
+$ sudo service pcscd start
+
+# Use pcsc-tools package to scan for your device
+$ sudo pcsc_scan
+PC/SC device scanner
+V 1.7.1 (c) 2001-2022, Ludovic Rousseau <ludovic.rousseau@free.fr>
+Using reader plug'n play mechanism
+Scanning present readers...
+0: Yubico YubiKey OTP+FIDO+CCID 00 00
+
+Thu Jun  5 08:59:59 2025
+ Reader 0: Yubico YubiKey OTP+FIDO+CCID 00 00
+  Event number: 0
+  Card state: Card inserted,
+  ATR: 3B FD 13 00 00 81 31 FE 15 80 73 C0 21 C0 57 59 75 62 69 4B 65 79 40
+
+ATR: 3B FD 13 00 00 81 31 FE 15 80 73 C0 21 C0 57 59 75 62 69 4B 65 79 40
++ TS = 3B --> Direct Convention
++ T0 = FD, Y(1): 1111, K: 13 (historical bytes)
+  TA(1) = 13 --> Fi=372, Di=4, 93 cycles/ETU
+    43010 bits/s at 4 MHz, fMax for Fi = 5 MHz => 53763 bits/s
+  TB(1) = 00 --> VPP is not electrically connected
+  TC(1) = 00 --> Extra guard time: 0
+  TD(1) = 81 --> Y(i+1) = 1000, Protocol T = 1
+-----
+  TD(2) = 31 --> Y(i+1) = 0011, Protocol T = 1
+-----
+  TA(3) = FE --> IFSC: 254
+  TB(3) = 15 --> Block Waiting Integer: 1 - Character Waiting Integer: 5
++ Historical bytes: 80 73 C0 21 C0 57 59 75 62 69 4B 65 79
+  Category indicator byte: 80 (compact TLV data object)
+    Tag: 7, len: 3 (card capabilities)
+      Selection methods: C0
+        - DF selection by full DF name
+        - DF selection by partial DF name
+      Data coding byte: 21
+        - Behaviour of write functions: proprietary
+        - Value 'FF' for the first byte of BER-TLV tag fields: invalid
+        - Data unit in quartets: 2
+      Command chaining, length fields and logical channels: C0
+        - Command chaining
+        - Extended Lc and Le fields
+        - Logical channel number assignment: No logical channel
+        - Maximum number of logical channels: 1
+    Tag: 5, len: 7 (card issuer's data)
+      Card issuer data: 59 75 62 69 4B 65 79
++ TCK = 40 (correct checksum)
+
+Possibly identified card (using /usr/share/pcsc/smartcard_list.txt):
+3B FD 13 00 00 81 31 FE 15 80 73 C0 21 C0 57 59 75 62 69 4B 65 79 40
+        Yubico YubiKey 5 NFC (PKI)
+        https://www.yubico.com/product/yubikey-5-nfc
+
+
+
+# Create a Polkit rule:
+# If you want to allow all local Linux users to access the YubiKey, then you can
+# use subject.isLocal in the if, instead of subject.user == "${USER}"
+$ ( cat - <<EOF | sudo tee /etc/polkit-1/rules.d/49-allow-pcsc.rules
+polkit.addRule(function(action, subject) {
+    if ((action.id == "org.debian.pcsc-lite.access_pcsc" ||
+         action.id == "org.debian.pcsc-lite.access_card") &&
+        subject.user == "${USER}") {
+        return polkit.Result.YES;
+    }
+});
+EOF
+)
+
+# Restart pcscd
+$ sudo systemctl restart pcscd
+
+# Finally access your YubiKey:
+$ ykman info
+Device type: YubiKey 5 NFC
+Serial number: 14874043
+Firmware version: 5.4.3
+Form factor: Keychain (USB-A)
+Enabled USB interfaces: OTP, FIDO, CCID
+NFC transport is enabled.
+
+Applications    USB     NFC
+OTP             Enabled Enabled
+FIDO U2F        Enabled Enabled
+FIDO2           Enabled Enabled
+OATH            Enabled Enabled
+PIV             Enabled Enabled
+OpenPGP         Enabled Enabled
+YubiHSM Auth    Enabled Enabled
+
+true
+```
+
 # Key management
 ## Generate
 ```sh
