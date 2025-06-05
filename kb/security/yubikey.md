@@ -2772,106 +2772,102 @@ $ powershell.exe -Command "Get-PnpDevice | Where-Object { \$_.InstanceId -like '
 
 ```sh
 # Get all device properties as json
-$ powershell.exe -Command "Get-PnpDevice | Where-Object { \$_.InstanceId -like '*YUBICO*' } | ForEach-Object { \$device=\$_; \$props=Get-PnpDeviceProperty -InstanceId \$device.InstanceId -ErrorAction SilentlyContinue; \$allProps=@{}; \$allProps['FriendlyName']=\$device.FriendlyName; \$allProps['InstanceId']=\$device.InstanceId; \$allProps['Class']=\$device.Class; \$allProps['Status']=\$device.Status; foreach (\$p in \$props) { if (\$p.Data -is [Array]) { \$allProps[\$p.KeyName]=\$p.Data -join ', ' } else { \$allProps[\$p.KeyName]=\$p.Data } }; [PSCustomObject]\$allProps } | ConvertTo-Json -Depth 99"
+$ powershell.exe -Command "Get-PnpDevice | Where-Object { \$_.InstanceId -like '*YUBICO*' } | ForEach-Object { \$device=\$_; \$props=Get-PnpDeviceProperty -InstanceId \$device.InstanceId -ErrorAction SilentlyContinue; \$allProps=@{}; \$allProps['FriendlyName']=\$device.FriendlyName; \$allProps['InstanceId']=\$device.InstanceId; \$allProps['Class']=\$device.Class; \$allProps['Status']=\$device.Status; foreach (\$p in \$props) { if (\$p.Data -is [Array]) { \$allProps[\$p.KeyName]=\$p.Data -join ', ' } else { \$allProps[\$p.KeyName]=\$p.Data } }; [PSCustomObject]\$allProps } | ConvertTo-Json -Depth 99" | yq -yr
 ```
 <details>
-  <summary>Click to expand JSON output</summary>
-
-```json
-[
-    {
-        "DEVPKEY_Device_BaseContainerId":  "{A814DAAC-3F96-11F0-B890-A0B33979102C}",
-        "DEVPKEY_Device_InstallDate":  "\/Date(1748951221946)\/",
-        "Class":  null,
-        "DEVPKEY_Device_CompatibleIds":  "SCFILTER\\CID_2777BE07-6993-4513-BD80-C184FCB0AB2D",
-        "{83DA6326-97A6-4088-9453-A1923F573B29} 5":  3758096968,
-        "DEVPKEY_NAME":  "Smart Card",
-        "{80497100-8C73-48B9-AAD9-CE387E19C56E} 6":  0,
-        "DEVPKEY_Device_SafeRemovalRequired":  false,
-        "DEVPKEY_Device_HardwareIds":  "SCFILTER\\CID_8073c021c057597562694b6579",
-        "DEVPKEY_Device_InstanceId":  "SCFILTER\\CID_8073C021C057597562694B6579\\7\u00262FE4C607\u00260\u0026YUBICO_YUBIKEY_OTP+FIDO+CCID_0_SCFILTER_CID_8073C021C057597562694B6579",
-        "DEVPKEY_Device_ProblemCode":  28,
-        "DEVPKEY_Device_Stack":  "\\Driver\\scfilter",
-        "DEVPKEY_Device_Parent":  "USB\\VID_1050\u0026PID_0407\u0026MI_02\\6\u0026effba79\u00260\u00260002",
-        "{3464F7A4-2444-40B1-980A-E0903CB6D912} 10":  3,
-        "{83DA6326-97A6-4088-9453-A1923F573B29} 15":  true,
-        "DEVPKEY_Device_LocationInfo":  "ScFilter",
-        "DEVPKEY_Device_RemovalPolicyDefault":  3,
-        "DEVPKEY_Device_PowerData":  "56, 0, 0, 0, 4, 0, 0, 0, 25, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 4, 0, 0, 0, 4, 0, 0, 0, 4, 0, 0, 0, 4, 0, 0, 0, 4, 0, 0, 0, 1, 0, 0, 0",
-        "DEVPKEY_Device_InstallState":  2,
-        "DEVPKEY_Device_DevNodeStatus":  25191424,
-        "DEVPKEY_Device_EnumeratorName":  "SCFILTER",
-        "DEVPKEY_Device_InLocalMachineContainer":  false,
-        "FriendlyName":  "Smart Card",
-        "DEVPKEY_Device_Siblings":  "{892EDE5E-BE49-443c-A0B3-005D74F2D69C}\\ScFilter\\7\u00262fe4c607\u00260\u002604",
-        "DEVPKEY_Device_DeviceDesc":  "Smart Card",
-        "DEVPKEY_Device_HasProblem":  true,
-        "DEVPKEY_Device_IsRebootRequired":  false,
-        "Status":  "Error",
-        "DEVPKEY_Device_LastArrivalDate":  "\/Date(1748952255288)\/",
-        "DEVPKEY_Device_ReportedDeviceIdsHash":  3328081164,
-        "DEVPKEY_Device_FirstInstallDate":  "\/Date(1748950570277)\/",
-        "InstanceId":  "SCFILTER\\CID_8073C021C057597562694B6579\\7\u00262FE4C607\u00260\u0026YUBICO_YUBIKEY_OTP+FIDO+CCID_0_SCFILTER_CID_8073C021C057597562694B6579",
-        "DEVPKEY_Device_Capabilities":  132,
-        "DEVPKEY_Device_ProblemStatus":  0,
-        "DEVPKEY_Device_PDOName":  "\\Device\\0000012d",
-        "{A8B865DD-2E3D-4094-AD97-E593A70C75D6} 26":  false,
-        "DEVPKEY_Device_RemovalPolicy":  3,
-        "DEVPKEY_Device_ContainerId":  "{A814DAAC-3F96-11F0-B890-A0B33979102C}",
-        "{83DA6326-97A6-4088-9453-A1923F573B29} 10":  "USB\\VID_1050\u0026PID_0407\u0026MI_02\\6\u0026effba79\u00260\u00260002",
-        "DEVPKEY_Device_IsPresent":  true,
-        "DEVPKEY_Device_ConfigFlags":  64,
-        "DEVPKEY_Device_BusReportedDeviceDesc":  "Smart Card"
-    },
-    {
-        "DEVPKEY_Device_BaseContainerId":  "{00000000-0000-0000-FFFF-FFFFFFFFFFFF}",
-        "DEVPKEY_Device_LastArrivalDate":  "\/Date(1748952254736)\/",
-        "DEVPKEY_Device_SessionId":  1,
-        "Class":  null,
-        "DEVPKEY_Device_CompatibleIds":  "SWD\\GenericRaw, SWD\\Generic",
-        "DEVPKEY_Device_CreatorProcessId":  16748,
-        "DEVPKEY_NAME":  "Yubico YubiKey OTP+FIDO+CCID 0",
-        "{80497100-8C73-48B9-AAD9-CE387E19C56E} 6":  0,
-        "DEVPKEY_Device_SafeRemovalRequired":  false,
-        "DEVPKEY_Device_HardwareIds":  "ScDeviceInformationNode\\node",
-        "DEVPKEY_Device_InstanceId":  "SWD\\SCDEVICEENUM\\1_YUBICO_YUBIKEY_OTP+FIDO+CCID_0",
-        "DEVPKEY_Device_ProblemCode":  28,
-        "{83DA6326-97A6-4088-9453-A1923F573B29} 10":  "SWD\\ScDeviceEnumBus\\0",
-        "DEVPKEY_Device_Stack":  "\\Driver\\SoftwareDevice",
-        "DEVPKEY_Device_Parent":  "SWD\\ScDeviceEnumBus\\0",
-        "{3464F7A4-2444-40B1-980A-E0903CB6D912} 10":  3,
-        "{83DA6326-97A6-4088-9453-A1923F573B29} 15":  true,
-        "DEVPKEY_Device_RemovalPolicyDefault":  1,
-        "DEVPKEY_Device_PowerData":  "56, 0, 0, 0, 1, 0, 0, 0, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 4, 0, 0, 0, 4, 0, 0, 0, 4, 0, 0, 0, 4, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0",
-        "DEVPKEY_Device_InstallState":  2,
-        "DEVPKEY_Device_DevNodeStatus":  1098916874,
-        "DEVPKEY_Device_EnumeratorName":  "SWD",
-        "DEVPKEY_Device_FriendlyName":  "Yubico YubiKey OTP+FIDO+CCID 0",
-        "DEVPKEY_Device_InLocalMachineContainer":  true,
-        "FriendlyName":  "Yubico YubiKey OTP+FIDO+CCID 0",
-        "DEVPKEY_Device_Siblings":  "SWD\\ScDeviceEnum\\1_Windows_Hello_for_Business_1, SWD\\ScDeviceEnum\\1_Alcorlink_USB_Smart_Card_Reader_0",
-        "DEVPKEY_Device_DeviceDesc":  "Smart Card Device Information Node",
-        "DEVPKEY_Device_HasProblem":  false,
-        "DEVPKEY_Device_IsRebootRequired":  false,
-        "Status":  "Error",
-        "DEVPKEY_Device_LegacyBusType":  15,
-        "DEVPKEY_Device_BusTypeGuid":  "{06D10322-7DE0-4CEF-8E25-197D0E7442E2}",
-        "DEVPKEY_Device_ReportedDeviceIdsHash":  40132414,
-        "InstanceId":  "SWD\\SCDEVICEENUM\\1_YUBICO_YUBIKEY_OTP+FIDO+CCID_0",
-        "DEVPKEY_Device_Capabilities":  240,
-        "DEVPKEY_Device_ProblemStatus":  0,
-        "DEVPKEY_Device_PDOName":  "\\Device\\0000012c",
-        "{A8B865DD-2E3D-4094-AD97-E593A70C75D6} 26":  false,
-        "DEVPKEY_Device_RemovalPolicy":  1,
-        "DEVPKEY_Device_ContainerId":  "{00000000-0000-0000-FFFF-FFFFFFFFFFFF}",
-        "DEVPKEY_Device_BusNumber":  0,
-        "DEVPKEY_Device_IsPresent":  true,
-        "DEVPKEY_Device_ConfigFlags":  64,
-        "DEVPKEY_Device_BusReportedDeviceDesc":  "Smart Card Device Information Node"
-    }
-]
-</pre>
-
+  <summary>Click to expand YAML output</summary>
+{% highlight txt %}
+- DEVPKEY_Device_BaseContainerId: "{A814DAAC-3F96-11F0-B890-A0B33979102C}"
+  DEVPKEY_Device_InstallDate: "/Date(1748951221946)/"
+  Class: 
+  DEVPKEY_Device_CompatibleIds: SCFILTER\CID_2777BE07-6993-4513-BD80-C184FCB0AB2D
+  "{83DA6326-97A6-4088-9453-A1923F573B29} 5": 3758096968
+  DEVPKEY_NAME: Smart Card
+  "{80497100-8C73-48B9-AAD9-CE387E19C56E} 6": 0
+  DEVPKEY_Device_SafeRemovalRequired: false
+  DEVPKEY_Device_HardwareIds: SCFILTER\CID_8073c021c057597562694b6579
+  DEVPKEY_Device_InstanceId: SCFILTER\CID_8073C021C057597562694B6579\7&2FE4C607&0&YUBICO_YUBIKEY_OTP+FIDO+CCID_0_SCFILTER_CID_8073C021C057597562694B6579
+  DEVPKEY_Device_ProblemCode: 28
+  DEVPKEY_Device_Stack: "\\Driver\\scfilter"
+  DEVPKEY_Device_Parent: USB\VID_1050&PID_0407&MI_02\6&effba79&0&0002
+  "{3464F7A4-2444-40B1-980A-E0903CB6D912} 10": 3
+  "{83DA6326-97A6-4088-9453-A1923F573B29} 15": true
+  DEVPKEY_Device_LocationInfo: ScFilter
+  DEVPKEY_Device_RemovalPolicyDefault: 3
+  DEVPKEY_Device_PowerData: 56, 0, 0, 0, 4, 0, 0, 0, 25, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 4, 0, 0, 0, 4, 0, 0, 0, 4, 0, 0, 0,
+    4, 0, 0, 0, 4, 0, 0, 0, 1, 0, 0, 0
+  DEVPKEY_Device_InstallState: 2
+  DEVPKEY_Device_DevNodeStatus: 25191424
+  DEVPKEY_Device_EnumeratorName: SCFILTER
+  DEVPKEY_Device_InLocalMachineContainer: false
+  FriendlyName: Smart Card
+  DEVPKEY_Device_Siblings: "{892EDE5E-BE49-443c-A0B3-005D74F2D69C}\\ScFilter\\7&2fe4c607&0&04"
+  DEVPKEY_Device_DeviceDesc: Smart Card
+  DEVPKEY_Device_HasProblem: true
+  DEVPKEY_Device_IsRebootRequired: false
+  Status: Error
+  DEVPKEY_Device_LastArrivalDate: "/Date(1748952255288)/"
+  DEVPKEY_Device_ReportedDeviceIdsHash: 3328081164
+  DEVPKEY_Device_FirstInstallDate: "/Date(1748950570277)/"
+  InstanceId: SCFILTER\CID_8073C021C057597562694B6579\7&2FE4C607&0&YUBICO_YUBIKEY_OTP+FIDO+CCID_0_SCFILTER_CID_8073C021C057597562694B6579
+  DEVPKEY_Device_Capabilities: 132
+  DEVPKEY_Device_ProblemStatus: 0
+  DEVPKEY_Device_PDOName: "\\Device\\0000012d"
+  "{A8B865DD-2E3D-4094-AD97-E593A70C75D6} 26": false
+  DEVPKEY_Device_RemovalPolicy: 3
+  DEVPKEY_Device_ContainerId: "{A814DAAC-3F96-11F0-B890-A0B33979102C}"
+  "{83DA6326-97A6-4088-9453-A1923F573B29} 10": USB\VID_1050&PID_0407&MI_02\6&effba79&0&0002
+  DEVPKEY_Device_IsPresent: true
+  DEVPKEY_Device_ConfigFlags: 64
+  DEVPKEY_Device_BusReportedDeviceDesc: Smart Card
+- DEVPKEY_Device_BaseContainerId: "{00000000-0000-0000-FFFF-FFFFFFFFFFFF}"
+  DEVPKEY_Device_LastArrivalDate: "/Date(1748952254736)/"
+  DEVPKEY_Device_SessionId: 1
+  Class: 
+  DEVPKEY_Device_CompatibleIds: SWD\GenericRaw, SWD\Generic
+  DEVPKEY_Device_CreatorProcessId: 16748
+  DEVPKEY_NAME: Yubico YubiKey OTP+FIDO+CCID 0
+  "{80497100-8C73-48B9-AAD9-CE387E19C56E} 6": 0
+  DEVPKEY_Device_SafeRemovalRequired: false
+  DEVPKEY_Device_HardwareIds: ScDeviceInformationNode\node
+  DEVPKEY_Device_InstanceId: SWD\SCDEVICEENUM\1_YUBICO_YUBIKEY_OTP+FIDO+CCID_0
+  DEVPKEY_Device_ProblemCode: 28
+  "{83DA6326-97A6-4088-9453-A1923F573B29} 10": SWD\ScDeviceEnumBus\0
+  DEVPKEY_Device_Stack: "\\Driver\\SoftwareDevice"
+  DEVPKEY_Device_Parent: SWD\ScDeviceEnumBus\0
+  "{3464F7A4-2444-40B1-980A-E0903CB6D912} 10": 3
+  "{83DA6326-97A6-4088-9453-A1923F573B29} 15": true
+  DEVPKEY_Device_RemovalPolicyDefault: 1
+  DEVPKEY_Device_PowerData: 56, 0, 0, 0, 1, 0, 0, 0, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 4, 0, 0, 0, 4, 0, 0, 0, 4, 0, 0, 0,
+    4, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0
+  DEVPKEY_Device_InstallState: 2
+  DEVPKEY_Device_DevNodeStatus: 1098916874
+  DEVPKEY_Device_EnumeratorName: SWD
+  DEVPKEY_Device_FriendlyName: Yubico YubiKey OTP+FIDO+CCID 0
+  DEVPKEY_Device_InLocalMachineContainer: true
+  FriendlyName: Yubico YubiKey OTP+FIDO+CCID 0
+  DEVPKEY_Device_Siblings: SWD\ScDeviceEnum\1_Windows_Hello_for_Business_1, SWD\ScDeviceEnum\1_Alcorlink_USB_Smart_Card_Reader_0
+  DEVPKEY_Device_DeviceDesc: Smart Card Device Information Node
+  DEVPKEY_Device_HasProblem: false
+  DEVPKEY_Device_IsRebootRequired: false
+  Status: Error
+  DEVPKEY_Device_LegacyBusType: 15
+  DEVPKEY_Device_BusTypeGuid: "{06D10322-7DE0-4CEF-8E25-197D0E7442E2}"
+  DEVPKEY_Device_ReportedDeviceIdsHash: 40132414
+  InstanceId: SWD\SCDEVICEENUM\1_YUBICO_YUBIKEY_OTP+FIDO+CCID_0
+  DEVPKEY_Device_Capabilities: 240
+  DEVPKEY_Device_ProblemStatus: 0
+  DEVPKEY_Device_PDOName: "\\Device\\0000012c"
+  "{A8B865DD-2E3D-4094-AD97-E593A70C75D6} 26": false
+  DEVPKEY_Device_RemovalPolicy: 1
+  DEVPKEY_Device_ContainerId: "{00000000-0000-0000-FFFF-FFFFFFFFFFFF}"
+  DEVPKEY_Device_BusNumber: 0
+  DEVPKEY_Device_IsPresent: true
+  DEVPKEY_Device_ConfigFlags: 64
+  DEVPKEY_Device_BusReportedDeviceDesc: Smart Card Device Information Node
+{% endhighlight %}
 </details>
 
 # Key management
