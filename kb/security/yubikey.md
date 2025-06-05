@@ -3044,6 +3044,14 @@ E:  Ad=83(I) Atr=03(Int.) MxPS=   8 Ivl=32ms
 ```
 
 ## Installing GNU/Linux software
+Will use the [`yubikey-manager`](
+  https://developers.yubico.com/yubikey-manager/), as I am not currently
+interested in the GUI [Yubico Authenticator](
+  https://developers.yubico.com/yubioath-flutter/). You can consult the [`ykman`
+manual page](
+  https://docs.yubico.com/software/yubikey/tools/ykman/Base_Commands.html) for
+details on how to use the tool. For Android, there is a Yubico Authenticator
+[build](https://play.google.com/store/apps/details?id=com.yubico.yubioath).
 ```sh
 # Install PC/SC Smart Card Daemon, YubiKey manager, and other tools
 $ sudo apt install -y libusb-1.0-0 pcscd scdaemon gnupg2 yubikey-manager \
@@ -3138,25 +3146,103 @@ OATH            Enabled Enabled
 PIV             Enabled Enabled
 OpenPGP         Enabled Enabled
 YubiHSM Auth    Enabled Enabled
-
-true
 ```
 
-# Key management
-## Generate
+# FIDO2
+Before we use [FIDO2](https://fidoalliance.org/fido2/) to store credentials, we
+need to protect the credentials with a [PIN](https://en.wikipedia.org/wiki/Personal_identification_number). The PIN should be between 4-63 characters, and
+alphanumeric.
 ```sh
-```
-## Show keys
-```sh
-```
-## Import key
-```sh
-```
-## Delete key
-```sh
+# Setting a PIN
+$ sudo ykman fido info
+PIN is not set.
+$ sudo ykman fido access change-pin
+Enter your new PIN:
+Repeat for confirmation:
+$ sudo ykman fido info
+PIN is set, with 8 attempt(s) remaining.
+# PIN attempts are reset to 8 when it is correctly introduced, after some
+# failures
 ```
 
-# Using the key
+You should know that (by default) most FIDO2 websites, when they are using the
+WebAuthn protocol to **register** a new key, they will send a new credentials
+request that will make the YubiKey generate(internally) a new private key, sign
+the request with the private key, then the client (YubiKey) will return the
+signed request and the public key to the server/backend. At **authentication**
+time, the server side is using the public key to verify that the client has
+access to the private key, by asking the client to sign some random data. So,
+the private key of the credentials is generated, stored, and used safely on the
+YubiKey hardware, without ever leaving the device.
 
+However, there is a limit on the number of private keys you can store on the
+YubiKey device, which is determined by the storage capacity it has. For the
+YubiKey 5 NFC model, the limit is `~25` **resident credentials**. Resident
+credentials are visible using the `credentials list` command below. However,
+there are also **non-resident** credentials, that are not visible/listable, but
+they also keep a private key, using the space of your YubiKey. While they don't
+have a documented limit on the number of non-resident credentials, it appears to
+be in terms of thousands. Anyway, you are able to reset the fido part of the key
+to remove the non-resident credentials. For resident credentials you can list
+and remove them through ykman. So, just remember that there are non-resident
+credentials that will not show up in the credentials list.
+
+## Reading resident credentials
 ```sh
+# Assuming that your PIN is in: export my_fido_pin="SECRET_PIN"
+sudo ykman fido credentials list --pin ${my_fido_pin}
+Credential ID  RP ID  Username  Display name
+
+# After registering to https://demo.yubico.com/webauthn-technical/registration
+# a non-resident credential is saved on your YubiKey, that doesn't show up in
+# the credentials list command.
+
+# After registering to https://webauthn.io/
+$ sudo ykman fido credentials list --pin ${my_fido_pin}
+Credential ID  RP ID        Username  Display name
+b03574fa...    webauthn.io  tedi      tedi
 ```
+## Deleting resident credentials
+```sh
+sudo ykman fido credentials delete b03574fa --force --pin ${my_fido_pin}
+```
+
+# OATH
+32 OATH accounts can be added on this YubiKey.
+```sh
+# Show OATH info
+$ sudo ykman oath info
+OATH version: 5.4.3
+Password protection: disabled
+
+# List OATH accounts
+$ sudo ykman oath accounts list
+GitHub:john.doe
+Google:sign_into user@gmail.com
+Google:sign_into_user@gmail.com
+Google account:sign_into user@gmail.com
+Google_account:sign_into_user@gmail.com
+TestAccount:user@example.com
+
+# Add OATH TOTP account - test with https://totp.danhersam.com/
+$ sudo ykman oath accounts add \
+  --oath-type TOTP \
+  --digits 6 \
+  --period 30 \
+  --algorithm SHA1 \
+  --issuer "Google account" \
+  "sign into GMail with user@gmail.com" \
+  JBSWY3DPEHPK3PXP
+
+# Getting the TOTP code - 617463 in this case
+$ sudo ykman oath accounts code \
+  "Google account:sign into GMail with user@gmail.com"
+Google account:sign into GMail with user@gmail.com  617463
+
+# Delete OATH TOTP account
+$ sudo ykman oath accounts delete --force \
+  "Google account:sign into GMail with user@gmail.com"
+```
+
+# PIV
+...
