@@ -26,8 +26,7 @@ $ powershell.exe -Command "Get-PnpDevice | Where-Object { \$_.InstanceId -like '
 ```
 <details>
   <summary>Click to expand YAML output</summary>
-
-<pre>
+{% highlight txt %}
 - CimClass:
     CimSuperClassName: CIM_LogicalDevice
     CimSuperClass:
@@ -2764,9 +2763,9 @@ $ powershell.exe -Command "Get-PnpDevice | Where-Object { \$_.InstanceId -like '
   Present: true
   Service: null
   PSComputerName: null
-</pre>
-
+{% endhighlight %}
 </details>
+
 
 ---
 
@@ -2869,6 +2868,15 @@ $ powershell.exe -Command "Get-PnpDevice | Where-Object { \$_.InstanceId -like '
   DEVPKEY_Device_BusReportedDeviceDesc: Smart Card Device Information Node
 {% endhighlight %}
 </details>
+
+# Installing the drivers
+Under Windows 11 the device might show up in `Device Manager` at `Other devices`
+-> `Smart Card`, having a warning/exclamation mark, because the driver is not
+installed. You can just right-click it and select `Update driver`, then select
+`Search automatically for drivers`. Windows should automatically detect the
+correct driver, and install it. Once installed, the device will be moved into
+the `Smart cards` section, and it might be named: `Identity Device (NIST SP
+800-73 [PIV])`.
 
 # Key management
 ## Generate
