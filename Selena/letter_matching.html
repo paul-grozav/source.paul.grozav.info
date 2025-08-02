@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Match Uppercase to Lowercase</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #fff0f5;
+      text-align: center;
+      padding: 2rem;
+    }
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+    .section {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-bottom: 1.5rem;
+    }
+    .card {
+      width: 60px;
+      height: 60px;
+      font-size: 2rem;
+      background-color: #fff;
+      border: 2px solid #aaa;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      user-select: none;
+      transition: 0.2s;
+    }
+    .card.selected {
+      background-color: #add8e6;
+    }
+    .card.matched {
+      background-color: #90ee90;
+      border-color: #228b22;
+      pointer-events: none;
+    }
+    #feedback {
+      font-size: 1.3rem;
+      min-height: 1.5rem;
+    }
+    #nextBtn {
+      padding: 10px 20px;
+      font-size: 1rem;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Match Uppercase to Lowercase</h1>
+  <div class="section" id="uppercase"></div>
+  <div class="section" id="lowercase"></div>
+  <div id="feedback"></div>
+  <button id="nextBtn">New Letters</button>
+
+  <script>
+    const uppercaseDiv = document.getElementById('uppercase');
+    const lowercaseDiv = document.getElementById('lowercase');
+    const feedback = document.getElementById('feedback');
+    const nextBtn = document.getElementById('nextBtn');
+
+    const allLetters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+    let pairs = [];
+    let selectedUpper = null;
+    let selectedLower = null;
+
+    function shuffle(arr) {
+      return arr.sort(() => Math.random() - 0.5);
+    }
+
+    function generateGame() {
+      uppercaseDiv.innerHTML = '';
+      lowercaseDiv.innerHTML = '';
+      feedback.textContent = '';
+      selectedUpper = null;
+      selectedLower = null;
+
+      pairs = shuffle(allLetters).slice(0, 5);
+
+      // Create uppercase buttons
+      pairs.forEach(letter => {
+        const div = document.createElement('div');
+        div.className = 'card';
+        div.textContent = letter;
+        div.dataset.letter = letter;
+        div.dataset.type = 'upper';
+        div.addEventListener('click', onSelect);
+        uppercaseDiv.appendChild(div);
+      });
+
+      // Create lowercase buttons
+      shuffle(pairs).forEach(letter => {
+        const div = document.createElement('div');
+        div.className = 'card';
+        div.textContent = letter.toLowerCase();
+        div.dataset.letter = letter;
+        div.dataset.type = 'lower';
+        div.addEventListener('click', onSelect);
+        lowercaseDiv.appendChild(div);
+      });
+    }
+
+    function onSelect(e) {
+      const card = e.target;
+      const letter = card.dataset.letter;
+      const type = card.dataset.type;
+
+      if (card.classList.contains('matched')) return;
+
+      if (type === 'upper') {
+        if (selectedUpper) selectedUpper.classList.remove('selected');
+        selectedUpper = card;
+        card.classList.add('selected');
+      } else {
+        if (selectedLower) selectedLower.classList.remove('selected');
+        selectedLower = card;
+        card.classList.add('selected');
+      }
+
+      // Check match
+      if (selectedUpper && selectedLower) {
+        if (selectedUpper.dataset.letter === selectedLower.dataset.letter) {
+          feedback.textContent = "✅ Correct match!";
+          selectedUpper.classList.add('matched');
+          selectedLower.classList.add('matched');
+        } else {
+          feedback.textContent = "❌ Try again.";
+        }
+
+        selectedUpper.classList.remove('selected');
+        selectedLower.classList.remove('selected');
+        selectedUpper = null;
+        selectedLower = null;
+      }
+    }
+
+    nextBtn.addEventListener('click', generateGame);
+
+    // Init
+    generateGame();
+  </script>
+
+</body>
+</html>
