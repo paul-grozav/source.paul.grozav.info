@@ -1,0 +1,115 @@
+<!DOCTYPE html><html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <title>Formează cuvântul</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      padding: 2em;
+    }
+    #slots {
+      display: flex;
+      justify-content: center;
+      margin: 20px;
+    }
+    .letter-slot {
+      border-bottom: 2px solid #999;
+      padding: 15px;
+      margin: 10px;
+      min-width: 40px;
+      font-size: 2em;
+      border-radius: 5px;
+    }
+    .letter-button {
+      background-color: #eee;
+      border: 2px solid #ccc;
+      padding: 15px;
+      margin: 10px;
+      font-size: 2em;
+      cursor: pointer;
+      border-radius: 10px;
+      display: inline-block;
+    }
+    .correct {
+      background-color: #c0ffc0 !important;
+    }
+    .wrong {
+      background-color: #ffc0c0 !important;
+    }
+  </style>
+</head>
+<body>
+  <h2>Formează cuvântul</h2>
+  <p>Apasă literele în ordine pentru a forma cuvântul:</p>
+  <h3><span id="image">🍎</span></h3>  <div id="slots"></div>
+  <div id="letters"></div>
+  <p id="result"></p>  <script>
+    const words = [
+      { word: "măr", image: "🍎" },
+      { word: "casă", image: "🏠" },
+      { word: "luna", image: "🌙" },
+      { word: "soare", image: "☀️" }
+    ];
+
+    let currentIndex = 0;
+    let currentLetterIndex = 0;
+
+    function shuffle(array) {
+      return array.sort(() => Math.random() - 0.5);
+    }
+
+    function initGame() {
+      const data = words[currentIndex];
+      document.getElementById("image").textContent = data.image;
+
+      const slots = document.getElementById("slots");
+      slots.innerHTML = "";
+      for (let i = 0; i < data.word.length; i++) {
+        const slot = document.createElement("div");
+        slot.className = "letter-slot";
+        slot.textContent = "_";
+        slots.appendChild(slot);
+      }
+
+      const lettersDiv = document.getElementById("letters");
+      lettersDiv.innerHTML = "";
+      const shuffled = shuffle(data.word.split(""));
+      shuffled.forEach(letter => {
+        const button = document.createElement("div");
+        button.className = "letter-button";
+        button.textContent = letter;
+        button.onclick = () => handleClick(letter, button);
+        lettersDiv.appendChild(button);
+      });
+
+      currentLetterIndex = 0;
+      document.getElementById("result").textContent = "";
+    }
+
+    function handleClick(letter, button) {
+      const expectedLetter = words[currentIndex].word[currentLetterIndex];
+      const slots = document.querySelectorAll(".letter-slot");
+
+      if (letter === expectedLetter) {
+        slots[currentLetterIndex].textContent = letter;
+        slots[currentLetterIndex].classList.add("correct");
+        button.remove();
+        currentLetterIndex++;
+
+        if (currentLetterIndex === words[currentIndex].word.length) {
+          document.getElementById("result").textContent = "Bravo! Ai format corect cuvântul!";
+          setTimeout(() => {
+            currentIndex = (currentIndex + 1) % words.length;
+            initGame();
+          }, 1500);
+        }
+      } else {
+        button.classList.add("wrong");
+        setTimeout(() => button.classList.remove("wrong"), 1000);
+      }
+    }
+
+    initGame();
+  </script></body>
+</html>
