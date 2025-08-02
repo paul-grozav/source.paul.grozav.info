@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Toddler Math: Subtract to 10</title>
+  <style>
+    body {
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      text-align: center;
+      background-color: #e0f7fa;
+    }
+    h1 {
+      color: #00796b;
+    }
+    #question {
+      font-size: 2rem;
+      margin: 20px;
+    }
+    .button-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      max-width: 300px;
+      margin: auto;
+    }
+    .num-btn {
+      font-size: 1.5rem;
+      margin: 10px;
+      padding: 20px;
+      width: 60px;
+      height: 60px;
+      background-color: #4db6ac;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+    .num-btn:hover {
+      background-color: #00897b;
+    }
+    #feedback {
+      font-size: 1.5rem;
+      margin-top: 20px;
+      color: green;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>➖ Subtract the Numbers!</h1>
+  <div id="question">What is 7 - 4?</div>
+
+  <div class="button-grid" id="buttons">
+    <!-- Number buttons 0–10 will be generated here -->
+  </div>
+
+  <div id="feedback"></div>
+
+  <script>
+    let num1, num2;
+
+    function newQuestion() {
+      num1 = Math.floor(Math.random() * 11); // A from 0 to 10
+      num2 = Math.floor(Math.random() * (num1 + 1)); // B from 0 to A
+      document.getElementById("question").textContent = `What is ${num1} - ${num2}?`;
+      document.getElementById("feedback").textContent = "";
+    }
+
+    function checkAnswer(answer) {
+      if (answer === num1 - num2) {
+        document.getElementById("feedback").textContent = "🎉 Correct!";
+        setTimeout(newQuestion, 1500);
+      } else {
+        document.getElementById("feedback").textContent = "❌ Try Again!";
+      }
+    }
+
+    function createButtons() {
+      const buttonsDiv = document.getElementById("buttons");
+      for (let i = 0; i <= 10; i++) {
+        const btn = document.createElement("button");
+        btn.className = "num-btn";
+        btn.textContent = i;
+        btn.onclick = () => checkAnswer(i);
+        buttonsDiv.appendChild(btn);
+      }
+    }
+
+    createButtons();
+    newQuestion();
+  </script>
+
+</body>
+</html>
