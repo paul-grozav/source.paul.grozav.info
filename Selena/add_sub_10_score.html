@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Toddler Math Game</title>
+  <style>
+    body {
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      text-align: center;
+      background-color: #fff8e1;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: #ffcc80;
+      padding: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    h1 {
+      margin: 10px;
+      color: #ef6c00;
+    }
+    #score {
+      font-size: 1rem;
+      color: #5d4037;
+      margin-right: 20px;
+    }
+    #question {
+      font-size: 2rem;
+      margin: 30px;
+    }
+    .button-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      max-width: 300px;
+      margin: auto;
+    }
+    .num-btn {
+      font-size: 1.5rem;
+      margin: 10px;
+      padding: 20px;
+      width: 60px;
+      height: 60px;
+      background-color: #ffb74d;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+    .num-btn:hover {
+      background-color: #ffa726;
+    }
+    #feedback {
+      font-size: 1.5rem;
+      margin-top: 20px;
+      color: green;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>🧠 Toddler Math</h1>
+    <div id="score">✅ 0 | ❌ 0</div>
+  </header>
+
+  <div id="question">What is 4 + 2?</div>
+
+  <div class="button-grid" id="buttons">
+    <!-- Number buttons 0–10 will be generated here -->
+  </div>
+
+  <div id="feedback"></div>
+
+  <script>
+    let num1, num2, operation, correctAnswer;
+    let correctCount = 0;
+    let wrongCount = 0;
+
+    function updateScore() {
+      document.getElementById("score").textContent = `✅ ${correctCount} | ❌ ${wrongCount}`;
+    }
+
+    function newQuestion() {
+      // Randomly choose between addition or subtraction
+      operation = Math.random() < 0.5 ? '+' : '-';
+
+      if (operation === '+') {
+        num1 = Math.floor(Math.random() * 6);
+        num2 = Math.floor(Math.random() * (11 - num1));
+        correctAnswer = num1 + num2;
+      } else {
+        num1 = Math.floor(Math.random() * 11);
+        num2 = Math.floor(Math.random() * (num1 + 1));
+        correctAnswer = num1 - num2;
+      }
+
+      document.getElementById("question").textContent = `What is ${num1} ${operation} ${num2}?`;
+      document.getElementById("feedback").textContent = "";
+    }
+
+    function checkAnswer(answer) {
+      if (answer === correctAnswer) {
+        correctCount++;
+        document.getElementById("feedback").textContent = "🎉 Correct!";
+        updateScore();
+        setTimeout(newQuestion, 1500);
+      } else {
+        wrongCount++;
+        document.getElementById("feedback").textContent = "❌ Try Again!";
+        updateScore();
+      }
+    }
+
+    function createButtons() {
+      const buttonsDiv = document.getElementById("buttons");
+      for (let i = 0; i <= 10; i++) {
+        const btn = document.createElement("button");
+        btn.className = "num-btn";
+        btn.textContent = i;
+        btn.onclick = () => checkAnswer(i);
+        buttonsDiv.appendChild(btn);
+      }
+    }
+
+    createButtons();
+    updateScore();
+    newQuestion();
+  </script>
+
+</body>
+</html>
