@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <title>Sare broscuța pe silabe</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background-color: #f0f8ff;
+      padding: 2em;
+    }
+    .emoji {
+      font-size: 3em;
+      margin-bottom: 1em;
+    }
+    .section-title {
+      font-size: 1.2em;
+      margin-bottom: 0.5em;
+    }
+    .word-container {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 1em;
+      min-height: 60px;
+      margin-bottom: 60px;
+    }
+    .syllable {
+      background-color: #fff8dc;
+      border: 2px solid #deb887;
+      padding: 0.5em 1em;
+      font-size: 1.5em;
+      cursor: pointer;
+      border-radius: 10px;
+      transition: background-color 0.2s;
+    }
+    .syllable:hover {
+      background-color: #ffe4b5;
+    }
+    .syllable.correct {
+      background-color: #c2f0c2;
+      border-color: #4CAF50;
+    }
+    .syllable.wrong {
+      background-color: #f8d7da;
+      border-color: #dc3545;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="emoji" id="emoji">🍌</div>
+
+  <div class="section-title">Alege silabele în ordine:</div>
+  <div id="syllables" class="word-container"></div>
+
+  <div class="section-title">Ai format:</div>
+  <div id="correct-container" class="word-container"></div>
+
+  <script>
+    const words = [
+      { emoji: "🍌", syllables: ["ba", "na", "na"] },
+      { emoji: "🍎", syllables: ["măr"] },
+      { emoji: "🍉", syllables: ["lu", "bă", "ni", "ță"] },
+      { emoji: "🚗", syllables: ["ma", "și", "nă"] },
+      { emoji: "🐸", syllables: ["broa", "scă"] }
+    ];
+
+    let currentWord = {};
+    let currentIndex = 0;
+
+    const emojiDiv = document.getElementById("emoji");
+    const syllablesDiv = document.getElementById("syllables");
+    const correctContainer = document.getElementById("correct-container");
+
+    function shuffle(array) {
+      return array
+        .map(value => ({ value, sort: Math.random() }))
+        .sort((a, b) => a.sort - b.sort)
+        .map(({ value }) => value);
+    }
+
+    function loadNewWord() {
+      correctContainer.innerHTML = "";
+      currentIndex = 0;
+      currentWord = words[Math.floor(Math.random() * words.length)];
+      emojiDiv.textContent = currentWord.emoji;
+
+      const shuffled = shuffle([...currentWord.syllables]);
+      syllablesDiv.innerHTML = "";
+      shuffled.forEach(syl => {
+        const span = document.createElement("span");
+        span.className = "syllable";
+        span.textContent = syl;
+        span.onclick = () => handleClick(span, syl);
+        syllablesDiv.appendChild(span);
+      });
+    }
+
+    function handleClick(span, syl) {
+      if (syl === currentWord.syllables[currentIndex]) {
+        span.remove();
+        const newSyl = document.createElement("span");
+        newSyl.className = "syllable correct";
+        newSyl.textContent = syl;
+        correctContainer.appendChild(newSyl);
+        currentIndex++;
+        if (currentIndex === currentWord.syllables.length) {
+          setTimeout(loadNewWord, 1000);
+        }
+      } else {
+        span.classList.add("wrong");
+        setTimeout(loadNewWord, 1000);
+      }
+    }
+
+    loadNewWord();
+  </script>
+</body>
+</html>
