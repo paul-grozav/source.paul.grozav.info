@@ -10,10 +10,10 @@ system) is a software suite that manages separately different parts of display
 screens. It is a GUI (Graphical User Interface) that implements the WIMP
 (windows, icons, menus, pointer) paradigm for a user interface.
 
-The primary component of a Windowing system is the display server, but it
-encompasses the other components like the window manager and desktop manager,
-but also things like concepts/protocols(for example between the display server
-and display clients), libraries (`libX11`).
+The primary component of a Windowing system is the display server(also called
+a compositor), but it encompasses the other components like the window manager
+and desktop manager, but also things like concepts/protocols(for example between
+the display server and display clients), libraries (`libX11`).
 
 In Unix-like systems, a common windowing system is the
 [X Window system](https://en.wikipedia.org/wiki/X_Window_System) (or simply X,
@@ -47,13 +47,13 @@ Other examples of window systems include:
   https://en.wikipedia.org/wiki/Desktop_Window_Manager) - by Microsoft for
   Windows
 
-## 1. Display server
-The display server is responsible with rendering the graphics (received from the
-display client applications) on the visual display and pass the hardware inputs
-from the end-user to the display client applications (like keyboard presses and
-mouse clicks). The visual display can be a physical display monitor or a virtual
-memory buffer (works entirely in RAM, for cases when a physical monitor is not
-present).
+## 1. Display server / Compositor
+The display server(also known as Compositor) is responsible with rendering the
+graphics (received from the display client applications) on the visual display
+and pass the hardware inputs from the end-user to the display client
+applications (like keyboard presses and mouse clicks). The visual display can be
+a physical display monitor or a virtual memory buffer (works entirely in RAM,
+for cases when a physical monitor is not present).
 
 The X Window system offers offers as a display server, the
 [X.Org Server](https://en.wikipedia.org/wiki/X.Org_Server) which displays to a
