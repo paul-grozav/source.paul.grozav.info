@@ -84,36 +84,79 @@ connected to the same motherboard, practically allowing 2 or more people to work
 on the same PC unit/case.
 
 The program/application that connects to the X.Org server can even be ran
-remotely, as is the case with `ssh -X server xeyes`. This connects to the remote
-`server` and starts the `xeyes` application on that computer, but it connects it
-to the local X.Org server on my local computer, making my monitor display the
-visuals and allowing my mouse & keyboard to interact with it. Even allowing my
-local window manager to manage, place and decorate the window the application
-creates. 
+[remotely](https://en.wikipedia.org/wiki/X_terminal), as is the case with
+`ssh -X server xeyes`. This connects to the remote `server` and starts the
+`xeyes` application on that computer, but it connects it to the local X.Org
+server on my local computer, making my monitor display the visuals and allowing
+my mouse & keyboard to interact with it. Even allowing my local window manager
+to manage, place and decorate the window the application creates.
+
+When you start a GUI program, you need to decide to which X.Org Server instance
+you connect it to. This is typically done through the `DISPLAY` environment
+variable, or a CLI parameter.
+
+The X.Org (display) Server has an extension known as
+[Xinerama](https://en.wikipedia.org/wiki/Xinerama) which allows it to use two or
+more hardware displays(monitors) as one larger virtual display.
 
 ## 2. Desktop manager / Display manager / Login manager
 The Desktop manager presents the user a login screen and basic settings, before
-opening a new graphical session for that user. The graphical session will start
-the desktop environment.
+opening a new graphical session for that user. The graphical session will
+usually start a desktop environment for that user.
 
 The display manager will start an X server on the default display and then for
 each user that authenticates, it will start a new X server instance in which
 a desktop environment will be stared(or just a simple app). The newly started
-Xsrv instances will not run(have) a desktop manager instance at all, they will
-run a desktop environment instead.
+Xsrv instances will not run(have) a desktop manager instance at all, they
+typically run a desktop environment instead.
 
-Note that  "Desktop manager" = "Display manager" and roughly = "Login manager"
+Note that "Desktop manager" = "Display manager" and roughly = "Login manager"
 but the "Display manager" should not be confused with a "Display server"
 (Compositor).
 
+The X windowing system provides
+[XDM](https://en.wikipedia.org/wiki/XDM_(display_manager)) as the default
+display manager in the suite.
+
 ## 3. Desktop environment
+A Desktop environment is a suite/stack of applications designed to work together
+to provide a [Desktop](https://en.wikipedia.org/wiki/Desktop_environment) like
+interface experience to the user. So you can think of it as simply as a script
+that starts multiple programs. All of these program components will be
+configured to connect to the same X.Org Server instance.
+
+The X windowing system kind of stops after the X.Org server, allowing the user
+to choose which components to use for each role. So, they definitely didn't want
+to create a full desktop environment suite of apps. There are other projects
+that do that, like GNOME, KDE, XFCE and others.
+
+However, the *UNIX 98 Workstation Product Standard* environment is the
+[CDE (Common Desktop Environment)](
+  https://en.wikipedia.org/wiki/Common_Desktop_Environment). It was a closed
+source commercial solution until its decline in early 2000s when it was replaced
+by the free and open-source alternatives. Eventually CDE was released as open
+source in 2012. No newer standard was defined, 
+
+The current "standard" for mission-critical systems is to not run a complete
+desktop environment, and instead run only an application and maybe a window
+manager if really needed. This is to strip out all unnecessary components and
+reduce the attack surface and potential for failure.
 
 ## 4. Window manager
-A Window manager handles the placement, resizing, and decoration of all windows
-objects in that X.Org Server instance. This means that you can't run two
-instances of a window manager in the same X server instance. 
+A Window manager handles the placement, resizing, and decoration of **all**
+windows objects in that X.Org Server instance. This means that you can't run two
+instances of a window manager in the same X server instance.
 
-## Diagrams
+X version 11 Release 4 included [TWM](https://en.wikipedia.org/wiki/Twm) as a
+default window manager, but of course, they support any window manager that
+adheres to the X11 protocol.
+
+Currently [FVWM](https://en.wikipedia.org/wiki/FVWM), originally based on TWM,
+it is now a modern, actively developed, minimal and stable alternative.
+
+## 5. Toolkit
+
+## 6. Diagrams
 #### Data flow
 ```txt
 Your App (Python / Qt / GTK)
@@ -126,12 +169,7 @@ Kernel (DRM/KMS, GPU drivers)
         ↓
 Hardware
 ```
-#### Nesting
-```txt
-1. Windowing system (X)
-  1.1. Display server / Compositor (X.Org Server, Wayland)
-  1.2. Desktop manager / Display manager / Login manager
-```
+
 #### UML diagram
 ```plantuml
 @startuml
@@ -155,14 +193,20 @@ package desktop_manager_x {
 
 package session_1 {
   node XServer as xsrv1
-  node desktop_environment as de1
-  de1 <-> xsrv1
+  node application1 as app1
+  app1 <-> xsrv1
 }
 
 package session_2 {
   node XServer as xsrv2
-  node application1 as app1
-  app1 <-> xsrv2
+  package desktop_environment {
+    node window_manager
+    node panel_dock_taskbar
+    node file_manager
+    node apps
+    node themes_icons_fonts
+  }
+  desktop_environment <-> xsrv2
 }
 
 
