@@ -155,6 +155,10 @@ Currently [FVWM](https://en.wikipedia.org/wiki/FVWM), originally based on TWM,
 it is now a modern, actively developed, minimal and stable alternative.
 
 ## 5. Toolkit
+The toolkit is a library that runs on top of the X.Org server. It provides a
+higher level of abstraction, giving developers ready-made components like
+buttons, text boxes, sliders, and menus. This saves developers from having to
+draw every pixel themselves.
 
 ## 6. Diagrams
 #### Data flow
