@@ -99,6 +99,15 @@ The X.Org (display) Server has an extension known as
 [Xinerama](https://en.wikipedia.org/wiki/Xinerama) which allows it to use two or
 more hardware displays(monitors) as one larger virtual display.
 
+[Xephyr](https://en.wikipedia.org/wiki/Xephyr) is an X client that also acts as
+a display server that renders the graphics in an X window. Basically allowing
+X-on-X nesting.
+
+[Xpra](https://en.wikipedia.org/wiki/Xpra) is another fascinating project that
+run X clients, typically on a remote host, and direct their display to the local
+machine without the X clients closing or losing any state in case the network
+connection between the local machine and the remote host is lost.
+
 ## 2. Desktop manager / Display manager / Login manager
 The Desktop manager presents the user a login screen and basic settings, before
 opening a new graphical session for that user. The graphical session will
