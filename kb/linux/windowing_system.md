@@ -60,16 +60,23 @@ The X Window system offers offers as a display server, the
 physical monitor, but also [Xvfb](https://en.wikipedia.org/wiki/Xvfb) which
 displays to a memory buffer. These are 2 distinct binaries, implementing the
 same interface/protocol with the clients, the
-[X11 protocol](https://en.wikipedia.org/wiki/Windowing_system#X11). 
+[X11 protocol](https://en.wikipedia.org/wiki/Windowing_system#X11).
+
+The role of the "Compositor" is to take the content from each application's
+window and combine them into a single image to be displayed on the screen.
 
 While X.Org Server can be ran without a window manager, having one greatly
 increases convenience and ease of use.
 
 ## 2. Window manager
+A Window manager handles the placement, resizing, and decoration of windows.
 
 ## 3. Desktop manager
 
-## N. The applications
+## 4. Desktop environment
+
+## Diagrams
+#### Data flow
 ```txt
 Your App (Python / Qt / GTK)
         ↓
@@ -80,4 +87,10 @@ Window system (X11 OR Wayland)
 Kernel (DRM/KMS, GPU drivers)
         ↓
 Hardware
+```
+#### Nesting
+```txt
+1. Windowing system (X)
+  1.1. Display server / Compositor (X.Org Server, Wayland)
+
 ```
