@@ -75,6 +75,11 @@ sysctl -w net.ipv4.conf.eth0/11.rp_filter=2
 
 ## 5. tcpdump
 ```bash
-# Cpature with tcpdump remotely over ssh, and view locally in wireshark
+# Capture with tcpdump remotely over ssh, and view locally in wireshark
 echo root_password | SSHPASS=root_password sshpass -e ssh user@server1 sudo -S tcpdump -i any -U -s0 -w - 'not port 22' | sudo wireshark -k -i -
+```
+
+## 6. iftop
+```sh
+sudo iftop -nN -pP -i eth0 -f "host 192.168.0.7 and port 3306"
 ```
