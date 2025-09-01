@@ -17,7 +17,9 @@
   <h1>Potrivește imaginea cu litera</h1>
   <div class="letter" id="letter"></div>
   <div id="choices"></div>
-  <div id="status"></div>  <script>
+  <div id="status"></div>
+  <div id="score">✅ 0 &nbsp;&nbsp; ❌ 0</div>
+  <script>
     const letterData = {
       "A": ["🍍", "🐝", "🥑", "🫑", "✈", "🎆", "🧷", "⚓", "🏹", "🦔", "🫐", "🍭", "🪡"],
       "B": ["🍌", "🚲", "🎈", "🏀", "🦉", "🎄", "🥦", "⛪", "💡"],
@@ -49,6 +51,12 @@
     let correctEmoji = '';
     let clicked = false;
     let buttons = [];
+    let correct = 0;
+    let wrong = 0;
+
+    function updateScore() {
+      document.getElementById("score").innerHTML = `✅ ${correct} &nbsp;&nbsp; ❌ ${wrong}`;
+    }
 
     function nextRound() {
       clicked = false;
@@ -97,13 +105,16 @@
 
       if (emoji === correctEmoji) {
         clicked = true;
+        correct++;
         button.classList.add('correct');
         document.getElementById('status').textContent = 'Bravo!';
         setTimeout(nextRound, 1000);
       } else {
+        wrong++;
         button.classList.add('incorrect');
         document.getElementById('status').textContent = 'Încearcă din nou!';
       }
+      updateScore();
     }
 
     function shuffleArray(array) {
@@ -113,6 +124,7 @@
       }
     }
 
+    updateScore();
     nextRound();
   </script></body>
 </html>
