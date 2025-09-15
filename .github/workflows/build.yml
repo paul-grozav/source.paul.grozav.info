@@ -30,7 +30,8 @@ jobs:
   # Build job
   build:
     # runs-on: self-hosted
-    runs-on: ubuntu-latest # Uses a free GitHub runner
+    # Uses a free GitHub runner
+    runs-on: ubuntu-latest
     container:
       image: ruby:3.0.3
       # image: ruby:3.0.3-alpine3.15
@@ -75,7 +76,8 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest # Uses a free GitHub runner
+    # Uses a free GitHub runner
+    runs-on: ubuntu-latest
     needs: build
     steps:
     - name: Deploy to GitHub Pages

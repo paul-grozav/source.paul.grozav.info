@@ -20,7 +20,7 @@ Supported hardware</a>
   # Make all (default config)
   make &&
 
-  # echo -e '#!ipxe'"\necho Starting iPXE embeded script!\nifstat\ndhcp\nshell"\
+  # echo -e '#!ipxe'"\necho Starting iPXE embeded script"'!'"\nifstat\ndhcp\nshell"\
   #   > /mnt/my_script.ipxe
 
   # See: https://ipxe.org/appnote/buildtargets
