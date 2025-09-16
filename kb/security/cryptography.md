@@ -512,12 +512,13 @@ Will generate a private `key.pem` file(also contains the public part), and a cer
 ```bash
 # Check that certificate is offered by web server, using a debugger
 # client which shows (all) certificate info:
-openssl s_client -connect 127.0.0.1:443
+openssl s_client -connect 127.0.0.1:443 0</dev/null
 # Show just expiration dates for example
-openssl s_client -connect 127.0.0.1:443 2>/dev/null | openssl x509 -noout -dates
+openssl s_client -connect 127.0.0.1:443 2>/dev/null 0</dev/null | openssl x509 -noout -dates
+# Or the certificate itself:
 
 # Get the certificate from a server
-echo -n | openssl s_client -connect google.com:443 2>/dev/null | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' > downloaded.cert
+openssl s_client -connect paul-grozav.github.io:443 2>/dev/null 0</dev/null | openssl x509 > downloaded.cert
 
 # Get info from a certificate file
 openssl x509 -startdate -enddate -issuer -subject -email -serial -fingerprint -noout -in cert.pem
