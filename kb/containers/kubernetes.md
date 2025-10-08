@@ -3,7 +3,7 @@ layout: page
 ptitle: Kubernetes k8s
 ---
 
-### Why Kubernetes?
+## Why Kubernetes?
 We are currently having the bare-metal hardware partitioned similar to: "3 nodes
 for DB, 8 nodes for web apps, 4 nodes for C++ backends, 2 nodes for storage,
 etc.". Each node has a pre-defined role in the infrastructure, determined by the
@@ -86,7 +86,7 @@ solutions, implemented to be really redundant and resilient, such as:
 
 [//]: # (======================================================================)
 
-### Design
+## Design
 Read more at: https://kubernetes.io/docs/concepts/overview/components/ .
 ```yml
 # ============================================================================ #
@@ -197,7 +197,7 @@ kubectl -down-( k8s_api_lb
 '------------------------------------------------------------------------------'
 ```
 
-### Rename StatefulSet and preserve the volume it claimed.
+## Rename StatefulSet and preserve the volume it claimed.
 ```bash
 # delete current SS first
 namespace="httpd--aleph--pgrozav" &&
@@ -252,14 +252,14 @@ EOF
 true
 ```
 
-### Reference
+## Reference
 <ol>
   <li><a href="https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands" target="_blank">kubectl</a></li>
   <li><a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.27/#deployment-v1-apps" target="_blank">Kubernetes API</a></li>
   <li><a href="https://www.cncf.io/phippy/" target="_blank">🦒 Phippy - The Illustrated Children’s Guide to Kubernetes</a></li>
 </ol>
 
-### Commands
+## Commands
 ```bash
 # Start pod(container) interactively and delete it at the end (NS must exist)
 kubectl -n my-ns run my-test-pod --image=alpine:3.15.1 --env k1=v1 --env k2=v2 --stdin --tty --rm=true -- /bin/sh
@@ -271,7 +271,7 @@ kubectl create configmap test--config --from-literal=special.how=very --from-lit
 kubectl get configmap test--config -o yaml
 ```
 
-### Annotations vs Labels
+## Annotations vs Labels
 Use annotations for things like: build information, versioning, timestamps, or
 links to related data, description(a longer sentence).
 
@@ -279,7 +279,7 @@ Use labels for things like: environment, tier, region, or role. Labels are
 restricted to a length of 63 characters.
 
 
-### Joining a cluster
+## Joining a cluster
 ```sh
 # List non-expired join tokens on a control-plane:
 kubeadm token list
@@ -287,7 +287,7 @@ kubeadm token list
 kubeadm token create --print-join-command
 ```
 
-### Resource management
+## Resource management
 At the container level(inside a pod), you can specify
 `Pod.spec.containers[0].resources`:
 ```yaml
@@ -335,7 +335,7 @@ subject to the same limitations, if there are lots of things to process and the
 app needs more than the basic 10%, the extra 5% will be given to our process if
 and only if the CPU is idle.
 
-### Resource monitoring
+## Resource monitoring
 To get resource usage at runtime, you can use:
 ```sh
 paul@alice:~$ kubectl top pod my-server --namespace one
@@ -414,8 +414,8 @@ paul@alice:~ $ ls -l /sys/fs/cgroup/kubepods.slice/kubepods-pod16e6a747_9d40_412
 ```
 There you can find info about the memory and other resource usage.
 
-### Probes
-##### Liveness
+## Probes
+### Liveness
 The Liveness probe determines if your application is still healthy enough to be
 running.
 
@@ -428,7 +428,7 @@ healthy and responsive.
 **Analogy**: A heartbeat monitor in a hospital. If the heart stops (the probe
 fails), the immediate action is resuscitation (a restart).
 
-##### Readiness
+### Readiness
 The Readiness probe determines if the application is fully booted, initialized,
 and ready to handle requests. A container can be live (running code) but not
 ready (still loading data or connecting to a database).
