@@ -413,3 +413,37 @@ one  my-server  16e6a747-9d40-4120-bbac-ca7cd274fdd9
 paul@alice:~ $ ls -l /sys/fs/cgroup/kubepods.slice/kubepods-pod16e6a747_9d40_4120_bbac_ca7cd274fdd9.slice
 ```
 There you can find info about the memory and other resource usage.
+
+### Probes
+##### Liveness
+The Liveness probe determines if your application is still healthy enough to be
+running.
+
+If the Liveness probe fails, Kubernetes assumes the application is in a fatal,
+unrecoverable state (a "deadlock" or "zombie" state, running but not processing
+requests) and takes immediate action by restarting the container (via a SIGTERM
+followed by a SIGKILL if necessary). The goal is to ensure the application is
+healthy and responsive.
+
+**Analogy**: A heartbeat monitor in a hospital. If the heart stops (the probe
+fails), the immediate action is resuscitation (a restart).
+
+##### Readiness
+The Readiness probe determines if the application is fully booted, initialized,
+and ready to handle requests. A container can be live (running code) but not
+ready (still loading data or connecting to a database).
+
+If the Readiness probe fails, Kubernetes will remove the Pod's IP from the
+Service endpoints. The Pod remains running, but it stops receiving new traffic
+until the probe passes again. The goal is to ensure client requests are routed
+to backends that can process them and generate a valid response, or in other
+words to determine if the Pod's IP address should be added to the associated
+Service's endpoint list(which acts as a load balancer).
+
+Use this when your application takes time to start (e.g., loading large
+configuration files or establishing a database connection). Or when the
+application needs to perform maintenance or graceful shutdown (you can
+temporarily fail the readiness probe to drain traffic).
+
+**Analogy**: A "Closed" sign on a shop door. The shop is still standing (live),
+but it's not ready for customers (it won't receive traffic).
