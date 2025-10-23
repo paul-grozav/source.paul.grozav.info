@@ -1,6 +1,6 @@
 ---
 layout: page
-ptitle: UEFI shell
+title: UEFI shell
 ---
 
 ```sh

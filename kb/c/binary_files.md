@@ -1,6 +1,6 @@
 ---
 layout: page
-ptitle: Binary files
+title: Binary files
 ---
 
 Keep in mind the [ASCII table](https://www.asciitable.com/).

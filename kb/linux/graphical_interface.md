@@ -1,6 +1,6 @@
 ---
 layout: page
-ptitle: Graphical interface
+title: Graphical interface
 ---
 ## 1. "X" server
 

@@ -1,6 +1,6 @@
 ---
 layout: page
-ptitle: Pointers and memory
+title: Pointers and memory
 ---
 
 ### 1. Values and data types

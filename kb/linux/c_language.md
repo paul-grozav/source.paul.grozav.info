@@ -1,6 +1,6 @@
 ---
 layout: page
-ptitle: C Language
+title: C Language
 ---
 System calls: [See all](http://man7.org/linux/man-pages/man2/syscalls.2.html)
 - `getpid()` - Gets PID of current process

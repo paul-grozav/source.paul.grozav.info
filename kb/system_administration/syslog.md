@@ -1,6 +1,6 @@
 ---
 layout: page
-ptitle: SysLog
+title: SysLog
 ---
 
 C++ application:

@@ -1,6 +1,6 @@
 ---
 layout: page
-ptitle: 2 Factor Authentication
+title: 2 Factor Authentication
 ---
 The 2FA is a mechanism that generates a second password(known as TOTP), that is dynamic, for you to use along with the first password (static), when connecting to your account. TOTP, or Time-based One-time Password, is an algorithm used to generate the second password/factor, based on a secret key and the current time.
 <br/><br/>

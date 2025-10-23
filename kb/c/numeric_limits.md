@@ -1,6 +1,6 @@
 ---
 layout: page
-ptitle: Numeric limits
+title: Numeric limits
 ---
 
 <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML" async="" type="text/javascript">// <![CDATA[

@@ -1,6 +1,6 @@
 ---
 layout: page
-ptitle: Picking glibc versions at runtime
+title: Picking glibc versions at runtime
 ---
 
 Blog System/5

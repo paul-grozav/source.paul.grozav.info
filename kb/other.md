@@ -1,6 +1,6 @@
 ---
 layout: page
-ptitle: Others - migrated from old site
+title: Others - migrated from old site
 ---
 
 ### 1. Ubuntu remove guest session

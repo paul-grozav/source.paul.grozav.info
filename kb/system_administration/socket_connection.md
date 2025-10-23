@@ -1,6 +1,6 @@
 ---
 layout: page
-ptitle: Socket connection
+title: Socket connection
 ---
 
 ## 1. Establish a TCP connection

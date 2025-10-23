@@ -1,6 +1,6 @@
 ---
 layout: page
-ptitle: Process memory
+title: Process memory
 ---
 
 Topics to cover:

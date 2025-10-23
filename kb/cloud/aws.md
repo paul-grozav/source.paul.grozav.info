@@ -1,6 +1,6 @@
 ---
 layout: page
-ptitle: Amazon Web Services (AWS)
+title: Amazon Web Services (AWS)
 ---
 
 ### 1. CLI

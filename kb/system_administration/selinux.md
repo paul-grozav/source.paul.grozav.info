@@ -1,6 +1,6 @@
 ---
 layout: page
-ptitle: SELinux (Security-Enhanced Linux)
+title: SELinux (Security-Enhanced Linux)
 ---
 
 Boot time kernel parameters:

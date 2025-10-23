@@ -1,6 +1,6 @@
 ---
 layout: page
-ptitle: GNU Debugger
+title: GNU Debugger
 ---
 
 1. `#> gdb executable` - start debugging a new instance of your executable.

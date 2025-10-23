@@ -1,6 +1,6 @@
 ---
 layout: page
-ptitle: The GNU Privacy Guard
+title: The GNU Privacy Guard
 ---
 
 ---

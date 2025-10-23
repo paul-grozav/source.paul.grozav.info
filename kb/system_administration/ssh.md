@@ -1,6 +1,6 @@
 ---
 layout: page
-ptitle: SSH
+title: SSH
 ---
 
 #### This will generate a public key: `./new_key.pub` and a private one: `./new_key`

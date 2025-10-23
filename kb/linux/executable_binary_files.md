@@ -1,6 +1,6 @@
 ---
 layout: page
-ptitle: Executable binary files
+title: Executable binary files
 ---
 
 ## 1. What are these dynamic libraries?

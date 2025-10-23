@@ -1,6 +1,6 @@
 ---
 layout: page
-ptitle: asciinema
+title: asciinema
 ---
 
 [https://asciinema.org](https://asciinema.org)

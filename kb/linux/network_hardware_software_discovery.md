@@ -1,6 +1,6 @@
 ---
 layout: page
-ptitle: Network hardware and software discovery
+title: Network hardware and software discovery
 ---
 
 Try to detect hardware equipments/nodes from your network and the software running the computer.

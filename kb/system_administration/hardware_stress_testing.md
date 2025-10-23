@@ -1,6 +1,6 @@
 ---
 layout: page
-ptitle: Hardware stress testing
+title: Hardware stress testing
 ---
 
 This should be useful when you want to test a hardware system for any flaws.

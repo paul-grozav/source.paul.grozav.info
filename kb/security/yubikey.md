@@ -1,6 +1,6 @@
 ---
 layout: page
-ptitle: The yubico YubiKey 5 NFC
+title: The yubico YubiKey 5 NFC
 ---
 
 ---

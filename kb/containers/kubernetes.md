@@ -1,6 +1,6 @@
 ---
 layout: page
-ptitle: Kubernetes k8s
+title: Kubernetes (K8s)
 ---
 
 ## Why Kubernetes?

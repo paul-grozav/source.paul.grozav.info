@@ -1,6 +1,6 @@
 ---
 layout: page
-ptitle: Control Groups
+title: Control Groups
 ---
 CGroup a.k.a. Control Group is a mechanism for restricting a group of processes.
 

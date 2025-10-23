@@ -1,6 +1,6 @@
 ---
 layout: page
-ptitle: Other
+title: Other
 ---
 
 1\. Binary compatibility

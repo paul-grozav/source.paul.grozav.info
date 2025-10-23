@@ -1,6 +1,6 @@
 ---
 layout: page
-ptitle: Windowing system
+title: Windowing system
 ---
 
 ## 0. Window(-ing) system

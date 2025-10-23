@@ -1,7 +1,6 @@
 ---
 layout: page
-ptitle: Fii pregătit - situații de urgență
-title: DSU
+title: Fii pregătit - situații de urgență - DSU
 permalink: /dsu
 ---
 

@@ -1,6 +1,6 @@
 ---
 layout: page
-ptitle: Time functions
+title: Time functions
 ---
 
 ## 1. Data types

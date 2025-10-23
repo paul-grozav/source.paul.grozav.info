@@ -1,6 +1,6 @@
 ---
 layout: page
-ptitle: Processes and /proc filesystem
+title: Processes and /proc filesystem
 ---
 
 **Work In Progress**

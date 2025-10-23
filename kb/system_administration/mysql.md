@@ -1,6 +1,6 @@
 ---
 layout: page
-ptitle: MySQL
+title: MySQL
 ---
 
 - slow queries are a good place to start investigating high CPU usage

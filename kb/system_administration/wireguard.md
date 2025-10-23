@@ -1,6 +1,6 @@
 ---
 layout: page
-ptitle: WireGuard
+title: WireGuard
 ---
 
 ```sh

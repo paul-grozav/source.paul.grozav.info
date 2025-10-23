@@ -1,6 +1,6 @@
 ---
 layout: page
-ptitle: PDF manipulation tools
+title: PDF manipulation tools
 ---
 
 [https://en.wikipedia.org/wiki/PDF](https://en.wikipedia.org/wiki/PDF)

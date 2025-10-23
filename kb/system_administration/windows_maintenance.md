@@ -1,6 +1,6 @@
 ---
 layout: page
-ptitle: Windows maintenance
+title: Windows maintenance
 ---
 
 ## 1. Speed up windows

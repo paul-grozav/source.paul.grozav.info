@@ -1,6 +1,6 @@
 ---
 layout: page
-ptitle: Unix filesystem
+title: Unix filesystem
 ---
 
 # 1\. ls command

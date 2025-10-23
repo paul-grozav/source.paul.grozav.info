@@ -1,6 +1,6 @@
 ---
 layout: page
-ptitle: Containers - Podman or Docker
+title: Containers - Podman or Docker
 ---
 
 ### Containers - podman (or docker)

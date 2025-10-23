@@ -1,6 +1,6 @@
 ---
 layout: page
-ptitle: Byte Order Mark - 3 invisible characters
+title: Byte Order Mark - 3 invisible characters
 ---
 Find files with BOM (Byte Order Mark) characters at the beginning of file:
 ```bash

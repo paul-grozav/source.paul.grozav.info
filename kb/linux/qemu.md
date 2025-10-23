@@ -1,6 +1,6 @@
 ---
 layout: page
-ptitle: QEMU
+title: QEMU
 ---
 ## 1. Quick emulator
 ```bash

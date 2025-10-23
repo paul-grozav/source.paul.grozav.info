@@ -1,6 +1,6 @@
 ---
 layout: page
-ptitle: Disk management
+title: Disk management
 ---
 
 ## 1. fdisk

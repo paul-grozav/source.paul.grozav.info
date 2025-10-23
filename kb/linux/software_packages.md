@@ -1,6 +1,6 @@
 ---
 layout: page
-ptitle: Software Packages
+title: Software Packages
 ---
 You can plot the dependencies of a package using:
 {% highlight sh %}

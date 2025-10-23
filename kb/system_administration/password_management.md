@@ -1,6 +1,6 @@
 ---
 layout: page
-ptitle: Password management
+title: Password management
 ---
 
 {% highlight sh %}

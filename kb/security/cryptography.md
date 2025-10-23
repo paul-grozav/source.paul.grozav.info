@@ -1,6 +1,6 @@
 ---
 layout: page
-ptitle: Cryptography
+title: Cryptography
 ---
 
 ## 0. Introduction

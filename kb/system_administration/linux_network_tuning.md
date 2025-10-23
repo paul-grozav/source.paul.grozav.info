@@ -1,6 +1,6 @@
 ---
 layout: page
-ptitle: Linux network tuning
+title: Linux network tuning
 ---
 
 ```bash

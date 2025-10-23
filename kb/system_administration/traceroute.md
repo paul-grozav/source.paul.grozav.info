@@ -1,6 +1,6 @@
 ---
 layout: page
-ptitle: Trace Route
+title: Trace Route
 ---
 
 [Manual](https://linux.die.net/man/8/traceroute)

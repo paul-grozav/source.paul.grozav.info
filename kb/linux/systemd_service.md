@@ -1,6 +1,6 @@
 ---
 layout: page
-ptitle: SystemD service
+title: SystemD service
 ---
 
 This can be used to run a simple command at startup. See `Restart=no`. Command

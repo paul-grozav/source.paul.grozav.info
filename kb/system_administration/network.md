@@ -1,6 +1,6 @@
 ---
 layout: page
-ptitle: Linux network
+title: Linux network
 ---
 ## 1. ip
 ```bash

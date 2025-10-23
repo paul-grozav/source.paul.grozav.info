@@ -1,6 +1,6 @@
 ---
 layout: page
-ptitle: Pointers - asterisk and const
+title: Pointers - asterisk and const
 ---
 
 `int* p;` versus `int *p;`

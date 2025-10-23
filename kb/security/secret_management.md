@@ -1,6 +1,6 @@
 ---
 layout: page
-ptitle: Secret management
+title: Secret management
 ---
 
 ---

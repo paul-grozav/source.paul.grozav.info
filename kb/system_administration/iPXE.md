@@ -1,6 +1,6 @@
 ---
 layout: page
-ptitle: iPXE
+title: iPXE
 ---
 
 <a href="https://ipxe.org/" target="_blank">ipxe.org</a>

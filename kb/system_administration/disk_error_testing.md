@@ -1,6 +1,6 @@
 ---
 layout: page
-ptitle: Disk error testing
+title: Disk error testing
 ---
 
 ### 1. Check disk for bad blocks using a read-only test

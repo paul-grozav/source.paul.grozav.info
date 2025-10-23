@@ -1,6 +1,6 @@
 ---
 layout: page
-ptitle: Bluetooth
+title: Bluetooth
 ---
 
 You can use the command `bluetoothctl` to work with Bluetooth devices in
