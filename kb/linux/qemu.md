@@ -37,6 +37,9 @@ qemu-system-x86_64 -smp 4 -hda ./vm.hdd
 
 # UEFI boot
 qemu-system-x86_64 -drive if=pflash,format=raw,unit=0,file=/usr/share/qemu/OVMF.fd,readonly=on -serial stdio -display none -machine graphics=off -cdrom ~/ipxe.iso
+# UEFI with persistent vars (press F2 to enter UEFI setup):
+cp /usr/share/OVMF/OVMF_VARS_4M.fd ${HOME}/OVMF_VARS_4M.fd
+qemu-system-x86_64 -drive if=pflash,format=raw,unit=0,file=/usr/share/OVMF/OVMF_CODE_4M.fd,readonly=on -drive if=pflash,format=raw,unit=1,file=${HOME}$/OVMF_VARS_4M.fd -boot menu=on
 ```
 
 ## 2. Going to the QEMU console (mode: 2)
