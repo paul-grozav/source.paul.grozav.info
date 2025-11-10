@@ -447,3 +447,83 @@ temporarily fail the readiness probe to drain traffic).
 
 **Analogy**: A "Closed" sign on a shop door. The shop is still standing (live),
 but it's not ready for customers (it won't receive traffic).
+
+### Service Discovery
+Prometheus can get in touch with the K8s API Server, to discover various objects
+like pods, applications, services, that it needs to monitor.
+
+For example, you might want to add the following annotations to your pod, and
+ha Prometheus detect it automatically and add it to the targets:
+```yaml
+prometheus.io/scrape: "true"
+prometheus.io/port: "1234"
+prometheus.io/path: "/metrics"
+```
+Instead of having to manually maintain the list of targets.
+
+To achieve this, you will need a job defined in your `prometheus.yml` config
+file:
+```yaml
+- job_name: 'my-app-exporter-job'
+  # --- CRITICAL MISSING TOP-LEVEL CONFIGURATION RESTORED ---
+  honor_timestamps: true
+  scrape_interval: 1s
+  scrape_timeout: 1s
+  metrics_path: /metrics
+  # You can remove follow_redirects and enable_http2 if you don't use them,
+  # but including the standard ones makes the job definition complete.
+  scheme: http
+  kubernetes_sd_configs:
+  # This queries the K8s API server for all pods in the my-app namespace, which
+  # will show up in the Service Discovery web page of Prometheus under a group
+  # having the same name as your job_name, so my-app-exporter-job .
+  # The pods detected, after relabeling, will be added to targets webpage in a
+  # scrape pool(group) with the same name: my-app-exporter-job .
+  - role: pod
+    namespaces:
+      own_namespace: false
+      names:
+      - my-app
+  relabel_configs:
+  # 1. Only scrape targets with the annotation prometheus.io/scrape=true
+  - source_labels:
+    - __meta_kubernetes_pod_annotation_prometheus_io_scrape
+    separator: ;
+    regex: "true"
+    action: keep
+  # 2. Overwrite the possibly faulty __address__="80" with the correct Pod IP.
+  - source_labels: 
+    - __meta_kubernetes_pod_ip
+    target_label: __address__
+    action: replace
+  # 3. Append the annotated port to the new IP address.
+  - source_labels:
+    - __address__
+    - __meta_kubernetes_pod_annotation_prometheus_io_port
+    separator: ":"
+    # Matches IP:Port
+    regex: "([^:]+):(\\d+)"
+    target_label: __address__
+    replacement: $1:$2
+    action: replace
+  # 4. Set the metrics path using the annotation value 
+  - source_labels:
+    - __meta_kubernetes_pod_annotation_prometheus_io_path
+    separator: ;
+    regex: (.+)
+    target_label: __metrics_path__
+    replacement: $1
+    action: replace
+  # 5. Use the Pod name as the 'instance' label
+  - source_labels:
+    - __meta_kubernetes_pod_name
+    separator: ;
+    regex: (.*)
+    target_label: instance
+    replacement: $1
+    action: replace
+  # 6. Remove unnecessary intermediate labels
+  - action: labeldrop
+    regex: __meta_kubernetes_service_label_(.+)
+    separator: ;
+```
