@@ -45,8 +45,7 @@ qemu-system-x86_64 -drive if=pflash,format=raw,unit=0,file=/usr/share/OVMF/OVMF_
 qemu-system-x86_64 -M q35 -drive if=pflash,format=raw,unit=0,file=/usr/share/OVMF/OVMF_CODE_4M.ms.fd,readonly=on -drive if=pflash,format=raw,unit=1,file=${HOME}/OVMF_VARS_4M.ms.fd -boot menu=on -serial stdio -display none -machine graphics=off
 
 # UEFI Secure network boot
-qemu-system-x86_64 -device virtio-net-pci,netdev=net0 -netdev user,id=net0,net=192.168.88.0/24,tftp=/root/redhat,bootfile=/shimx64.efi -drive if=pflash
-,format=raw,unit=0,file=/usr/share/OVMF/OVMF_CODE_4M.ms.fd,readonly=on -drive if=pflash,format=raw,unit=1,file=${HOME}/OVMF_VARS_4M.ms.fd -m 2G -cpu Broadwell -boot n -M q35 -serial stdio -display none -machine graphics=off
+qemu-system-x86_64 -device virtio-net-pci,netdev=net0 -netdev user,id=net0,net=192.168.88.0/24,tftp=/root/redhat,bootfile=/shimx64.efi -drive if=pflash,format=raw,unit=0,file=/usr/share/OVMF/OVMF_CODE_4M.ms.fd,readonly=on -drive if=pflash,format=raw,unit=1,file=${HOME}/OVMF_VARS_4M.ms.fd -m 2G -cpu Broadwell -boot n -M q35 -serial stdio -display none -machine graphics=off
 ```
 
 ## 2. Going to the QEMU console (mode: 2)
