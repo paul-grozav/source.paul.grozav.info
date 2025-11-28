@@ -538,6 +538,9 @@ diff <(openssl rsa -modulus -noout -in private.key) <(openssl rsa -modulus -pubi
 openssl verify -verbose -CAfile ca.crt my.crt
 # Should say: "my.crt: OK"
 
+# Convert PPK (windows putty key) to PEM (open ssh unix key)
+(ppk_file="$(pwd)/my_key.ppk" && podman run -it --rm -v ${ppk_file}:/tmp/in.ppk:ro --entrypoint=/bin/sh docker.io/zinuzoid/puttygen -c "puttygen /tmp/in.ppk -O private-openssh -o /tmp/in.ppk.pem && cat /tmp/in.ppk.pem" > ${ppk_file}.pem && chmod a-rwx,u+r ${ppk_file}.pem)
+
 ```
 
 
