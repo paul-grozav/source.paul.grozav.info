@@ -101,6 +101,8 @@ show processlist;
 
 -- Engine statistics: List of databases and size of each in MiB
 select table_schema as database_name, round(sum(data_length + index_length) / 1024 / 1024, 2) as size_mib from information_schema.tables group by table_schema order by size_mib desc;
+-- Size of currently selected DB
+select table_schema DB_name, round(sum(data_length + index_length) / 1024 / 1024, 2) DB_size_in_MB from information_schema.tables where table_schema=database();
 
 -- Get current GTID position from binlog file & pos (on primary engine):
 select variable_value into @binlog_file from information_schema.global_status where variable_name='binlog_snapshot_file'; select variable_value into @position from information_schema.global_status where variable_name='binlog_snapshot_position'; select binlog_gtid_pos(@binlog_file, @position);
