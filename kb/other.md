@@ -242,7 +242,8 @@ char* subchars(char* str, short x, short y)
 ---
 
 ### 12. C++ TCP Sockets in Linux
-See: https://github.com/paul-grozav/gtp_library/tree/main/cpp/sockets
+See: [https://github.com/paul-grozav/gtp_library/tree/main/cpp/sockets](
+  https://github.com/paul-grozav/gtp_library/tree/main/cpp/sockets)
 
 ---
 ---
