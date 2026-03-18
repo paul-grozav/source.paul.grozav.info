@@ -46,6 +46,9 @@ qemu-system-x86_64 -M q35 -drive if=pflash,format=raw,unit=0,file=/usr/share/OVM
 
 # UEFI Secure network boot
 qemu-system-x86_64 -device virtio-net-pci,netdev=net0 -netdev user,id=net0,net=192.168.88.0/24,tftp=/root/redhat,bootfile=/shimx64.efi -drive if=pflash,format=raw,unit=0,file=/usr/share/OVMF/OVMF_CODE_4M.ms.fd,readonly=on -drive if=pflash,format=raw,unit=1,file=${HOME}/OVMF_VARS_4M.ms.fd -m 2G -cpu Broadwell -boot n -M q35 -serial stdio -display none -machine graphics=off
+
+# Remote access using SPICE (which also supports audio) - connect with remote-viewer spice://127.0.0.1:5900
+qemu-system-i386 -spice port=5900,addr=0.0.0.0,disable-ticketing=on
 ```
 
 ## 2. Going to the QEMU console (mode: 2)
