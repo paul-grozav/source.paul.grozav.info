@@ -1,0 +1,163 @@
+---
+layout: html
+title: Toddler Math - Add and subtract to 10
+permalink: /Selena/add_sub_10_score.html
+nav_exclude: true
+---
+<!--
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Toddler Math Game</title>
+-->
+<style>
+body {
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+  text-align: center;
+  background-color: #fff8e1;
+  margin: 0;
+  padding: 0;
+}
+header {
+  background-color: #ffcc80;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+h1 {
+  margin: 10px;
+  color: #ef6c00;
+  font-size: 1.5rem;
+}
+#score {
+  font-size: 1.2rem;
+  color: #5d4037;
+  margin-right: 20px;
+  font-weight: bold;
+}
+#question {
+  font-size: 2.5rem;
+  margin: 20px;
+  color: #333;
+}
+.button-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: 500px; /* Widened to fit more buttons nicely */
+  margin: auto;
+  padding: 10px;
+}
+.num-btn {
+  font-size: 1.2rem;
+  margin: 5px;
+  padding: 10px;
+  width: 55px;
+  height: 55px;
+  background-color: #ffb74d;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 0 4px #e6a742;
+  transition: all 0.1s;
+}
+.num-btn:active {
+  box-shadow: 0 0 #e6a742;
+  transform: translateY(4px);
+}
+.num-btn:hover {
+  background-color: #ffa726;
+}
+#feedback {
+  font-size: 1.8rem;
+  margin-top: 20px;
+  height: 2rem; /* Keeps layout stable when text appears */
+}
+</style>
+
+<header>
+  <h1>🧠 Toddler Math</h1>
+  <div id="score">✅ 0 | ❌ 0</div>
+</header>
+
+<div id="question">Preparing...</div>
+
+<div class="button-grid" id="buttons">
+  </div>
+
+<div id="feedback"></div>
+
+<script>
+// --- CONFIGURATION ---
+const maxLimit = 20; // Change this to 10, 30, 50, etc.
+// ---------------------
+
+let num1, num2, operation, correctAnswer;
+let correctCount = 0;
+let wrongCount = 0;
+
+function updateScore() {
+  document.getElementById("score").textContent = `✅ ${correctCount} | ❌ ${wrongCount}`;
+}
+
+function newQuestion() {
+  operation = Math.random() < 0.5 ? '+' : '-';
+
+  if (operation === '+') {
+    // Ensure sum doesn't exceed maxLimit
+    num1 = Math.floor(Math.random() * (maxLimit + 1));
+    num2 = Math.floor(Math.random() * (maxLimit - num1 + 1));
+    correctAnswer = num1 + num2;
+  } else {
+    // Ensure subtraction doesn't go below 0
+    num1 = Math.floor(Math.random() * (maxLimit + 1));
+    num2 = Math.floor(Math.random() * (num1 + 1));
+    correctAnswer = num1 - num2;
+  }
+
+  document.getElementById("question").textContent = `What is ${num1} ${operation} ${num2}?`;
+  document.getElementById("feedback").textContent = "";
+}
+
+function checkAnswer(answer) {
+  if (answer === correctAnswer) {
+    correctCount++;
+    document.getElementById("feedback").style.color = "green";
+    document.getElementById("feedback").textContent = "🎉 Correct!";
+    updateScore();
+    // Use a slight delay before next question so they see the success
+    setTimeout(newQuestion, 1200);
+  } else {
+    wrongCount++;
+    document.getElementById("feedback").style.color = "red";
+    document.getElementById("feedback").textContent = "❌ Try Again!";
+    updateScore();
+  }
+}
+
+function createButtons() {
+  const buttonsDiv = document.getElementById("buttons");
+  buttonsDiv.innerHTML = ""; // Clear existing
+  
+  for (let i = 0; i <= maxLimit; i++) {
+    const btn = document.createElement("button");
+    btn.className = "num-btn";
+    btn.textContent = i;
+    btn.onclick = () => checkAnswer(i);
+    buttonsDiv.appendChild(btn);
+  }
+}
+
+// Initialize the game
+createButtons();
+updateScore();
+newQuestion();
+</script>
+<!--
+</body>
+</html>
+-->
