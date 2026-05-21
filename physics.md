@@ -774,6 +774,17 @@ can tell us many things about the future.
     <td>Humans live "happily" and in "harmony" with other life forms.</td>
   </tr>
   <tr>
+    <td>- 10 000 - 3 500</td>
+    <td>As humans transitioned from nomadic tribes into agricultural societies
+      and early civilizations (like Mesopotamia and Ancient Egypt), clothing
+      evolved from a weather shield into a social barcode. In these societies,
+      nudity didn't mean you were immoral; it meant you were poor or enslaved.
+      In Ancient Egypt, children, servants, and laborers routinely worked
+      completely naked because fabric was expensive. In Mesopotamia, a lack of
+      clothing meant you were at the absolute bottom of the social ladder.
+    </td>
+  </tr>
+  <tr>
     <td>- 25 000 - 15 500</td>
     <td>The Homo Sapiens reached Americas through the Bering Land Bridge that
       connected East Asia(Siberia) with West North America (Alaska) during the
@@ -793,6 +804,31 @@ can tell us many things about the future.
       possibly the Denisovans species from eurasia. Then eventually reached
       Australia through the south east Asian continent: Thailand, Malaysia,
       and then island hopping(/sailing) through Indonesia.</td>
+  </tr>
+  <tr>
+    <td>- 100 000 - 130 000</td>
+    <td>Religion starts appearing. Before there were gods, there was an
+      awareness of death. The absolute earliest hints of proto-religious
+      behavior come from intentional burials. The Clues: Around 100,000 to
+      130,000 years ago, both early Homo sapiens (like those found in Qafzeh,
+      Israel) and even Neanderthals (like in Shanidar Cave, Iraq) began
+      deliberately burying their dead. The Ritual: These weren't just holes dug
+      to hide a body from predators. Archaeologists have found skeletons covered
+      in red ochre pigment (a symbolic red powder) and buried alongside animal
+      bones, tools, and potentially even flowers.  What it means: Burying a
+      loved one with tools or treasures implies a fundamental psychological
+      shift: our ancestors had begun imagining a journey after death.</td>
+  </tr>
+  <tr>
+    <td>- 170 000</td>
+    <td>For a long time, humans were naked and unbothered. Genetic studies of
+      clothing lice show that they split from head lice roughly 170,000 years
+      ago, which tells us exactly when humans started wearing loose animal skins
+      regularly. However, this wasn’t about modesty. It was a purely behavioral
+      adaptation to survive the Ice Age and safely migrate out of Africa into
+      freezing European and Asian environments. In warm climates,
+      hunter-gatherer societies comfortably maintained absolute or near-absolute
+      nudity for millennia without any concept of body shame. </td>
   </tr>
   <tr>
     <td>- 315 000</td>
