@@ -109,7 +109,7 @@ and ns3.digitalocean.com. The resolver stores this information in its short-term
 memory (cache).
 
 3. Going Straight to DigitalOcean
-Because the resolver now knows that DigitalOcean is the absolute boss for any
+Because the resolver now knows that Digital Ocean is the absolute boss for any
 traffic matching k8s.server.paul.grozav.info, it bypasses Internet.bs completely
 for the second loop.
 
@@ -121,3 +121,76 @@ DigitalOcean checks the zone, finds the temporary token your cert-manager pod
 just created via the API, and hands it over. Let's Encrypt reads it, validates
 your domain, and issues your wildcard certificate.
 
+# Test with a custom domain in DO's NS
+Now any subdomain you define in DO(Digital Ocean), it is resolvable. For example
+I created a record in DO: `A www2.k8s.server.paul.grozav.info 11.6.19.91` and I
+can resolve it with:
+```sh
+$ host -t A www2.k8s.server.paul.grozav.info 8.8.8.8
+Using domain server:
+Name: 8.8.8.8
+Address: 8.8.8.8#53
+Aliases:
+
+www2.k8s.server.paul.grozav.info has address 11.6.19.91
+```
+
+# DO's API token
+In Digital Ocean's account control panel, on the left menu go to `Account` and
+select `API`. Then in the `Tokens` section click `Generate New Token`.
+
+- Token Name: `cert-manager-dns`
+- Expiration: `No expire` (of course, this is insecure, you should make it
+expire yearly or so.)
+- Scopes: `Custom Scopes`
+And select all permissions in the `domain` resource type, thus giving the token
+`create`, `read`, `update` and `delete` privileges.
+
+Then click `Generate Token`. You will see a token like
+`dop_v1_SECRET_HEX_DIGITS` (sure,
+this is a dummy one, don't waste your time trying to use it)
+
+# Cert Manager with wildcard certificate
+In K8s, define your DO token as a `Secret`:
+```yaml
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: digitalocean-dns-token
+  namespace: cert-manager
+type: Opaque
+stringData:
+  access-token: "dop_v1_SECRET_HEX_DIGITS"
+```
+
+Then create your `ClusterIssuer` something like this:
+```yaml
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-staging
+spec:
+  acme:
+    server: https://acme-staging-v02.api.letsencrypt.org/directory
+    email: paul@grozav.info
+    # Name of a secret used to store the ACME account private key
+    privateKeySecretRef:
+      name: letsencrypt-staging-temp3
+    solvers:
+    # You can have multiple solvers here, of both types HTTP and DNS
+    # Digital Ocean DNS solver
+    - selector:
+        dnsNames:
+        - "*.k8s.server.paul.grozav.info"
+        - "k8s.server.paul.grozav.info"
+      dns01:
+        digitalocean:
+          tokenSecretRef:
+            name: digitalocean-dns-token
+            key: access-token
+```
+Please note that this is using LE's `Staging` ACME server. Always test with
+staging before you apply on production. Production has a limited number of
+Certificate Requests per day, Staging is more permissive, allowing you to make
+mistakes while you configure it, but it also actually checks the ownership.
