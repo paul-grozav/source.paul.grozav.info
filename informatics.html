@@ -109,3 +109,19 @@ nav_include: true
   <li><a href="/kb/other">Others - migrated from old site</a></li>
   <li><a href="/Selena/">Selena's corner</a></li>
 </ol>
+
+<hr/>
+<hr/>
+<hr/>
+
+<center>
+  <h1>Posts</h1>
+</center>
+<ul>
+  {% for post in site.posts %}
+    <li>
+      <a href="{{ post.url }}">{{ post.title }}</a>
+      {{ post.excerpt }}
+    </li>
+  {% endfor %}
+</ul>
