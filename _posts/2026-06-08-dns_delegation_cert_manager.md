@@ -147,8 +147,7 @@ And select all permissions in the `domain` resource type, thus giving the token
 `create`, `read`, `update` and `delete` privileges.
 
 Then click `Generate Token`. You will see a token like
-`dop_v1_SECRET_HEX_DIGITS` (sure,
-this is a dummy one, don't waste your time trying to use it)
+`dop_v1_SECRET_HEX_DIGITS` .
 
 # Cert Manager with wildcard certificate
 In K8s, define your DO token as a `Secret`:
