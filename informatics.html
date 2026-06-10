@@ -120,7 +120,8 @@ nav_include: true
 <ul>
   {% for post in site.posts %}
     <li>
-      <a href="{{ post.url }}">{{ post.title }}</a> - ({{ post.date }})
+      <span style="color: #999999; font-size: 11px;">[{{ post.date }}]</span>
+      <a href="{{ post.url }}">{{ post.title }}</a>
       {{ post.excerpt }}
     </li>
   {% endfor %}
