@@ -2,15 +2,16 @@
   <div class="wrapper">
     {% comment %} <h2 class="footer-heading">{{ site.title }}</h2> {% endcomment %}
     <div class="footer-col-wrapper">
-      <div class="footer-col footer-col-1">
+      <div>
         <ul class="contact-list">
           <li>{{ site.title }}</li>
-          <!-- <li><a href="mailto:{{ site.email }}">{{ site.email }}</a></li> -->
-          <li>{% include icon-email.html email="https://paul.grozav.info" %}</li>
+          <li>{% include icon-email.html %}</li>
           <li>{% include icon-website.html url="https://paul.grozav.info" %}</li>
+          <li>{% include icon-rss.html %}</li>
         </ul>
       </div>
-      <div class="footer-col footer-col-2">
+      &nbsp;
+      <div>
         <ul class="social-media-list">
           {% if site.github_username %}
             <li>{% include icon-github.html username=site.github_username %}</li>
@@ -23,30 +24,13 @@
           {% endif %}
         </ul>
       </div>
-      <div class="footer-col footer-col-3">
+      &nbsp;
+      <div>
         <p>{{ site.description }}</p>
+        &nbsp;
         <p>build_version: {{ site.build.version | append: "_" | append: site.build.commit }}</p>
         <p>build_date: {{ site.build.date }}</p>
       </div>
     </div>
   </div>
 </footer>
-{% comment %} Cookie consent - https://www.osano.com/cookieconsent/download/ {% endcomment %}
-<script src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js" data-cfasync="false"></script>
-<script>
-window.cookieconsent.initialise({
-  "palette": {
-    "popup": {
-      "background": "#eaf7f7",
-      "text": "#5c7291"
-    },
-    "button": {
-      "background": "#56cbdb",
-      "text": "#ffffff"
-    }
-  },
-  "theme": "edgeless",
-  "position": "top",
-  "static": true
-});
-</script>

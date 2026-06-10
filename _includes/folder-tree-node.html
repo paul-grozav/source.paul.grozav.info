@@ -5,7 +5,7 @@
     {% assign current_open_folders = "" | split: "/" %}
     
     {% for p in sorted_pages %}
-      {% if p.path contains "assets/" or p.path contains "README" or p.path == "index.html" or p.path == "404.md" or p.nav_exclude == true %}
+      {% if p.path contains "assets/" or p.path contains "css/" or p.path contains "README" or p.path == "index.html" or p.path == "feed.xml" or p.nav_exclude == true %}
         {% continue %}
       {% endif %}
 
@@ -37,7 +37,12 @@
           {% if current_open_folders[i] == nil or current_open_folders[i] != path_parts[i] %}
             {% assign folder_title = path_parts[i] | replace: "-", " " | replace: "_", " " %}
             <li>
-              <details>
+                {% comment %} KB folder is the main area, so keep it always expanded {% endcomment %}
+                {% if folder_title == "kb" %}
+                  <details open class="always-open">
+                {% else %}
+                  <details>
+                {% endif %}
                 <summary><span class="folder-icon"></span> {{ folder_title }}</summary>
                 <ul>
             {% assign current_open_folders = current_open_folders | push: path_parts[i] %}

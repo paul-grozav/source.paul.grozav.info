@@ -53,83 +53,266 @@ $on-laptop:        800px;
 ;
 
 
-// Menu - Tedi test
+// Menu - begin
+/* Reset body constraints for an application feel */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden; /* Prevents double scrollbars on the window */
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+}
+
+/* Create the flexible two-column workspace */
+.app-layout-wrapper {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+}
+
+/* Left Sidebar Layout */
+.app-sidebar {
+  width: 280px;
+  min-width: 250px;
+  max-width: 400px;
+  height: 100%;
+  background-color: #f6f8fa; /* GitHub's light mode background gray */
+  border-right: 1px solid #d0d7de;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-header {
+  padding: 16px 20px;
+  border-bottom: 1px solid #d0d7de;
+}
+
+.sidebar-header h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #24292f;
+}
+
+/* Force the folder tree to scroll internally if it gets too tall */
+.sidebar-nav {
+  flex: 1;
+  overflow-y: auto;
+  padding: 15px;
+}
+
+/* Right Content Area Layout */
+.app-main-content {
+  flex: 1;
+  height: 100%;
+  overflow-y: auto; /* Content area scrolls independently */
+  background-color: #ffffff;
+}
+
+.page-body {
+  // max-width: 800px;
+  margin: 0 auto;
+  padding: 40px 60px;
+}
+
 
 .windows-explorer-tree {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  font-size: 14px;
-  background-color: #fcfcfc;
-  padding: 10px;
-  border: 1px solid #e0e0e0;
-  border-radius: 4px;
-  max-width: 350px;
+  width: 100%;
+  padding: 0;
+  background: transparent;
+  border: none;
 }
 
 .windows-explorer-tree ul {
   list-style-type: none;
-  padding-left: 18px; /* Indents child folders cleanly */
+  padding-left: 12px; /* Clean cascade alignment */
+  margin: 4px 0;
+}
+
+.windows-explorer-tree > ul {
+  padding-left: 0; /* Remove padding for top-most elements */
+}
+
+.windows-explorer-tree li {
   margin: 2px 0;
 }
 
+.windows-explorer-tree summary {
+  cursor: pointer;
+  padding: 6px 8px;
+  border-radius: 6px;
+  color: #24292f;
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+}
+
+.windows-explorer-tree summary:hover,
+.windows-explorer-tree a:hover {
+  background-color: #eaeef2; /* GitHub-style light hover color */
+}
+
+.windows-explorer-tree a {
+  text-decoration: none;
+  color: #57606a;
+  display: block;
+  padding: 6px 8px;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+/* GitHub Active Link style override */
+.windows-explorer-tree .active-page {
+  background-color: #ffffff !important;
+  color: #0969da !important; /* GitHub Link Blue */
+  font-weight: 600;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  border: 1px solid #d0d7de;
+}
+
+/* Default closed folder state */
+.windows-explorer-tree .folder-icon::after {
+  content: "📁";
+  margin-right: 6px;
+  display: inline-block;
+}
+
+/* Open folder state when <details open> is triggered */
+.windows-explorer-tree details[open] > summary .folder-icon::after {
+  content: "📂";
+}
+
+/* Disable toggle interactions specifically for the devops category */
+.windows-explorer-tree details.always-open > summary {
+  pointer-events: none; /* Prevents clicks from closing the folder */
+  cursor: default;       /* Removes the pointer finger cursor */
+}
+
+/* --- COMPACT TIER CONNECTOR LINES --- */
+
+/* 1. Flatten all lists to a tight, uniform indentation */
+.windows-explorer-tree ul {
+  list-style-type: none;
+  margin: 0;
+  padding-left: 12px; /* Uniform indent for all nested tiers */
+  position: relative;
+}
+
+/* 1st Level (Root): Sits flush against the left edge of the sidebar */
 .windows-explorer-tree > ul {
   padding-left: 0;
 }
 
 .windows-explorer-tree li {
   position: relative;
-  margin: 2px 0;
+  margin: 0;
+  padding: 2px 0;
 }
 
-.windows-explorer-tree summary {
+/* 2. The Vertical Guide Lines (Only inside 1st-level folders) */
+/* This draws the line exactly 6px from the left edge of the parent folder */
+.windows-explorer-tree ul ul::before {
+  content: "";
+  position: absolute;
+  top: -4px;
+  left: 6px;
+  bottom: 12px;
+  border-left: 1px dashed #d0d7de;
+}
+
+/* 3. The Horizontal Branch Lines */
+/* This draws a short, tight line reaching back to the vertical line */
+.windows-explorer-tree ul ul li::before {
+  content: "";
+  position: absolute;
+  top: 14px;      /* Vertically centered with the text */
+  left: -6px;     /* Reaches back exactly 6px to meet the vertical line */
+  width: 12px;    /* Short, compact horizontal bridge */
+  height: 1px;
+  border-top: 1px dashed #d0d7de;
+}
+
+/* Clean up the bottom-most leaf node */
+.windows-explorer-tree ul ul li:last-child::before {
+  height: 14px;
+}
+
+/* --- FIX FOR 1ST LEVEL: REMOVE LINES ENTIRELY --- */
+/* This explicitly deletes the lines from the root elements so they don't display */
+.windows-explorer-tree > ul > li::before,
+.windows-explorer-tree > ul::before {
+  display: none !important;
+}
+
+
+// collapse button
+
+/* Update the wrapper to handle the button positioning */
+.app-layout-wrapper {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+}
+
+/* Sidebar transition setup */
+.app-sidebar {
+  width: 280px;
+  min-width: 280px;
+  height: 100%;
+  background-color: #f6f8fa;
+  border-right: 1px solid #d0d7de;
+  display: flex;
+  flex-direction: column;
+  transition: margin-left 0.3s ease, min-width 0.3s ease; /* Smooth sliding */
+}
+
+/* The magic class that hides the sidebar */
+.app-sidebar.collapsed {
+  // margin-left: -280px;
+  min-width: 0px;
+  width: 0px;
+}
+
+/* The Toggle Button Floating Layout */
+.sidebar-toggle-btn {
+  position: absolute;
+  left: 265px; /* Sits right on the border */
+  top: 15px;
+  z-index: 10;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1px solid #d0d7de;
+  background-color: #ffffff;
+  color: #57606a;
   cursor: pointer;
-  padding: 5px 8px;
-  border-radius: 3px;
   display: flex;
   align-items: center;
-  user-select: none;
+  justify-content: center;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  transition: left 0.3s ease, background-color 0.2s, transform 0.3s ease;
+  outline: none;
 }
 
-.windows-explorer-tree summary:hover, 
-.windows-explorer-tree a:hover {
-  background-color: #eaeaea;
+.sidebar-toggle-btn:hover {
+  background-color: #f3f4f6;
+  color: #24292f;
 }
 
-.windows-explorer-tree summary::-webkit-details-marker {
-  display: none;
+/* Move the button to the screen edge when sidebar is collapsed */
+.app-sidebar.collapsed + .sidebar-toggle-btn {
+  left: 10px;
 }
 
-.windows-explorer-tree summary::before {
-  content: "▶";
-  font-size: 8px;
-  margin-right: 6px;
-  color: #8c8c8c;
-  transition: transform 0.1s ease;
+/* Flip the arrow around when collapsed */
+.app-sidebar.collapsed + .sidebar-toggle-btn .toggle-arrow {
+  transform: rotate(180deg);
 }
 
-.windows-explorer-tree details[open] > summary::before {
-  transform: rotate(90deg);
+.toggle-arrow {
+  display: inline-block;
+  font-size: 10px;
+  transition: transform 0.3s ease;
 }
-
-.windows-explorer-tree .folder-icon::after {
-  content: "📁";
-  margin-right: 6px;
-}
-
-.windows-explorer-tree details[open] > summary .folder-icon::after {
-  content: "📂";
-}
-
-.windows-explorer-tree a {
-  text-decoration: none;
-  color: #2c3e50;
-  display: block;
-  padding: 5px 8px;
-  border-radius: 3px;
-}
-
-.windows-explorer-tree .active-page {
-  background-color: #0056b3 !important;
-  color: #ffffff !important;
-  font-weight: 600;
-}
-// End menu - tedi test
+// menu - end

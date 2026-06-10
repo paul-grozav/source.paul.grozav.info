@@ -1,0 +1,106 @@
+{% comment %} Cookie consent - https://www.osano.com/cookieconsent/download/ {% endcomment %}
+<!-- <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.css" /> -->
+<!-- {% comment %} Cookie consent - https://www.osano.com/cookieconsent/download/
+Needed because of the Googla Analytics{% endcomment %}
+<script src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js" data-cfasync="false"></script>
+<script>
+window.cookieconsent.initialise({
+  "palette": {
+    "popup": {
+      "background": "#eaf7f7",
+      "text": "#5c7291"
+    },
+    "button": {
+      "background": "#56cbdb",
+      "text": "#ffffff"
+    }
+  },
+  "theme": "edgeless",
+  "position": "top",
+  "static": true
+});
+</script> -->
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orestbida/cookieconsent@v2.9.2/dist/cookieconsent.css">
+<script defer src="https://cdn.jsdelivr.net/gh/orestbida/cookieconsent@v2.9.2/dist/cookieconsent.js"></script>
+
+<script>
+// This is how the cookie approval runs the google analytics code
+// [User clicks "Accept all"]
+//        │
+//        ▼
+// [Library reads your categories: "analytics"]
+//        │
+//        ▼
+// [Finds <script type="text/plain" data-cookiecategory="analytics">]
+//        │
+//        ▼
+// [Changes type to "text/javascript" & executes code]
+
+window.addEventListener('load', function () {
+  var cc = initCookieConsent();
+
+  cc.run({
+    current_lang: 'en',
+    autoclear_cookies: true,
+    page_scripts: true,
+
+    languages: {
+      'en': {
+        consent_modal: {
+          title: 'I use cookies!',
+          description: 'Hi, this website uses essential cookies to understand \
+            how you interact with it.',
+          primary_btn: {
+            text: 'Accept all',
+            // 'accept_all' or 'accept_selected'
+            role: 'accept_all'
+          },
+          secondary_btn: {
+            text: 'Settings',
+            // 'settings' or 'accept_necessary'
+            role: 'settings'
+          }
+        },
+        settings_modal: {
+          title: 'Cookie preferences',
+          save_settings_btn: 'Save settings',
+          accept_all_btn: 'Accept all',
+          reject_all_btn: 'Reject all',
+          close_btn_label: 'Close',
+          cookie_table_headers: [
+            {col1: 'Name'},
+            {col2: 'Domain'},
+            {col3: 'Expiration'}
+          ],
+          blocks: [
+            {
+              title: 'Strictly necessary cookies',
+              description: 'These cookies are essential for the proper \
+                functioning of my website (like keeping track of your sidebar \
+                folder layout).',
+              toggle: {
+                value: 'necessary',
+                enabled: true,
+                // cookie categories with readonly=true are mandatory
+                readonly: true
+              }
+            }, {
+              title: 'Performance and Analytics cookies',
+              description: 'These cookies allow us to analyze site usage so we \
+                can measure and improve performance.',
+              toggle: {
+                // This matches data-cookiecategory="analytics"
+                value: 'analytics',
+                enabled: false,
+                readonly: false
+              }
+            }
+          ]
+        }
+      }
+    }
+  });
+  // console.log('Cookie consent initialized');
+});
+</script>
