@@ -26,10 +26,13 @@
       </div>
       &nbsp;
       <div>
-        <p>{{ site.description }}</p>
+        <p style="font-size: 14px;">{{ site.description }}</p>
         &nbsp;
-        <p>build_version: {{ site.build.version | append: "_" | append: site.build.commit }}</p>
-        <p>build_date: {{ site.build.date }}</p>
+        <p style="font-size: 12px;">
+          build_version:
+            {{ site.build.version | append: "_" | append: site.build.commit }}
+        </p>
+        <p style="font-size: 12px;">build_date: {{ site.build.date }}</p>
       </div>
     </div>
   </div>
