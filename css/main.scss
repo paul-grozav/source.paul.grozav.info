@@ -51,3 +51,82 @@ $on-laptop:        800px;
         "layout",
         "syntax-highlighting"
 ;
+
+
+// Menu - Tedi test
+
+.windows-explorer-tree {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  background-color: #f8f9fa;
+  padding: 15px;
+  border-radius: 6px;
+  max-width: 320px;
+}
+
+.windows-explorer-tree ul {
+  list-style-type: none;
+  padding-left: 16px;
+  margin: 4px 0;
+}
+
+.windows-explorer-tree > ul {
+  padding-left: 0;
+}
+
+.windows-explorer-tree summary {
+  cursor: pointer;
+  padding: 4px 6px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  user-select: none;
+  outline: none;
+}
+
+.windows-explorer-tree summary:hover, 
+.windows-explorer-tree a:hover {
+  background-color: #e2e6ea;
+}
+
+.windows-explorer-tree summary::-webkit-details-marker {
+  display: none; /* Removes default browser arrows */
+}
+
+/* Custom Tree indicator arrows */
+.windows-explorer-tree summary::before {
+  content: "▶";
+  font-size: 9px;
+  margin-right: 6px;
+  color: #6c757d;
+  transition: transform 0.1s ease;
+}
+
+.windows-explorer-tree details[open] > summary::before {
+  transform: rotate(90deg);
+}
+
+.windows-explorer-tree .folder-icon::after {
+  content: "📁";
+  margin-right: 6px;
+}
+
+.windows-explorer-tree details[open] > summary .folder-icon::after {
+  content: "📂";
+}
+
+.windows-explorer-tree a {
+  text-decoration: none;
+  color: #333;
+  display: block;
+  padding: 4px 6px;
+  border-radius: 4px;
+}
+
+.windows-explorer-tree .active-page {
+  background-color: #007bff !important;
+  color: white !important;
+  font-weight: bold;
+}
+
+// End menu - tedi test

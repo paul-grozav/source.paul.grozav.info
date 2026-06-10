@@ -1,8 +1,8 @@
 ---
 layout: post
 title: "DNS delegation and cert manager"
-date: 2026-06-08
-categories: [systems]
+date: 2026-06-08 11:57:32 +0000
+categories: systems
 ---
 
 So far I have been exposing my services on
