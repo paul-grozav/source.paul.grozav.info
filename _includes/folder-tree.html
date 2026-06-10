@@ -1,0 +1,23 @@
+<div class="windows-explorer-tree">
+  <ul>
+    {% comment %}
+      Kick off our recursive engine by passing the root directory path "/"
+    {% endcomment %}
+    {% include folder-tree-node.html current_dir="/" %}
+  </ul>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    // Automatically open all ancestor folders leading down to the active file node
+    const activeLink = document.querySelector(".windows-explorer-tree .active-page");
+    if (activeLink) {
+      let parent = activeLink.closest("details");
+      while (parent) {
+        parent.setAttribute("open", "true");
+        parent = parent.parentElement.closest("details");
+      }
+      activeLink.scrollIntoView({ block: "center" });
+    }
+  });
+</script>

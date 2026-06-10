@@ -1,0 +1,78 @@
+{% assign sorted_pages = site.pages | sort: "path" %}
+
+<div class="windows-explorer-tree">
+  <ul>
+    {% assign current_open_folders = "" | split: "/" %}
+    
+    {% for p in sorted_pages %}
+      {% if p.path contains "assets/" or p.path contains "README" or p.path == "index.html" or p.path == "404.md" or p.nav_exclude == true %}
+        {% continue %}
+      {% endif %}
+
+      {% assign path_parts = p.path | split: "/" %}
+      {% assign total_parts = path_parts | size %}
+      {% assign file_name = path_parts | last %}
+      
+      {% assign folder_parts_size = total_parts | minus: 1 %}
+      
+      {% assign max_loop = current_open_folders | size | minus: 1 %}
+      {% for i in (0..max_loop) reversed %}
+        {% if i >= folder_parts_size or current_open_folders[i] != path_parts[i] %}
+          </ul></details></li>
+          
+          {% comment %} Pop the last element off our tracking array safely {% endcomment %}
+          {% assign new_open_folders = "" | split: "/" %}
+          {% for j in (0..i) %}
+            {% if j < i %}
+              {% assign new_open_folders = new_open_folders | push: current_open_folders[j] %}
+            {% endif %}
+          {% endfor %}
+          {% assign current_open_folders = new_open_folders %}
+        {% endif %}
+      {% endfor %}
+
+      {% if folder_parts_size > 0 %}
+        {% assign stop_index = folder_parts_size | minus: 1 %}
+        {% for i in (0..stop_index) %}
+          {% if current_open_folders[i] == nil or current_open_folders[i] != path_parts[i] %}
+            {% assign folder_title = path_parts[i] | replace: "-", " " | replace: "_", " " %}
+            <li>
+              <details>
+                <summary><span class="folder-icon"></span> {{ folder_title }}</summary>
+                <ul>
+            {% assign current_open_folders = current_open_folders | push: path_parts[i] %}
+          {% endif %}
+        {% endfor %}
+      {% endif %}
+
+      {% if file_name != "index.md" and file_name != "index.html" %}
+        <li>
+          <a href="{{ p.url | relative_url }}" class="{% if page.url == p.url %}active-page{% endif %}">
+            <span class="icon">📄</span> {{ p.title | default: file_name }}
+          </a>
+        </li>
+      {% endif %}
+
+    {% endfor %}
+
+    {% assign remaining_close = current_open_folders | size | minus: 1 %}
+    {% for i in (0..remaining_close) %}
+      </ul></details></li>
+    {% endfor %}
+  </ul>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    // Keep active folder path expanded across clicks
+    const activeLink = document.querySelector(".windows-explorer-tree .active-page");
+    if (activeLink) {
+      let parent = activeLink.closest("details");
+      while (parent) {
+        parent.setAttribute("open", "true");
+        parent = parent.parentElement.closest("details");
+      }
+      activeLink.scrollIntoView({ block: "center" });
+    }
+  });
+</script>

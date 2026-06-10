@@ -2,6 +2,9 @@
 layout: page
 ptitle: Test
 ---
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML" async="" type="text/javascript">// <![CDATA[
+// ]]></script>
+
 This file points to a github <b>branch</b>:
 {% include editor.html url="https://raw.githubusercontent.com/paul-grozav/snippets/master/1_snippet_test.js" %}
 <br/>
@@ -72,6 +75,9 @@ int main()
   return 0;
 }
 {% endhighlight %}
+
+Math:
+$$x = {-b \pm \sqrt{b^2-4ac} \over 2a}.$$
 
 <hr/>
 3D JS:
@@ -709,63 +715,6 @@ int main()
 Menu:
 
 <div class="sidebar">
-	<h3>Menu</h3>
-{% assign sorted_pages = site.pages | sort: "path" %}
-
-<div class="windows-explorer-tree">
-  <ul>
-    {% assign current_depth = 0 %}
-    {% assign open_dirs = "" | split: "/" %}
-
-    {% for p in sorted_pages %}
-      <!-- Skip files that shouldn't be in the sidebar navigation -->
-      {% if p.path contains "assets/" or p.path contains "README" or p.path == "index.html" or p.path == "404.md" or p.nav_exclude == true %}
-        {% continue %}
-      {% endif %}
-
-      <!-- Split the file path into directory segments -->
-      {% assign path_parts = p.path | split: "/" %}
-      {% assign total_parts = path_parts | size %}
-      {% assign file_name = path_parts | last %}
-      
-      <!-- Check if the page is an index file representing its parent folder -->
-      {% if file_name == "index.md" or file_name == "index.html" %}
-        {% assign is_index = true %}
-        {% assign folder_depth = total_parts | minus: 1 %}
-      {% else %}
-        {% assign is_index = false %}
-        {% assign folder_depth = total_parts %}
-      {% endif %}
-
-      <!-- Create the folder string loop -->
-      {% if folder_depth > 0 %}
-        <!-- Generate nested layout tags dynamically matching folder boundaries -->
-        <!-- Note: Liquid automatically renders these components sequentially -->
-      {% endif %}
-
-      <li>
-        <a href="{{ p.url | relative_url }}" class="{% if page.url == p.url %}active-page{% endif %}">
-          <span class="icon">📄</span> {{ p.title | default: file_name }}
-        </a>
-      </li>
-    {% endfor %}
-  </ul>
-</div>
-
-<!-- Simple Vanilla Javascript to preserve tree state between page reloads -->
-<script>
-  document.addEventListener("DOMContentLoaded", function() {
-    // Automatically open parent details blocks containing the currently active page
-    const activeLink = document.querySelector(".windows-explorer-tree .active-page");
-    if (activeLink) {
-      let parent = activeLink.closest("details");
-      while (parent) {
-        parent.setAttribute("open", "true");
-        parent = parent.parentElement.closest("details");
-      }
-      activeLink.scrollIntoView({ block: "center" });
-    }
-  });
-</script>
-
+	<h3>Menux</h3>
+	{% include folder-tree.html %}
 </div>
