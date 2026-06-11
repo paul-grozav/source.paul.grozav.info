@@ -193,3 +193,29 @@ Please note that this is using LE's `Staging` ACME server. Always test with
 staging before you apply on production. Production has a limited number of
 Certificate Requests per day, Staging is more permissive, allowing you to make
 mistakes while you configure it, but it also actually checks the ownership.
+
+As a final step, create your certificate:
+```yaml
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: wildcard-k8s-server-paul-grozav-info-cert-staging
+  namespace: default
+spec:
+  secretName: wildcard-k8s-server-paul-grozav-info-tls
+  dnsNames:
+  # Covers the base name
+  - "k8s.server.paul.grozav.info"
+  # Covers www, api, app, etc.
+  - "*.k8s.server.paul.grozav.info"
+  issuerRef:
+    name: letsencrypt-staging
+    # name: letsencrypt-production
+    kind: ClusterIssuer
+```
+
+You're done now. CertMan will detect this certificate and generate your
+certificate files in the `secretName` mentioned above.
+
+For any challenge/verfication issues from LE's side, you can check the status of
+the `Challenge` object.
