@@ -219,3 +219,9 @@ certificate files in the `secretName` mentioned above.
 
 For any challenge/verfication issues from LE's side, you can check the status of
 the `Challenge` object.
+
+The Certificate generates a CertificateRequest. The CertificateRequest
+generates an Order. The Order generates a Challenge. And the Challenge gives
+you the error (if any). If no errors, the Certificate should be: `Ready: true`
+and `Status: Certificate is up to date and has not expired` .
+ 
