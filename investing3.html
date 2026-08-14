@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulator Investiții & Regula 50/30/20</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent-primary: #38bdf8;
+            --accent-green: #34d399;
+            --accent-amber: #fbbf24;
+            --accent-purple: #a855f7;
+            --accent-rose: #f43f5e;
+            --font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: var(--font-family);
+            padding: 24px 16px;
+            min-height: 100vh;
+        }
+
+        .container { max-width: 1150px; margin: 0 auto; }
+
+        header { margin-bottom: 24px; text-align: center; }
+
+        header h1 {
+            font-size: 2.1rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #38bdf8, #818cf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 8px;
+        }
+
+        header p { color: var(--text-muted); font-size: 1rem; }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 24px;
+        }
+
+        @media (min-width: 880px) {
+            .grid { grid-template-columns: 380px 1fr; }
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .controls-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #e2e8f0;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+        }
+
+        .control-group { margin-bottom: 16px; }
+
+        .control-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+        }
+
+        .control-label { font-size: 0.88rem; color: var(--text-muted); font-weight: 500; }
+
+        .control-value {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--accent-primary);
+            background: rgba(56, 189, 248, 0.1);
+            padding: 2px 8px;
+            border-radius: 6px;
+        }
+
+        input[type=range] {
+            width: 100%;
+            height: 6px;
+            border-radius: 5px;
+            background: #334155;
+            outline: none;
+            -webkit-appearance: none;
+            cursor: pointer;
+        }
+
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--accent-primary);
+            cursor: pointer;
+        }
+
+        /* 50/30/20 Visual Budget Bar */
+        .budget-bar-container {
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px dashed var(--border-color);
+        }
+
+        .budget-bar {
+            display: flex;
+            height: 12px;
+            border-radius: 6px;
+            overflow: hidden;
+            margin-top: 8px;
+            background-color: #0f172a;
+        }
+
+        .budget-seg-needs { background-color: var(--accent-rose); width: 50%; }
+        .budget-seg-wants { background-color: var(--accent-amber); width: 30%; }
+        .budget-seg-invest { background-color: var(--accent-green); width: 20%; }
+
+        .budget-legend {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.75rem;
+            margin-top: 8px;
+        }
+
+        .legend-item { display: flex; align-items: center; gap: 4px; }
+        .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+
+        .summary-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background-color: #0f172a;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 14px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+        }
+
+        .stat-value { font-size: 1.2rem; font-weight: 700; }
+        .stat-sub { font-size: 0.72rem; color: var(--text-muted); margin-top: 4px; }
+
+        .val-green { color: var(--accent-green); }
+        .val-blue { color: var(--accent-primary); }
+        .val-purple { color: var(--accent-purple); }
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            height: 200px;
+            margin-bottom: 20px;
+        }
+
+        .chart-container canvas {
+            display: block;
+            width: 100% !important;
+            height: 100% !important;
+        }
+
+        .table-container {
+            max-height: 220px;
+            overflow-y: auto;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        table { width: 100%; border-collapse: collapse; font-size: 0.85rem; text-align: right; }
+        th, td { padding: 8px 12px; border-bottom: 1px solid var(--border-color); }
+        th { background-color: #0f172a; color: var(--text-muted); position: sticky; top: 0; z-index: 1; }
+        td:first-child, th:first-child { text-align: center; }
+        tr:nth-child(even) { background-color: rgba(255, 255, 255, 0.02); }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Simulator Investiții & Regula 50/30/20</h1>
+        <p>Proiecție financiară pe termen lung conectată direct la vârsta ta de pensionare</p>
+    </header>
+
+    <div class="grid">
+        <!-- CONTROLS PANEL -->
+        <div class="card">
+            <h2 class="controls-title">Profil, Buget & Investiții</h2>
+
+            <div class="control-group">
+                <div class="control-header">
+                    <span class="control-label">Monedă</span>
+                    <span class="control-value" id="currency-display">RON</span>
+                </div>
+                <select id="currency-select" style="width: 100%; padding: 8px; background: #0f172a; color: white; border: 1px solid var(--border-color); border-radius: 6px; outline: none; cursor: pointer;">
+                    <option value="RON" selected>RON (Lei)</option>
+                    <option value="EUR">EUR (€)</option>
+                </select>
+            </div>
+
+            <div class="control-group">
+                <div class="control-header">
+                    <span class="control-label">Anul Nașterii (Vârstă)</span>
+                    <span class="control-value" id="birthyear-val">1990 (36 ani)</span>
+                </div>
+                <input type="range" id="birthyear-slider" min="1955" max="2010" step="1" value="1990">
+            </div>
+
+            <div class="control-group">
+                <div class="control-header">
+                    <span class="control-label">Vârsta de Pensionare</span>
+                    <span class="control-value" id="retireage-val">65 Ani</span>
+                </div>
+                <input type="range" id="retireage-slider" min="40" max="75" step="1" value="65">
+            </div>
+
+            <div class="control-group">
+                <div class="control-header">
+                    <span class="control-label">Venit Lunar Net Inițial</span>
+                    <span class="control-value" id="income-val">8.000 RON</span>
+                </div>
+                <input type="range" id="income-slider" min="2000" max="30000" step="500" value="8000">
+            </div>
+
+            <!-- NEW: INCOME INCREASE RATE SLIDER -->
+            <div class="control-group">
+                <div class="control-header">
+                    <span class="control-label">Creștere Anuală Venit</span>
+                    <span class="control-value" id="income-growth-val">5,0% / an</span>
+                </div>
+                <input type="range" id="income-growth-slider" min="0" max="15" step="0.5" value="5">
+            </div>
+
+            <!-- 50/30/20 ALLOCATION DISPLAY -->
+            <div class="budget-bar-container">
+                <div style="font-size: 0.85rem; font-weight: 600; color: #e2e8f0; display: flex; justify-content: space-between;">
+                    <span>Regula 50/30/20 (Anul 1)</span>
+                    <span style="color: var(--accent-green);" id="invest-20-val">1.600 RON/lună (20%)</span>
+                </div>
+                <div class="budget-bar">
+                    <div class="budget-seg-needs"></div>
+                    <div class="budget-seg-wants"></div>
+                    <div class="budget-seg-invest"></div>
+                </div>
+                <div class="budget-legend">
+                    <span class="legend-item"><span class="dot" style="background: var(--accent-rose);"></span> Nevoi 50%: <b id="needs-val" style="color:#fff;">4.000</b></span>
+                    <span class="legend-item"><span class="dot" style="background: var(--accent-amber);"></span> Dorințe 30%: <b id="wants-val" style="color:#fff;">2.400</b></span>
+                </div>
+            </div>
+
+            <div style="margin-top: 16px;" class="control-group">
+                <div class="control-header">
+                    <span class="control-label">Suma Inițială (Portofoliu Existent)</span>
+                    <span class="control-value" id="initial-val">1.000 RON</span>
+                </div>
+                <input type="range" id="initial-slider" min="0" max="50000" step="500" value="1000">
+            </div>
+
+            <div class="control-group">
+                <div class="control-header">
+                    <span class="control-label">Randament Anual Estimat</span>
+                    <span class="control-value" id="rate-val">8,0%</span>
+                </div>
+                <input type="range" id="rate-slider" min="1" max="15" step="0.5" value="8">
+            </div>
+
+            <div class="control-group">
+                <div class="control-header">
+                    <span class="control-label">Inflație Anuală Medie</span>
+                    <span class="control-value" id="inflation-val">3,5%</span>
+                </div>
+                <input type="range" id="inflation-slider" min="0" max="10" step="0.5" value="3.5">
+            </div>
+        </div>
+
+        <!-- RESULTS & GRAPH PANEL -->
+        <div class="card">
+            <div class="summary-cards">
+                <div class="stat-card">
+                    <span class="stat-label">Portofoliu Final (Nominal)</span>
+                    <span class="stat-value val-blue" id="stat-final">0 RON</span>
+                    <span class="stat-sub" id="stat-contrib-sub">Contribuții: 0 RON</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-label">Valoare Reală (Ajustată)</span>
+                    <span class="stat-value val-green" id="stat-real">0 RON</span>
+                    <span class="stat-sub">Putere de cumpărare de azi</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-label">Pensie Pasivă (4%)</span>
+                    <span class="stat-value val-purple" id="stat-pension">0 RON / lună</span>
+                    <span class="stat-sub" id="stat-retire-year-sub">Orizont: 0 ani</span>
+                </div>
+            </div>
+
+            <div class="chart-container" id="chart-parent">
+                <canvas id="growthChart"></canvas>
+            </div>
+
+            <h3 style="font-size: 0.95rem; color: #e2e8f0; margin-bottom: 10px;">Evoluție Anuală Detaliată</h3>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>An (Vârstă)</th>
+                            <th>Venit / lună</th>
+                            <th>Depunere / lună</th>
+                            <th>Total Depus</th>
+                            <th>Câștig Cumulat</th>
+                            <th>Valoare Nominală</th>
+                            <th>Valoare Reală</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const CURRENT_YEAR = 2026;
+
+    const currSelect = document.getElementById('currency-select');
+    const currDisplay = document.getElementById('currency-display');
+    const birthyearSlider = document.getElementById('birthyear-slider');
+    const retireageSlider = document.getElementById('retireage-slider');
+    const incomeSlider = document.getElementById('income-slider');
+    const incomeGrowthSlider = document.getElementById('income-growth-slider'); // NEW
+    const initialSlider = document.getElementById('initial-slider');
+    const rateSlider = document.getElementById('rate-slider');
+    const inflationSlider = document.getElementById('inflation-slider');
+
+    const birthyearVal = document.getElementById('birthyear-val');
+    const retireageVal = document.getElementById('retireage-val');
+    const incomeVal = document.getElementById('income-val');
+    const incomeGrowthVal = document.getElementById('income-growth-val'); // NEW
+    const needsVal = document.getElementById('needs-val');
+    const wantsVal = document.getElementById('wants-val');
+    const invest20Val = document.getElementById('invest-20-val');
+    const initialVal = document.getElementById('initial-val');
+    const rateVal = document.getElementById('rate-val');
+    const inflationVal = document.getElementById('inflation-val');
+
+    const statFinal = document.getElementById('stat-final');
+    const statContribSub = document.getElementById('stat-contrib-sub');
+    const statReal = document.getElementById('stat-real');
+    const statPension = document.getElementById('stat-pension');
+    const statRetireYearSub = document.getElementById('stat-retire-year-sub');
+    const tableBody = document.getElementById('table-body');
+    const canvas = document.getElementById('growthChart');
+    const ctx = canvas.getContext('2d');
+
+    let currentCalculatedData = [];
+
+    function formatMoney(amount, currency) {
+        return new Intl.NumberFormat('ro-RO', { maximumFractionDigits: 0 }).format(amount) + ' ' + currency;
+    }
+
+    function calculate() {
+        const currency = currSelect.value;
+        currDisplay.innerText = currency;
+
+        const birthYear = parseInt(birthyearSlider.value);
+        const currentAge = CURRENT_YEAR - birthYear;
+        let retireAge = parseInt(retireageSlider.value);
+
+        if (retireAge < currentAge) {
+            retireAge = currentAge;
+            retireageSlider.value = retireAge;
+        }
+
+        const years = Math.max(0, retireAge - currentAge);
+        const retirementYear = CURRENT_YEAR + years;
+
+        const initialIncome = parseFloat(incomeSlider.value);
+        const incomeGrowthRate = parseFloat(incomeGrowthSlider.value) / 100; // NEW
+        
+        const initialNeeds = initialIncome * 0.50;
+        const initialWants = initialIncome * 0.30;
+        const initialMonthlyInvest = initialIncome * 0.20;
+
+        const initialPortfolio = parseFloat(initialSlider.value);
+        const rate = parseFloat(rateSlider.value) / 100;
+        const inflation = parseFloat(inflationSlider.value) / 100;
+
+        // Label Updates
+        birthyearVal.innerText = birthYear + ' (' + currentAge + ' ani)';
+        retireageVal.innerText = retireAge + ' Ani';
+        incomeVal.innerText = formatMoney(initialIncome, currency);
+        incomeGrowthVal.innerText = (incomeGrowthRate * 100).toFixed(1).replace('.', ',') + '% / an';
+        needsVal.innerText = formatMoney(initialNeeds, currency);
+        wantsVal.innerText = formatMoney(initialWants, currency);
+        invest20Val.innerText = formatMoney(initialMonthlyInvest, currency) + '/lună (20%)';
+
+        initialVal.innerText = formatMoney(initialPortfolio, currency);
+        rateVal.innerText = (rate * 100).toFixed(1).replace('.', ',') + '%';
+        inflationVal.innerText = (inflation * 100).toFixed(1).replace('.', ',') + '%';
+
+        const monthlyRate = rate / 12;
+        let data = [];
+        let currentNominal = initialPortfolio;
+        let totalContributions = initialPortfolio;
+        let currentMonthlyIncome = initialIncome;
+
+        data.push({
+            yearIndex: 0,
+            calendarYear: CURRENT_YEAR,
+            age: currentAge,
+            monthlyIncome: currentMonthlyIncome,
+            monthlyInvest: currentMonthlyIncome * 0.20,
+            contributions: totalContributions,
+            nominal: currentNominal,
+            real: currentNominal,
+            interest: 0
+        });
+
+        for (let y = 1; y <= years; y++) {
+            // Apply annual income growth at the start of each new year
+            currentMonthlyIncome = currentMonthlyIncome * (1 + incomeGrowthRate);
+            const monthlyContribution = currentMonthlyIncome * 0.20;
+
+            for (let m = 1; m <= 12; m++) {
+                currentNominal = (currentNominal + monthlyContribution) * (1 + monthlyRate);
+                totalContributions += monthlyContribution;
+            }
+
+            const inflationFactor = Math.pow(1 + inflation, y);
+            const realValue = currentNominal / inflationFactor;
+
+            data.push({
+                yearIndex: y,
+                calendarYear: CURRENT_YEAR + y,
+                age: currentAge + y,
+                monthlyIncome: Math.round(currentMonthlyIncome),
+                monthlyInvest: Math.round(monthlyContribution),
+                contributions: Math.round(totalContributions),
+                nominal: Math.round(currentNominal),
+                real: Math.round(realValue),
+                interest: Math.round(currentNominal - totalContributions)
+            });
+        }
+
+        currentCalculatedData = data;
+
+        const finalNominal = data[years].nominal;
+        const finalContrib = data[years].contributions;
+        const finalReal = data[years].real;
+        const monthlyPensionReal = (finalReal * 0.04) / 12;
+
+        statFinal.innerText = formatMoney(finalNominal, currency);
+        statContribSub.innerText = 'Depuneri: ' + formatMoney(finalContrib, currency);
+        statReal.innerText = formatMoney(finalReal, currency);
+        statPension.innerText = formatMoney(monthlyPensionReal, currency) + ' / lună';
+        statRetireYearSub.innerText = 'Pensionare în ' + retirementYear + ' (' + years + ' ani)';
+
+        // Update Table
+        tableBody.innerHTML = '';
+        data.slice(1).forEach(row => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>${row.calendarYear} (${row.age}a)</td>
+                <td style="color: #cbd5e1">${formatMoney(row.monthlyIncome, currency)}</td>
+                <td style="color: #cbd5e1">${formatMoney(row.monthlyInvest, currency)}</td>
+                <td>${formatMoney(row.contributions, currency)}</td>
+                <td style="color: var(--accent-green)">+${formatMoney(row.interest, currency)}</td>
+                <td style="font-weight: 600">${formatMoney(row.nominal, currency)}</td>
+                <td style="color: var(--accent-primary)">${formatMoney(row.real, currency)}</td>
+            `;
+            tableBody.appendChild(tr);
+        });
+
+        drawChart();
+    }
+
+    function drawChart() {
+        if (!currentCalculatedData || currentCalculatedData.length === 0) return;
+
+        const parent = document.getElementById('chart-parent');
+        const displayWidth = parent.clientWidth;
+        const displayHeight = parent.clientHeight;
+        const dpr = window.devicePixelRatio || 1;
+
+        canvas.width = displayWidth * dpr;
+        canvas.height = displayHeight * dpr;
+
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
+        ctx.scale(dpr, dpr);
+
+        const w = displayWidth;
+        const h = displayHeight;
+        const padding = { top: 15, right: 15, bottom: 25, left: 50 };
+
+        ctx.clearRect(0, 0, w, h);
+
+        const data = currentCalculatedData;
+        const maxVal = Math.max(...data.map(d => d.nominal)) * 1.05;
+        const yearsCount = data.length - 1;
+
+        if (yearsCount === 0) return;
+
+        const getX = (idx) => padding.left + (idx / yearsCount) * (w - padding.left - padding.right);
+        const getY = (val) => h - padding.bottom - (val / maxVal) * (h - padding.top - padding.bottom);
+
+        // Grid lines
+        ctx.strokeStyle = '#334155';
+        ctx.lineWidth = 0.5;
+        ctx.fillStyle = '#94a3b8';
+        ctx.font = '10px system-ui';
+
+        const ySteps = 3;
+        for (let i = 0; i <= ySteps; i++) {
+            const val = (maxVal / ySteps) * i;
+            const y = getY(val);
+            ctx.beginPath();
+            ctx.moveTo(padding.left, y);
+            ctx.lineTo(w - padding.right, y);
+            ctx.stroke();
+
+            ctx.textAlign = 'right';
+            let formattedVal = val >= 1000000 ? (val / 1000000).toFixed(1) + 'M' : (val >= 1000 ? Math.round(val / 1000) + 'k' : Math.round(val));
+            ctx.fillText(formattedVal, padding.left - 6, y + 3);
+        }
+
+        // X Axis Labels
+        const step = yearsCount > 25 ? 5 : (yearsCount > 10 ? 2 : 1);
+        for (let i = 0; i <= yearsCount; i += step) {
+            const x = getX(i);
+            ctx.textAlign = 'center';
+            ctx.fillText(data[i].age + 'a', x, h - 8);
+        }
+
+        // Line 1: Contributions
+        ctx.beginPath();
+        data.forEach((d, i) => {
+            const x = getX(i);
+            const y = getY(d.contributions);
+            if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+        });
+        ctx.strokeStyle = '#64748b';
+        ctx.lineWidth = 1.5;
+        ctx.setLineDash([3, 3]);
+        ctx.stroke();
+        ctx.setLineDash([]);
+
+        // Line 2: Real Value
+        ctx.beginPath();
+        data.forEach((d, i) => {
+            const x = getX(i);
+            const y = getY(d.real);
+            if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+        });
+        ctx.strokeStyle = '#34d399';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+
+        // Line 3: Nominal Value
+        ctx.beginPath();
+        data.forEach((d, i) => {
+            const x = getX(i);
+            const y = getY(d.nominal);
+            if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+        });
+        ctx.strokeStyle = '#38bdf8';
+        ctx.lineWidth = 2.5;
+        ctx.stroke();
+
+        // Compact Legend
+        const legendX = padding.left + 5;
+        const legendY = padding.top + 2;
+
+        ctx.fillStyle = '#38bdf8';
+        ctx.fillRect(legendX, legendY, 10, 6);
+        ctx.fillStyle = '#f8fafc';
+        ctx.textAlign = 'left';
+        ctx.fillText('Nominal', legendX + 14, legendY + 6);
+
+        ctx.fillStyle = '#34d399';
+        ctx.fillRect(legendX + 75, legendY, 10, 6);
+        ctx.fillStyle = '#f8fafc';
+        ctx.fillText('Real (Inflație)', legendX + 89, legendY + 6);
+    }
+
+    [currSelect, birthyearSlider, retireageSlider, incomeSlider, incomeGrowthSlider, initialSlider, rateSlider, inflationSlider].forEach(input => {
+        input.addEventListener('input', calculate);
+    });
+
+    let resizeTimeout;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(drawChart, 50);
+    });
+
+    window.addEventListener('DOMContentLoaded', calculate);
+</script>
+
+</body>
+</html>
