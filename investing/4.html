@@ -181,7 +181,29 @@
             display: block;
             width: 100% !important;
             height: 100% !important;
+            cursor: crosshair;
         }
+
+        /* TOOLTIP STYLES */
+        .chart-tooltip {
+            position: absolute;
+            display: none;
+            pointer-events: none;
+            background: rgba(15, 23, 42, 0.95);
+            border: 1px solid var(--accent-primary);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+            border-radius: 8px;
+            padding: 10px 12px;
+            font-size: 0.78rem;
+            color: var(--text-main);
+            z-index: 10;
+            white-space: nowrap;
+            transition: opacity 0.1s ease, transform 0.1s ease;
+        }
+
+        .chart-tooltip div { margin-bottom: 3px; }
+        .chart-tooltip div:last-child { margin-bottom: 0; }
+        .tooltip-title { font-weight: 700; border-bottom: 1px solid var(--border-color); padding-bottom: 4px; margin-bottom: 6px !important; color: #e2e8f0; }
 
         .table-container {
             max-height: 240px;
@@ -191,10 +213,16 @@
         }
 
         table { width: 100%; border-collapse: collapse; font-size: 0.82rem; text-align: right; }
-        th, td { padding: 8px 10px; border-bottom: 1px solid var(--border-color); }
+        th, td { padding: 8px 10px; border-bottom: 1px solid var(--border-color); transition: background-color 0.2s; }
         th { background-color: #0f172a; color: var(--text-muted); position: sticky; top: 0; z-index: 1; }
         td:first-child, th:first-child { text-align: center; }
         tr:nth-child(even) { background-color: rgba(255, 255, 255, 0.02); }
+
+        /* HIGHLIGHTED ROW STYLE */
+        tr.highlighted-row {
+            background-color: rgba(56, 189, 248, 0.2) !important;
+            outline: 1px solid var(--accent-primary);
+        }
     </style>
 </head>
 <body>
@@ -304,16 +332,15 @@
                 <button class="tab-btn" id="tab-accum-btn">📈 Faza de Acumulare (Economisire)</button>
             </div>
 
-            <div class="summary-cards" id="summary-cards-container">
-                <!-- Dynamic Content via JS -->
-            </div>
+            <div class="summary-cards" id="summary-cards-container"></div>
 
             <div class="chart-container" id="chart-parent">
                 <canvas id="mainChart"></canvas>
+                <div id="chart-tooltip" class="chart-tooltip"></div>
             </div>
 
             <h3 style="font-size: 0.95rem; color: #e2e8f0; margin-bottom: 10px;" id="table-title">Evoluție Anuală în Pensionare</h3>
-            <div class="table-container">
+            <div class="table-container" id="table-container">
                 <table>
                     <thead id="table-head"></thead>
                     <tbody id="table-body"></tbody>
@@ -325,7 +352,7 @@
 
 <script>
     const CURRENT_YEAR = 2026;
-    let activeTab = 'decumulation'; // 'accumulation' or 'decumulation'
+    let activeTab = 'decumulation'; 
 
     const currSelect = document.getElementById('currency-select');
     const currDisplay = document.getElementById('currency-display');
@@ -358,11 +385,16 @@
     const tableTitle = document.getElementById('table-title');
     const tableHead = document.getElementById('table-head');
     const tableBody = document.getElementById('table-body');
+    const tableContainer = document.getElementById('table-container');
+    
+    const chartParent = document.getElementById('chart-parent');
     const canvas = document.getElementById('mainChart');
     const ctx = canvas.getContext('2d');
+    const tooltip = document.getElementById('chart-tooltip');
 
     let accumData = [];
     let decumData = [];
+    let hoveredIndex = null;
 
     function formatMoney(amount, currency) {
         return new Intl.NumberFormat('ro-RO', { maximumFractionDigits: 0 }).format(amount) + ' ' + currency;
@@ -372,6 +404,7 @@
         activeTab = 'decumulation';
         tabDecumBtn.classList.add('active');
         tabAccumBtn.classList.remove('active');
+        hoveredIndex = null;
         calculate();
     });
 
@@ -379,6 +412,7 @@
         activeTab = 'accumulation';
         tabAccumBtn.classList.add('active');
         tabDecumBtn.classList.remove('active');
+        hoveredIndex = null;
         calculate();
     });
 
@@ -419,7 +453,7 @@
         swrVal.innerText = (swrRate * 100).toFixed(1).replace('.', ',') + '%';
         retireRateVal.innerText = (retireReturnRate * 100).toFixed(1).replace('.', ',') + '%';
 
-        // --- 1. ACCUMULATION PHASE CALCULATION ---
+        // ACCUMULATION
         accumData = [];
         let currentNominal = 0;
         let totalContributions = 0;
@@ -464,7 +498,7 @@
         const startingNestEggNominal = accumData[yearsToRetire].nominal;
         const startingNestEggReal = accumData[yearsToRetire].real;
 
-        // --- 2. DECUMULATION PHASE CALCULATION ---
+        // DECUMULATION
         decumData = [];
         let decumNominal = startingNestEggNominal;
         let firstYearNominalWithdrawal = startingNestEggNominal * swrRate;
@@ -486,7 +520,6 @@
 
         for (let py = 1; py <= pensionYears; py++) {
             if (py > 1) {
-                // Adjust annual withdrawal for inflation each year
                 currentAnnualWithdrawal = currentAnnualWithdrawal * (1 + inflation);
             }
 
@@ -513,7 +546,6 @@
             });
         }
 
-        // --- RENDER UI BASED ON ACTIVE TAB ---
         if (activeTab === 'decumulation') {
             renderDecumulationUI(currency, startingNestEggNominal, startingNestEggReal, firstYearNominalWithdrawal, pensionYears);
         } else {
@@ -557,8 +589,9 @@
         `;
 
         tableBody.innerHTML = '';
-        decumData.slice(1).forEach(row => {
+        decumData.slice(1).forEach((row, idx) => {
             const tr = document.createElement('tr');
+            tr.setAttribute('data-index', idx + 1);
             tr.innerHTML = `
                 <td>Anul ${row.pensionYear} (${row.age}a / ${row.calendarYear})</td>
                 <td style="color: var(--accent-amber)">${formatMoney(row.annualWithdrawal, currency)}</td>
@@ -603,8 +636,9 @@
         `;
 
         tableBody.innerHTML = '';
-        accumData.slice(1).forEach(row => {
+        accumData.slice(1).forEach((row, idx) => {
             const tr = document.createElement('tr');
+            tr.setAttribute('data-index', idx + 1);
             tr.innerHTML = `
                 <td>${row.calendarYear} (${row.age}a)</td>
                 <td style="color: #cbd5e1">${formatMoney(row.monthlyIncome, currency)}</td>
@@ -618,7 +652,7 @@
     }
 
     function drawChart() {
-        const parent = document.getElementById('chart-parent');
+        const parent = chartParent;
         const displayWidth = parent.clientWidth;
         const displayHeight = parent.clientHeight;
         const dpr = window.devicePixelRatio || 1;
@@ -675,8 +709,7 @@
         }
 
         if (activeTab === 'decumulation') {
-            // DECUMULATION LINES
-            // Line 1: Real Portfolio
+            // Real Line
             ctx.beginPath();
             data.forEach((d, i) => {
                 const x = getX(i);
@@ -687,7 +720,7 @@
             ctx.lineWidth = 2;
             ctx.stroke();
 
-            // Line 2: Nominal Portfolio
+            // Nominal Line
             ctx.beginPath();
             data.forEach((d, i) => {
                 const x = getX(i);
@@ -701,21 +734,16 @@
             // Legend
             const legendX = padding.left + 5;
             const legendY = padding.top;
-
-            ctx.fillStyle = '#38bdf8';
-            ctx.fillRect(legendX, legendY, 10, 6);
-            ctx.fillStyle = '#f8fafc';
-            ctx.textAlign = 'left';
+            ctx.fillStyle = '#38bdf8'; ctx.fillRect(legendX, legendY, 10, 6);
+            ctx.fillStyle = '#f8fafc'; ctx.textAlign = 'left';
             ctx.fillText('Portofoliu Nominal', legendX + 14, legendY + 6);
 
-            ctx.fillStyle = '#34d399';
-            ctx.fillRect(legendX + 130, legendY, 10, 6);
+            ctx.fillStyle = '#34d399'; ctx.fillRect(legendX + 130, legendY, 10, 6);
             ctx.fillStyle = '#f8fafc';
             ctx.fillText('Portofoliu Real (Ajustat la Inflație)', legendX + 144, legendY + 6);
 
         } else {
-            // ACCUMULATION LINES
-            // Line 1: Total Contributions
+            // Total Contributions Line
             ctx.beginPath();
             data.forEach((d, i) => {
                 const x = getX(i);
@@ -728,7 +756,7 @@
             ctx.stroke();
             ctx.setLineDash([]);
 
-            // Line 2: Real Portfolio
+            // Real Line
             ctx.beginPath();
             data.forEach((d, i) => {
                 const x = getX(i);
@@ -739,7 +767,7 @@
             ctx.lineWidth = 2;
             ctx.stroke();
 
-            // Line 3: Nominal Portfolio
+            // Nominal Line
             ctx.beginPath();
             data.forEach((d, i) => {
                 const x = getX(i);
@@ -753,29 +781,145 @@
             // Legend
             const legendX = padding.left + 5;
             const legendY = padding.top;
-
-            ctx.fillStyle = '#38bdf8';
-            ctx.fillRect(legendX, legendY, 10, 6);
-            ctx.fillStyle = '#f8fafc';
-            ctx.textAlign = 'left';
+            ctx.fillStyle = '#38bdf8'; ctx.fillRect(legendX, legendY, 10, 6);
+            ctx.fillStyle = '#f8fafc'; ctx.textAlign = 'left';
             ctx.fillText('Nominal', legendX + 14, legendY + 6);
 
-            ctx.fillStyle = '#34d399';
-            ctx.fillRect(legendX + 75, legendY, 10, 6);
+            ctx.fillStyle = '#34d399'; ctx.fillRect(legendX + 75, legendY, 10, 6);
             ctx.fillStyle = '#f8fafc';
             ctx.fillText('Real (Inflație)', legendX + 89, legendY + 6);
 
-            ctx.strokeStyle = '#64748b';
-            ctx.lineWidth = 1.5;
-            ctx.setLineDash([2, 2]);
+            ctx.strokeStyle = '#64748b'; ctx.lineWidth = 1.5; ctx.setLineDash([2, 2]);
+            ctx.beginPath(); ctx.moveTo(legendX + 175, legendY + 3); ctx.lineTo(legendX + 187, legendY + 3); ctx.stroke();
+            ctx.setLineDash([]);
+            ctx.fillStyle = '#f8fafc'; ctx.fillText('Total Depus', legendX + 192, legendY + 6);
+        }
+
+        // DRAW HIGHLIGHT CURSOR / DOTS WHEN HOVERED
+        if (hoveredIndex !== null && hoveredIndex >= 0 && hoveredIndex < data.length) {
+            const hX = getX(hoveredIndex);
+            
+            // Vertical cursor line
             ctx.beginPath();
-            ctx.moveTo(legendX + 175, legendY + 3);
-            ctx.lineTo(legendX + 187, legendY + 3);
+            ctx.moveTo(hX, padding.top);
+            ctx.lineTo(hX, h - padding.bottom);
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.4)';
+            ctx.lineWidth = 1;
+            ctx.setLineDash([4, 4]);
             ctx.stroke();
             ctx.setLineDash([]);
 
-            ctx.fillStyle = '#f8fafc';
-            ctx.fillText('Total Depus', legendX + 192, legendY + 6);
+            // Draw circle dots on curves
+            const item = data[hoveredIndex];
+            const nominalY = getY(activeTab === 'decumulation' ? item.nominalBalance : item.nominal);
+            const realY = getY(activeTab === 'decumulation' ? item.realBalance : item.real);
+
+            // Blue Dot (Nominal)
+            ctx.beginPath();
+            ctx.arc(hX, nominalY, 5, 0, Math.PI * 2);
+            ctx.fillStyle = '#38bdf8';
+            ctx.fill();
+            ctx.strokeStyle = '#ffffff';
+            ctx.lineWidth = 1.5;
+            ctx.stroke();
+
+            // Green Dot (Real)
+            ctx.beginPath();
+            ctx.arc(hX, realY, 4, 0, Math.PI * 2);
+            ctx.fillStyle = '#34d399';
+            ctx.fill();
+            ctx.stroke();
+        }
+    }
+
+    // --- MOUSE / HOVER INTERACTIONS FOR CANVAS TOOLTIP & TABLE HIGHLIGHT ---
+    canvas.addEventListener('mousemove', (e) => {
+        const rect = canvas.getBoundingClientRect();
+        const mouseX = e.clientX - rect.left;
+        const w = rect.width;
+        const padding = { left: 55, right: 20 };
+
+        const data = activeTab === 'decumulation' ? decumData : accumData;
+        const yearsCount = data.length - 1;
+
+        if (yearsCount <= 0 || mouseX < padding.left || mouseX > w - padding.right) {
+            hideTooltip();
+            return;
+        }
+
+        const chartWidth = w - padding.left - padding.right;
+        const relativeX = mouseX - padding.left;
+        let index = Math.round((relativeX / chartWidth) * yearsCount);
+        index = Math.max(0, Math.min(yearsCount, index));
+
+        hoveredIndex = index;
+        drawChart();
+        showTooltip(index, e.clientX - rect.left, e.clientY - rect.top);
+        highlightTableRow(index);
+    });
+
+    canvas.addEventListener('mouseleave', () => {
+        hideTooltip();
+    });
+
+    function showTooltip(index, mouseX, mouseY) {
+        const currency = currSelect.value;
+        const data = activeTab === 'decumulation' ? decumData : accumData;
+        const item = data[index];
+
+        let content = '';
+
+        if (activeTab === 'decumulation') {
+            content = `
+                <div class="tooltip-title">Anul ${item.pensionYear} (${item.calendarYear} - ${item.age} ani)</div>
+                <div><span style="color:var(--accent-primary)">● Portofoliu Nominal:</span> <b>${formatMoney(item.nominalBalance, currency)}</b></div>
+                <div><span style="color:var(--accent-green)">● Valoare Reală:</span> <b>${formatMoney(item.realBalance, currency)}</b></div>
+                <div><span style="color:var(--accent-purple)">● Retragere Lunarǎ:</span> <b>${formatMoney(item.monthlyWithdrawal, currency)}</b></div>
+            `;
+        } else {
+            content = `
+                <div class="tooltip-title">Anul ${item.calendarYear} (${item.age} ani)</div>
+                <div><span style="color:var(--accent-primary)">● Portofoliu Nominal:</span> <b>${formatMoney(item.nominal, currency)}</b></div>
+                <div><span style="color:var(--accent-green)">● Valoare Reală:</span> <b>${formatMoney(item.real, currency)}</b></div>
+                <div><span style="color:#64748b">--- Total Depus:</span> <b>${formatMoney(item.contributions, currency)}</b></div>
+            `;
+        }
+
+        tooltip.innerHTML = content;
+        tooltip.style.display = 'block';
+
+        // Position tooltip away from right edges
+        const tooltipWidth = 210;
+        let leftPos = mouseX + 15;
+        if (leftPos + tooltipWidth > chartParent.clientWidth) {
+            leftPos = mouseX - tooltipWidth - 15;
+        }
+
+        tooltip.style.left = leftPos + 'px';
+        tooltip.style.top = (mouseY - 20) + 'px';
+    }
+
+    function hideTooltip() {
+        hoveredIndex = null;
+        tooltip.style.display = 'none';
+        drawChart();
+        highlightTableRow(null);
+    }
+
+    function highlightTableRow(index) {
+        const rows = tableBody.querySelectorAll('tr');
+        rows.forEach(r => r.classList.remove('highlighted-row'));
+
+        if (index !== null && index > 0) {
+            const rowToHighlight = tableBody.querySelector(`tr[data-index="${index}"]`);
+            if (rowToHighlight) {
+                rowToHighlight.classList.add('highlighted-row');
+                
+                // Smooth scroll table container to highlighted row
+                const rowTop = rowToHighlight.offsetTop;
+                const containerHeight = tableContainer.clientHeight;
+                tableContainer.scrollTop = rowTop - (containerHeight / 2) + (rowToHighlight.clientHeight / 2);
+            }
         }
     }
 
