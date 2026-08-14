@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator Investiții & Dobândă Compusă (20 Ani)</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent-primary: #38bdf8;
+            --accent-green: #34d399;
+            --accent-amber: #fbbf24;
+            --accent-purple: #a855f7;
+            --font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: var(--font-family);
+            line-height: 1.5;
+            padding: 24px 16px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        header {
+            margin-bottom: 28px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #38bdf8, #818cf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 1rem;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 24px;
+        }
+
+        @media (min-width: 850px) {
+            .grid {
+                grid-template-columns: 380px 1fr;
+            }
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border: 1fr solid var(--border-color);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+        }
+
+        .controls-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #e2e8f0;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+        }
+
+        .control-group {
+            margin-bottom: 20px;
+        }
+
+        .control-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .control-label {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .control-value {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--accent-primary);
+            background: rgba(56, 189, 248, 0.1);
+            padding: 2px 10px;
+            border-radius: 6px;
+        }
+
+        input[type=range] {
+            width: 100%;
+            height: 6px;
+            border-radius: 5px;
+            background: #334155;
+            outline: none;
+            -webkit-appearance: none;
+            cursor: pointer;
+        }
+
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--accent-primary);
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
+            transition: transform 0.1s ease;
+        }
+
+        input[type=range]::-webkit-slider-thumb:hover {
+            transform: scale(1.15);
+        }
+
+        .summary-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .stat-card {
+            background-color: #0f172a;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+        }
+
+        .stat-value {
+            font-size: 1.35rem;
+            font-weight: 700;
+        }
+
+        .stat-sub {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        .val-green { color: var(--accent-green); }
+        .val-blue { color: var(--accent-primary); }
+        .val-amber { color: var(--accent-amber); }
+        .val-purple { color: var(--accent-purple); }
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            height: 280px;
+            margin-top: 10px;
+            margin-bottom: 24px;
+        }
+
+        canvas {
+            width: 100% !important;
+            height: 100% !important;
+        }
+
+        .table-container {
+            max-height: 260px;
+            overflow-y: auto;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+            text-align: right;
+        }
+
+        th, td {
+            padding: 10px 12px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            background-color: #0f172a;
+            color: var(--text-muted);
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        td:first-child, th:first-child {
+            text-align: center;
+        }
+
+        tr:nth-child(even) {
+            background-color: rgba(255, 255, 255, 0.02);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Simulator Investiții & Dobândă Compusă</h1>
+        <p>Proiecție financiară pe termen lung, ajustată la inflație și regula retragerii de 4%</p>
+    </header>
+
+    <div class="grid">
+        <!-- CONTROLS PANEL -->
+        <div class="card">
+            <h2 class="controls-title">Parametrii Investiției</h2>
+
+            <div class="control-group">
+                <div class="control-header">
+                    <span class="control-label">Monedă</span>
+                    <span class="control-value" id="currency-display">RON</span>
+                </div>
+                <select id="currency-select" style="width: 100%; padding: 8px; background: #0f172a; color: white; border: 1px solid var(--border-color); border-radius: 6px; outline: none; cursor: pointer;">
+                    <option value="RON" selected>RON (Lei)</option>
+                    <option value="EUR">EUR (€)</option>
+                </select>
+            </div>
+
+            <div class="control-group">
+                <div class="control-header">
+                    <span class="control-label">Suma Inițială</span>
+                    <span class="control-value" id="initial-val">1.000 RON</span>
+                </div>
+                <input type="range" id="initial-slider" min="0" max="50000" step="500" value="1000">
+            </div>
+
+            <div class="control-group">
+                <div class="control-header">
+                    <span class="control-label">Investiție Lunară</span>
+                    <span class="control-value" id="monthly-val">1.000 RON</span>
+                </div>
+                <input type="range" id="monthly-slider" min="100" max="10000" step="100" value="1000">
+            </div>
+
+            <div class="control-group">
+                <div class="control-header">
+                    <span class="control-label">Randament Anual Estimat</span>
+                    <span class="control-value" id="rate-val">8,0%</span>
+                </div>
+                <input type="range" id="rate-slider" min="1" max="15" step="0.5" value="8">
+            </div>
+
+            <div class="control-group">
+                <div class="control-header">
+                    <span class="control-label">Inflație Anuală Medie</span>
+                    <span class="control-value" id="inflation-val">3,5%</span>
+                </div>
+                <input type="range" id="inflation-slider" min="0" max="10" step="0.5" value="3.5">
+            </div>
+
+            <div class="control-group">
+                <div class="control-header">
+                    <span class="control-label">Orizont de Timp (Ani)</span>
+                    <span class="control-value" id="years-val">20 Ani</span>
+                </div>
+                <input type="range" id="years-slider" min="5" max="35" step="1" value="20">
+            </div>
+        </div>
+
+        <!-- RESULTS & GRAPH PANEL -->
+        <div class="card">
+            <div class="summary-cards">
+                <div class="stat-card">
+                    <span class="stat-label">Portofoliu Final (Nominal)</span>
+                    <span class="stat-value val-blue" id="stat-final">0 RON</span>
+                    <span class="stat-sub" id="stat-contrib-sub">Contribuții: 0 RON</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-label">Valoare Reală (Ajustată Inflație)</span>
+                    <span class="stat-value val-green" id="stat-real">0 RON</span>
+                    <span class="stat-sub">Putere de cumpărare de azi</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-label">Venit Lunar la Pensie (Regula 4%)</span>
+                    <span class="stat-value val-purple" id="stat-pension">0 RON / lună</span>
+                    <span class="stat-sub">Retragere sigură pasivă</span>
+                </div>
+            </div>
+
+            <div class="chart-container">
+                <canvas id="growthChart"></canvas>
+            </div>
+
+            <h3 style="font-size: 1rem; color: #e2e8f0; margin-bottom: 12px;">Evoluție Anuală Detaliată</h3>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>An</th>
+                            <th>Depuneri</th>
+                            <th>Dobândă / Câștig</th>
+                            <th>Valoare Nominală</th>
+                            <th>Valoare Reală</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Inputs & Elements
+    const currSelect = document.getElementById('currency-select');
+    const currDisplay = document.getElementById('currency-display');
+    const initialSlider = document.getElementById('initial-slider');
+    const monthlySlider = document.getElementById('monthly-slider');
+    const rateSlider = document.getElementById('rate-slider');
+    const inflationSlider = document.getElementById('inflation-slider');
+    const yearsSlider = document.getElementById('years-slider');
+
+    const initialVal = document.getElementById('initial-val');
+    const monthlyVal = document.getElementById('monthly-val');
+    const rateVal = document.getElementById('rate-val');
+    const inflationVal = document.getElementById('inflation-val');
+    const yearsVal = document.getElementById('years-val');
+
+    const statFinal = document.getElementById('stat-final');
+    const statContribSub = document.getElementById('stat-contrib-sub');
+    const statReal = document.getElementById('stat-real');
+    const statPension = document.getElementById('stat-pension');
+    const tableBody = document.getElementById('table-body');
+    const canvas = document.getElementById('growthChart');
+    const ctx = canvas.getContext('2d');
+
+    function formatMoney(amount, currency) {
+        return new Intl.NumberFormat('ro-RO', {
+            maximumFractionDigits: 0
+        }).format(amount) + ' ' + currency;
+    }
+
+    function calculate() {
+        const currency = currSelect.value;
+        currDisplay.innerText = currency;
+
+        const initial = parseFloat(initialSlider.value);
+        const monthly = parseFloat(monthlySlider.value);
+        const rate = parseFloat(rateSlider.value) / 100;
+        const inflation = parseFloat(inflationSlider.value) / 100;
+        const years = parseInt(yearsSlider.value);
+
+        // Update labels
+        initialVal.innerText = formatMoney(initial, currency);
+        monthlyVal.innerText = formatMoney(monthly, currency);
+        rateVal.innerText = (rate * 100).toFixed(1).replace('.', ',') + '%';
+        inflationVal.innerText = (inflation * 100).toFixed(1).replace('.', ',') + '%';
+        yearsVal.innerText = years + ' Ani';
+
+        const monthlyRate = rate / 12;
+        let data = [];
+        let currentNominal = initial;
+        let totalContributions = initial;
+
+        data.push({
+            year: 0,
+            contributions: totalContributions,
+            nominal: currentNominal,
+            real: currentNominal,
+            interest: 0
+        });
+
+        for (let y = 1; y <= years; y++) {
+            for (let m = 1; m <= 12; m++) {
+                currentNominal = (currentNominal + monthly) * (1 + monthlyRate);
+                totalContributions += monthly;
+            }
+
+            const inflationFactor = Math.pow(1 + inflation, y);
+            const realValue = currentNominal / inflationFactor;
+
+            data.push({
+                year: y,
+                contributions: Math.round(totalContributions),
+                nominal: Math.round(currentNominal),
+                real: Math.round(realValue),
+                interest: Math.round(currentNominal - totalContributions)
+            });
+        }
+
+        const finalNominal = data[years].nominal;
+        const finalContrib = data[years].contributions;
+        const finalReal = data[years].real;
+        const monthlyPensionReal = (finalReal * 0.04) / 12;
+
+        // Update stats
+        statFinal.innerText = formatMoney(finalNominal, currency);
+        statContribSub.innerText = 'Depuneri proprii: ' + formatMoney(finalContrib, currency);
+        statReal.innerText = formatMoney(finalReal, currency);
+        statPension.innerText = formatMoney(monthlyPensionReal, currency) + ' / lună';
+
+        // Render Table
+        tableBody.innerHTML = '';
+        data.slice(1).forEach(row => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>${row.year}</td>
+                <td>${formatMoney(row.contributions, currency)}</td>
+                <td style="color: var(--accent-green)">+${formatMoney(row.interest, currency)}</td>
+                <td style="font-weight: 600">${formatMoney(row.nominal, currency)}</td>
+                <td style="color: var(--accent-primary)">${formatMoney(row.real, currency)}</td>
+            `;
+            tableBody.appendChild(tr);
+        });
+
+        drawChart(data, currency);
+    }
+
+    function drawChart(data, currency) {
+        // Resize canvas for crisp rendering
+        const rect = canvas.getBoundingClientRect();
+        canvas.width = rect.width * window.devicePixelRatio;
+        canvas.height = rect.height * window.devicePixelRatio;
+        ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+
+        const w = rect.width;
+        const h = rect.height;
+        const padding = { top: 20, right: 20, bottom: 35, left: 55 };
+
+        ctx.clearRect(0, 0, w, h);
+
+        const maxVal = Math.max(...data.map(d => d.nominal)) * 1.05;
+        const years = data.length - 1;
+
+        const getX = (year) => padding.left + (year / years) * (w - padding.left - padding.right);
+        const getY = (val) => h - padding.bottom - (val / maxVal) * (h - padding.top - padding.bottom);
+
+        // Grid lines
+        ctx.strokeStyle = '#334155';
+        ctx.lineWidth = 0.5;
+        ctx.fillStyle = '#94a3b8';
+        ctx.font = '10px system-ui';
+
+        const ySteps = 4;
+        for (let i = 0; i <= ySteps; i++) {
+            const val = (maxVal / ySteps) * i;
+            const y = getY(val);
+            ctx.beginPath();
+            ctx.moveTo(padding.left, y);
+            ctx.lineTo(w - padding.right, y);
+            ctx.stroke();
+
+            ctx.textAlign = 'right';
+            let formattedVal = val >= 1000000 ? (val / 1000000).toFixed(1) + 'M' : (val >= 1000 ? Math.round(val / 1000) + 'k' : Math.round(val));
+            ctx.fillText(formattedVal, padding.left - 8, y + 3);
+        }
+
+        // X Axis Labels
+        const xStep = years > 15 ? 5 : 2;
+        for (let y = 0; y <= years; y += xStep) {
+            const x = getX(y);
+            ctx.textAlign = 'center';
+            ctx.fillText('An ' + y, x, h - 12);
+        }
+
+        // Plot Area: Contributions
+        ctx.beginPath();
+        data.forEach((d, i) => {
+            const x = getX(d.year);
+            const y = getY(d.contributions);
+            if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+        });
+        ctx.strokeStyle = '#64748b';
+        ctx.lineWidth = 2;
+        ctx.setLineDash([4, 4]);
+        ctx.stroke();
+        ctx.setLineDash([]);
+
+        // Plot Area: Real Value
+        ctx.beginPath();
+        data.forEach((d, i) => {
+            const x = getX(d.year);
+            const y = getY(d.real);
+            if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+        });
+        ctx.strokeStyle = '#34d399';
+        ctx.lineWidth = 2.5;
+        ctx.stroke();
+
+        // Plot Area: Nominal Value (Main Line)
+        ctx.beginPath();
+        data.forEach((d, i) => {
+            const x = getX(d.year);
+            const y = getY(d.nominal);
+            if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+        });
+        ctx.strokeStyle = '#38bdf8';
+        ctx.lineWidth = 3;
+        ctx.stroke();
+
+        // Legend
+        const legendX = padding.left + 10;
+        const legendY = padding.top + 10;
+
+        ctx.fillStyle = '#38bdf8';
+        ctx.fillRect(legendX, legendY, 12, 8);
+        ctx.fillStyle = '#f8fafc';
+        ctx.textAlign = 'left';
+        ctx.fillText('Valoare Nominală', legendX + 18, legendY + 8);
+
+        ctx.fillStyle = '#34d399';
+        ctx.fillRect(legendX + 120, legendY, 12, 8);
+        ctx.fillStyle = '#f8fafc';
+        ctx.fillText('Valoare Reală (Ajustată Inflație)', legendX + 138, legendY + 8);
+    }
+
+    // Attach Listeners
+    [currSelect, initialSlider, monthlySlider, rateSlider, inflationSlider, yearsSlider].forEach(input => {
+        input.addEventListener('input', calculate);
+    });
+
+    window.addEventListener('resize', calculate);
+    window.addEventListener('DOMContentLoaded', calculate);
+</script>
+
+</body>
+</html>
