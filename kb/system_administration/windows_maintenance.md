@@ -100,6 +100,15 @@ CMD C:\>set a=foo bar
 # Printing variable values
 CMD C:\>echo %a% 
 foo bar
+
+# Listing network interfaces
+CMD C:\>netsh interface ipv4 show interfaces
+# List interface settings using name or index(Idx)
+CMD C:\>netsh interface ipv4 show addresses name="Ethernet"
+CMD C:\>netsh interface ipv4 show addresses name="21"
+
+# Setting IP configuration (requires elevation to administrator)
+CMD C:\>netsh interface ipv4 set address name="Ethernet" static 192.168.0.50 255.255.255.0 192.168.0.1
 ```
 
 ## 3. Batch script sample (CMD)
