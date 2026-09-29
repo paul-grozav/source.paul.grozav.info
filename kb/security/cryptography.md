@@ -13,7 +13,7 @@ A more secure way of encrypting, is by using an asymmetric key. The RSA algorith
 ## 0.1. Simple math example
 So, let's take a mathematical example (based on [this video](https://www.youtube.com/watch?v=UjIPMJd6Xks)).
 <br/><br/>
-1. **Bob** wants to send a secret message to **Alice**. This can be a number, say **m=89**. But how can he send his message over a public, insecure communication channel, where **Eve** is always eavesdropping/listening. Eve will receive/see everthing that Alice and Bob communicate.
+1. **Bob** wants to send a secret message to **Alice**. This can be a number, say **m=89**. But how can he send his message over a public, insecure communication channel, where **Eve** is always eavesdropping/listening. Eve will receive/see everything that Alice and Bob communicate.
 2. **Alice** will start by generating her key **pair**, consisting of a **private key** and a **public key**. For this, she picks two random large prime numbers, of similar size, say (we'll keep them small for this example) **p1=53** and **p2=59**. Then she multiplies them together `p1 * p2 = 53 * 59` = **3127 = n** . Then, Alice will calculate `f(p1, p2) = (p1 - 1) * (p2 - 1) = f_n` to be `(53-1) * (59-1) = 52 * 58` = **3016 = f_n**. Next, Alice picks a small number **e** that it is an odd number and does not share a factor with **f_n**. For example **e = 3** . Finally, Alice will calculate `d = (2 * f_n + 1)/e` , which in this case `d = (2 * 3016 + 1)/3` = **2011 = d**.
 3. At this point Alice has her public key consisting of numbers **n**(=3127) and **e**(=3).
 4. Alice also has her private key, consisting of the number **d** (=2011)
