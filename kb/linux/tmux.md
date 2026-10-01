@@ -36,6 +36,7 @@ title: Terminal multiplexer
 
 #### Other
 - `Ctrl+b : setw synchronize-panes on` - Broadcast input to all panes in window(toggle on/off).
+- `Ctrl+b : set -g status off` - Disable/Hide the green status bar at the bottom.
 
 ```bash
 # Run multiple commands in multiple panes
