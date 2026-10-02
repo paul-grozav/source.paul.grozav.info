@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MSCI World Growth Plotter vs. Bank Inflation</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent-teal: #0d9488;
+            --accent-green: #10b981;
+            --accent-pink: #f43f5e;
+            --border-color: #334155;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1000px;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            margin-top: 0;
+            margin-bottom: 8px;
+            color: var(--text-main);
+        }
+
+        p.subtitle {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 24px;
+        }
+
+        .controls {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin-bottom: 24px;
+            background-color: rgba(15, 23, 42, 0.6);
+            padding: 16px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        span.value-display {
+            color: var(--accent-green);
+            font-weight: bold;
+        }
+
+        input[type=range] {
+            accent-color: var(--accent-green);
+            cursor: pointer;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .card {
+            background-color: rgba(15, 23, 42, 0.4);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 16px;
+        }
+
+        .card-title {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+        }
+
+        .card-value {
+            font-size: 1.4rem;
+            font-weight: bold;
+        }
+
+        .card-subtext {
+            font-size: 0.8rem;
+            margin-top: 4px;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 420px;
+            width: 100%;
+        }
+
+        .c-nominal { color: var(--accent-teal); }
+        .c-real { color: var(--accent-green); }
+        .c-bank { color: var(--accent-pink); }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>MSCI World ETF Growth vs. Bank Account Inflation</h1>
+    <p class="subtitle">Proiecție pe termen lung: Depunere lunară (RON) vs. Inflație și Eroziune Bancară</p>
+
+    <!-- Interactive Sliders -->
+    <div class="controls">
+        <div class="control-group">
+            <label>Orizont Timp (Ani): <span id="yearsVal" class="value-display">10 ani</span></label>
+            <input type="range" id="years" min="5" max="30" step="1" value="10">
+        </div>
+        <div class="control-group">
+            <label>Depunere Lunară: <span id="depositVal" class="value-display">3,437 RON</span></label>
+            <input type="range" id="deposit" min="500" max="10000" step="100" value="3437">
+        </div>
+        <div class="control-group">
+            <label>Randament Nominal ETF: <span id="returnVal" class="value-display">8.0% p.a.</span></label>
+            <input type="range" id="returnRate" min="4" max="12" step="0.5" value="8.0">
+        </div>
+        <div class="control-group">
+            <label>Rată Inflație Lunară/Anuală: <span id="inflationVal" class="value-display">3.5% p.a.</span></label>
+            <input type="range" id="inflationRate" min="1" max="10" step="0.5" value="3.5">
+        </div>
+    </div>
+
+    <!-- Key Metrics Cards -->
+    <div class="cards-grid">
+        <div class="card">
+            <div class="card-title">Portofoliu Nominal MSCI World</div>
+            <div class="card-value c-nominal" id="cardNominal">628,700 RON</div>
+            <div class="card-subtext c-nominal" id="cardPassiveNominal">2,095 RON/lună venit pasiv</div>
+        </div>
+        <div class="card">
+            <div class="card-title">Putere Reală MSCI World</div>
+            <div class="card-value c-real" id="cardReal">517,100 RON</div>
+            <div class="card-subtext c-real" id="cardPassiveReal">1,723 RON/lună în bani de azi</div>
+        </div>
+        <div class="card">
+            <div class="card-title">Putere Reală Cont Curent</div>
+            <div class="card-value c-bank" id="cardBank">342,700 RON</div>
+            <div class="card-subtext c-bank" id="cardLoss">Pierdere: -69,700 RON</div>
+        </div>
+    </div>
+
+    <!-- Chart -->
+    <div class="chart-container">
+        <canvas id="growthChart"></canvas>
+    </div>
+</div>
+
+<script>
+    // DOM Inputs
+    const yearsInput = document.getElementById('years');
+    const depositInput = document.getElementById('deposit');
+    const returnRateInput = document.getElementById('returnRate');
+    const inflationRateInput = document.getElementById('inflationRate');
+
+    // DOM Display Labels
+    const yearsVal = document.getElementById('yearsVal');
+    const depositVal = document.getElementById('depositVal');
+    const returnVal = document.getElementById('returnVal');
+    const inflationVal = document.getElementById('inflationVal');
+
+    // DOM Cards
+    const cardNominal = document.getElementById('cardNominal');
+    const cardPassiveNominal = document.getElementById('cardPassiveNominal');
+    const cardReal = document.getElementById('cardReal');
+    const cardPassiveReal = document.getElementById('cardPassiveReal');
+    const cardBank = document.getElementById('cardBank');
+    const cardLoss = document.getElementById('cardLoss');
+
+    // Chart Instance
+    let chart;
+
+    function formatRON(val) {
+        return Math.round(val).toLocaleString('ro-RO') + ' RON';
+    }
+
+    function calculateData() {
+        const years = parseInt(yearsInput.value);
+        const deposit = parseFloat(depositInput.value);
+        const rNominal = parseFloat(returnRateInput.value) / 100 / 12;
+        const rInflation = parseFloat(inflationRateInput.value) / 100 / 12;
+        const rReal = (1 + parseFloat(returnRateInput.value)/100) / (1 + parseFloat(inflationRateInput.value)/100) - 1;
+        const rRealMonthly = rReal / 12;
+
+        const labels = [];
+        const nominalSeries = [];
+        const realSeries = [];
+        const bankSeries = [];
+
+        let currentNominal = 0;
+        let currentReal = 0;
+        let currentBankReal = 0;
+
+        for (let month = 1; month <= years * 12; month++) {
+            // Compound Future Value Formulas
+            currentNominal = (currentNominal + deposit) * (1 + rNominal);
+            currentReal = (currentReal + deposit) * (1 + rRealMonthly);
+            currentBankReal = (currentBankReal + deposit) * (1 - rInflation);
+
+            if (month % 12 === 0) {
+                const yearNum = month / 12;
+                labels.push('Anul ' + yearNum);
+                nominalSeries.push(Math.round(currentNominal));
+                realSeries.push(Math.round(currentReal));
+                bankSeries.push(Math.round(currentBankReal));
+            }
+        }
+
+        return { labels, nominalSeries, realSeries, bankSeries, currentNominal, currentReal, currentBankReal, years, deposit };
+    }
+
+    function updateChart() {
+        const data = calculateData();
+
+        // Update Labels
+        yearsVal.innerText = data.years + ' ani';
+        depositVal.innerText = data.deposit.toLocaleString('ro-RO') + ' RON';
+        returnVal.innerText = parseFloat(returnRateInput.value).toFixed(1) + '% p.a.';
+        inflationVal.innerText = parseFloat(inflationRateInput.value).toFixed(1) + '% p.a.';
+
+        // Update Cards
+        cardNominal.innerText = formatRON(data.currentNominal);
+        cardPassiveNominal.innerText = formatRON(data.currentNominal / 300) + '/lună venit pasiv (Regula 1/300)';
+
+        cardReal.innerText = formatRON(data.currentReal);
+        cardPassiveReal.innerText = formatRON(data.currentReal / 300) + '/lună în bani de azi';
+
+        const totalCashDeposited = data.deposit * data.years * 12;
+        const bankLoss = totalCashDeposited - data.currentBankReal;
+
+        cardBank.innerText = formatRON(data.currentBankReal);
+        cardLoss.innerText = 'Eroziune inflație: -' + formatRON(bankLoss);
+
+        // Update Chart Datasets
+        chart.data.labels = data.labels;
+        chart.data.datasets[0].data = data.nominalSeries;
+        chart.data.datasets[1].data = data.realSeries;
+        chart.data.datasets[2].data = data.bankSeries;
+        chart.update();
+    }
+
+    function initChart() {
+        const ctx = document.getElementById('growthChart').getContext('2d');
+        chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: [],
+                datasets: [
+                    {
+                        label: 'MSCI World - Nominal (8.0% p.a.)',
+                        data: [],
+                        borderColor: '#0d9488',
+                        backgroundColor: 'rgba(13, 148, 136, 0.1)',
+                        borderWidth: 3,
+                        fill: false,
+                        tension: 0.2
+                    },
+                    {
+                        label: 'MSCI World - Putere Reală (Net de Inflație)',
+                        data: [],
+                        borderColor: '#10b981',
+                        backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                        borderWidth: 3,
+                        fill: false,
+                        tension: 0.2
+                    },
+                    {
+                        label: 'Cont Curent Bancar - Putere Reală (Eroziune Inflație)',
+                        data: [],
+                        borderColor: '#f43f5e',
+                        backgroundColor: 'rgba(244, 63, 94, 0.1)',
+                        borderWidth: 3,
+                        fill: false,
+                        tension: 0.2
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                interaction: {
+                    mode: 'index',
+                    intersect: false
+                },
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: '#f8fafc',
+                            font: { size: 12 }
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return context.dataset.label.split(' - ')[0] + ': ' + context.parsed.y.toLocaleString('ro-RO') + ' RON';
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        grid: { color: '#334155' },
+                        ticks: { color: '#94a3b8' }
+                    },
+                    y: {
+                        grid: { color: '#334155' },
+                        ticks: {
+                            color: '#94a3b8',
+                            callback: function(value) {
+                                return (value / 1000).toLocaleString('ro-RO') + 'k RON';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        updateChart();
+    }
+
+    // Attach Event Listeners
+    [yearsInput, depositInput, returnRateInput, inflationRateInput].forEach(input => {
+        input.addEventListener('input', updateChart);
+    });
+
+    // Initialize on Load
+    window.onload = initChart;
+</script>
+
+</body>
+</html>
