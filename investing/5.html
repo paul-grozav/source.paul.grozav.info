@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MSCI World Growth Plotter vs. Bank Inflation</title>
+    <title>MSCI World Growth Plotter vs. Bank Account Scenarios</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         :root {
@@ -13,6 +13,7 @@
             --text-muted: #94a3b8;
             --accent-teal: #0d9488;
             --accent-green: #10b981;
+            --accent-blue: #3b82f6;
             --accent-pink: #f43f5e;
             --border-color: #334155;
             --input-bg: #0f172a;
@@ -30,7 +31,7 @@
 
         .container {
             width: 100%;
-            max-width: 1000px;
+            max-width: 1100px;
             background-color: var(--card-bg);
             border: 1px solid var(--border-color);
             border-radius: 12px;
@@ -107,7 +108,7 @@
 
         .cards-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
             gap: 16px;
             margin-bottom: 24px;
         }
@@ -120,7 +121,7 @@
         }
 
         .card-title {
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             color: var(--text-muted);
             text-transform: uppercase;
             letter-spacing: 0.5px;
@@ -128,7 +129,7 @@
         }
 
         .card-value {
-            font-size: 1.4rem;
+            font-size: 1.3rem;
             font-weight: bold;
         }
 
@@ -139,20 +140,21 @@
 
         .chart-container {
             position: relative;
-            height: 420px;
+            height: 440px;
             width: 100%;
         }
 
         .c-nominal { color: var(--accent-teal); }
         .c-real { color: var(--accent-green); }
-        .c-bank { color: var(--accent-pink); }
+        .c-bank-nom { color: var(--accent-blue); }
+        .c-bank-real { color: var(--accent-pink); }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>MSCI World ETF Growth vs. Bank Account Inflation</h1>
-    <p class="subtitle">Proiecție pe termen lung: Depunere lunară (RON) vs. Inflație și Eroziune Bancară</p>
+    <h1>MSCI World ETF Growth vs. Bank Account Scenarios</h1>
+    <p class="subtitle">Proiecție pe termen lung: Depunere Lunară (RON) vs. Eroziune Bancară și Inflație</p>
 
     <!-- Interactive Inputs & Sliders -->
     <div class="controls">
@@ -169,7 +171,7 @@
             <div class="input-row">
                 <input type="number" id="depositNum" value="1000" min="0" step="50">
             </div>
-            <input type="range" id="depositRange" min="500" max="25000" step="100" value="3437">
+            <input type="range" id="depositRange" min="100" max="25000" step="100" value="1000">
         </div>
 
         <div class="control-group">
@@ -183,9 +185,9 @@
         <div class="control-group">
             <label for="inflationNum">Rată Inflație Anuală (%):</label>
             <div class="input-row">
-                <input type="number" id="inflationNum" value="3.5" min="0" max="30" step="0.1">
+                <input type="number" id="inflationNum" value="5.0" min="0" max="30" step="0.1">
             </div>
-            <input type="range" id="inflationRange" min="0" max="15" step="0.5" value="3.5">
+            <input type="range" id="inflationRange" min="0" max="15" step="0.5" value="5.0">
         </div>
     </div>
 
@@ -193,18 +195,23 @@
     <div class="cards-grid">
         <div class="card">
             <div class="card-title">Portofoliu Nominal MSCI World</div>
-            <div class="card-value c-nominal" id="cardNominal">628,700 RON</div>
-            <div class="card-subtext c-nominal" id="cardPassiveNominal">2,095 RON/lună venit pasiv</div>
+            <div class="card-value c-nominal" id="cardNominal">0 RON</div>
+            <div class="card-subtext c-nominal" id="cardPassiveNominal">0 RON/lună venit pasiv</div>
         </div>
         <div class="card">
             <div class="card-title">Putere Reală MSCI World</div>
-            <div class="card-value c-real" id="cardReal">517,100 RON</div>
-            <div class="card-subtext c-real" id="cardPassiveReal">1,723 RON/lună în bani de azi</div>
+            <div class="card-value c-real" id="cardReal">0 RON</div>
+            <div class="card-subtext c-real" id="cardPassiveReal">0 RON/lună în bani de azi</div>
         </div>
         <div class="card">
-            <div class="card-title">Putere Reală Cont Curent</div>
-            <div class="card-value c-bank" id="cardBank">342,700 RON</div>
-            <div class="card-subtext c-bank" id="cardLoss">Pierdere: -69,700 RON</div>
+            <div class="card-title">Cont Curent (Sumă Totală Depusă)</div>
+            <div class="card-value c-bank-nom" id="cardBankNominal">0 RON</div>
+            <div class="card-subtext c-bank-nom">Zero dobândă / Fără inflație</div>
+        </div>
+        <div class="card">
+            <div class="card-title">Cont Curent (Ajustat la Inflație)</div>
+            <div class="card-value c-bank-real" id="cardBankReal">0 RON</div>
+            <div class="card-subtext c-bank-real" id="cardLoss">Pierdere: 0 RON</div>
         </div>
     </div>
 
@@ -232,7 +239,8 @@
     const cardPassiveNominal = document.getElementById('cardPassiveNominal');
     const cardReal = document.getElementById('cardReal');
     const cardPassiveReal = document.getElementById('cardPassiveReal');
-    const cardBank = document.getElementById('cardBank');
+    const cardBankNominal = document.getElementById('cardBankNominal');
+    const cardBankReal = document.getElementById('cardBankReal');
     const cardLoss = document.getElementById('cardLoss');
 
     // Chart Instance
@@ -248,41 +256,57 @@
 
     function calculateData() {
         const years = Math.max(1, parseInt(yearsNum.value) || 1);
-        const deposit = Math.max(0, parseFloat(depositNum.value) || 0);
+        const monthlyDeposit = Math.max(0, parseFloat(depositNum.value) || 0);
         const returnRateVal = parseFloat(returnNum.value) || 0;
         const inflationRateVal = parseFloat(inflationNum.value) || 0;
 
         const rNominal = returnRateVal / 100 / 12;
         const rInflation = inflationRateVal / 100 / 12;
         
-        // Exact real compounding rate using Fisher equation
+        // Fisher Equation for exact net real return
         const rRealAnnual = (1 + returnRateVal / 100) / (1 + inflationRateVal / 100) - 1;
         const rRealMonthly = rRealAnnual / 12;
 
         const labels = [];
         const nominalSeries = [];
         const realSeries = [];
-        const bankSeries = [];
+        const bankNominalSeries = [];
+        const bankRealSeries = [];
 
         let currentNominal = 0;
         let currentReal = 0;
+        let currentBankNominal = 0;
         let currentBankReal = 0;
 
         for (let month = 1; month <= years * 12; month++) {
-            currentNominal = (currentNominal + deposit) * (1 + rNominal);
-            currentReal = (currentReal + deposit) * (1 + rRealMonthly);
-            currentBankReal = (currentBankReal + deposit) * (1 - rInflation);
+            currentNominal = (currentNominal + monthlyDeposit) * (1 + rNominal);
+            currentReal = (currentReal + monthlyDeposit) * (1 + rRealMonthly);
+            currentBankNominal = currentBankNominal + monthlyDeposit; // Un-eroded sum of cash deposited
+            currentBankReal = (currentBankReal + monthlyDeposit) * (1 - rInflation);
 
             if (month % 12 === 0) {
                 const yearNumVal = month / 12;
                 labels.push('Anul ' + yearNumVal);
                 nominalSeries.push(Math.round(currentNominal));
                 realSeries.push(Math.round(currentReal));
-                bankSeries.push(Math.round(currentBankReal));
+                bankNominalSeries.push(Math.round(currentBankNominal));
+                bankRealSeries.push(Math.round(currentBankReal));
             }
         }
 
-        return { labels, nominalSeries, realSeries, bankSeries, currentNominal, currentReal, currentBankReal, years, deposit };
+        return { 
+            labels, 
+            nominalSeries, 
+            realSeries, 
+            bankNominalSeries, 
+            bankRealSeries, 
+            currentNominal, 
+            currentReal, 
+            currentBankNominal, 
+            currentBankReal, 
+            years, 
+            monthlyDeposit 
+        };
     }
 
     function updateChart() {
@@ -295,17 +319,18 @@
         cardReal.innerText = formatRON(data.currentReal);
         cardPassiveReal.innerText = formatRON(data.currentReal / 300) + '/lună în bani de azi';
 
-        const totalCashDeposited = data.deposit * data.years * 12;
-        const bankLoss = totalCashDeposited - data.currentBankReal;
+        cardBankNominal.innerText = formatRON(data.currentBankNominal);
 
-        cardBank.innerText = formatRON(data.currentBankReal);
+        const bankLoss = data.currentBankNominal - data.currentBankReal;
+        cardBankReal.innerText = formatRON(data.currentBankReal);
         cardLoss.innerText = 'Eroziune inflație: -' + formatRON(bankLoss);
 
         // Update Chart Datasets
         chart.data.labels = data.labels;
         chart.data.datasets[0].data = data.nominalSeries;
         chart.data.datasets[1].data = data.realSeries;
-        chart.data.datasets[2].data = data.bankSeries;
+        chart.data.datasets[2].data = data.bankNominalSeries;
+        chart.data.datasets[3].data = data.bankRealSeries;
         chart.update();
     }
 
@@ -317,7 +342,7 @@
                 labels: [],
                 datasets: [
                     {
-                        label: 'MSCI World - Nominal',
+                        label: 'MSCI World - Nominal (Randament Piață)',
                         data: [],
                         borderColor: '#0d9488',
                         backgroundColor: 'rgba(13, 148, 136, 0.1)',
@@ -335,7 +360,17 @@
                         tension: 0.2
                     },
                     {
-                        label: 'Cont Curent Bancar - Putere Reală (Eroziune Inflație)',
+                        label: 'Cont Curent Bancar - Nominal (Suma Totală Depusă)',
+                        data: [],
+                        borderColor: '#3b82f6',
+                        backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                        borderWidth: 2,
+                        borderDash: [5, 5],
+                        fill: false,
+                        tension: 0
+                    },
+                    {
+                        label: 'Cont Curent Bancar - Putere Reală (Ajustat la Inflație)',
                         data: [],
                         borderColor: '#f43f5e',
                         backgroundColor: 'rgba(244, 63, 94, 0.1)',
