@@ -15,6 +15,7 @@
             --accent-green: #10b981;
             --accent-pink: #f43f5e;
             --border-color: #334155;
+            --input-bg: #0f172a;
         }
 
         body {
@@ -64,22 +65,42 @@
         .control-group {
             display: flex;
             flex-direction: column;
+            gap: 6px;
         }
 
         label {
             font-size: 0.85rem;
             color: var(--text-muted);
-            margin-bottom: 6px;
             display: flex;
             justify-content: space-between;
+            align-items: center;
         }
 
-        span.value-display {
+        .input-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        input[type=number] {
+            width: 100%;
+            background-color: var(--input-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
             color: var(--accent-green);
             font-weight: bold;
+            font-size: 0.95rem;
+            padding: 6px 10px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        input[type=number]:focus {
+            border-color: var(--accent-green);
         }
 
         input[type=range] {
+            width: 100%;
             accent-color: var(--accent-green);
             cursor: pointer;
         }
@@ -133,23 +154,38 @@
     <h1>MSCI World ETF Growth vs. Bank Account Inflation</h1>
     <p class="subtitle">Proiecție pe termen lung: Depunere lunară (RON) vs. Inflație și Eroziune Bancară</p>
 
-    <!-- Interactive Sliders -->
+    <!-- Interactive Inputs & Sliders -->
     <div class="controls">
         <div class="control-group">
-            <label>Orizont Timp (Ani): <span id="yearsVal" class="value-display">10 ani</span></label>
-            <input type="range" id="years" min="5" max="30" step="1" value="10">
+            <label for="yearsNum">Orizont Timp (Ani):</label>
+            <div class="input-row">
+                <input type="number" id="yearsNum" value="10" min="1" step="1">
+            </div>
+            <input type="range" id="yearsRange" min="1" max="50" step="1" value="10">
         </div>
+
         <div class="control-group">
-            <label>Depunere Lunară: <span id="depositVal" class="value-display">3,437 RON</span></label>
-            <input type="range" id="deposit" min="500" max="10000" step="100" value="3437">
+            <label for="depositNum">Depunere Lunară (RON):</label>
+            <div class="input-row">
+                <input type="number" id="depositNum" value="3437" min="0" step="50">
+            </div>
+            <input type="range" id="depositRange" min="500" max="25000" step="100" value="3437">
         </div>
+
         <div class="control-group">
-            <label>Randament Nominal ETF: <span id="returnVal" class="value-display">8.0% p.a.</span></label>
-            <input type="range" id="returnRate" min="4" max="12" step="0.5" value="8.0">
+            <label for="returnNum">Randament Nominal ETF (%):</label>
+            <div class="input-row">
+                <input type="number" id="returnNum" value="8.0" min="0" max="30" step="0.1">
+            </div>
+            <input type="range" id="returnRange" min="1" max="20" step="0.5" value="8.0">
         </div>
+
         <div class="control-group">
-            <label>Rată Inflație Lunară/Anuală: <span id="inflationVal" class="value-display">3.5% p.a.</span></label>
-            <input type="range" id="inflationRate" min="1" max="10" step="0.5" value="3.5">
+            <label for="inflationNum">Rată Inflație Anuală (%):</label>
+            <div class="input-row">
+                <input type="number" id="inflationNum" value="3.5" min="0" max="30" step="0.1">
+            </div>
+            <input type="range" id="inflationRange" min="0" max="15" step="0.5" value="3.5">
         </div>
     </div>
 
@@ -179,17 +215,17 @@
 </div>
 
 <script>
-    // DOM Inputs
-    const yearsInput = document.getElementById('years');
-    const depositInput = document.getElementById('deposit');
-    const returnRateInput = document.getElementById('returnRate');
-    const inflationRateInput = document.getElementById('inflationRate');
+    // Numeric Inputs
+    const yearsNum = document.getElementById('yearsNum');
+    const depositNum = document.getElementById('depositNum');
+    const returnNum = document.getElementById('returnNum');
+    const inflationNum = document.getElementById('inflationNum');
 
-    // DOM Display Labels
-    const yearsVal = document.getElementById('yearsVal');
-    const depositVal = document.getElementById('depositVal');
-    const returnVal = document.getElementById('returnVal');
-    const inflationVal = document.getElementById('inflationVal');
+    // Range Sliders
+    const yearsRange = document.getElementById('yearsRange');
+    const depositRange = document.getElementById('depositRange');
+    const returnRange = document.getElementById('returnRange');
+    const inflationRange = document.getElementById('inflationRange');
 
     // DOM Cards
     const cardNominal = document.getElementById('cardNominal');
@@ -206,13 +242,22 @@
         return Math.round(val).toLocaleString('ro-RO') + ' RON';
     }
 
+    function syncInputs(source, target) {
+        target.value = source.value;
+    }
+
     function calculateData() {
-        const years = parseInt(yearsInput.value);
-        const deposit = parseFloat(depositInput.value);
-        const rNominal = parseFloat(returnRateInput.value) / 100 / 12;
-        const rInflation = parseFloat(inflationRateInput.value) / 100 / 12;
-        const rReal = (1 + parseFloat(returnRateInput.value)/100) / (1 + parseFloat(inflationRateInput.value)/100) - 1;
-        const rRealMonthly = rReal / 12;
+        const years = Math.max(1, parseInt(yearsNum.value) || 1);
+        const deposit = Math.max(0, parseFloat(depositNum.value) || 0);
+        const returnRateVal = parseFloat(returnNum.value) || 0;
+        const inflationRateVal = parseFloat(inflationNum.value) || 0;
+
+        const rNominal = returnRateVal / 100 / 12;
+        const rInflation = inflationRateVal / 100 / 12;
+        
+        // Exact real compounding rate using Fisher equation
+        const rRealAnnual = (1 + returnRateVal / 100) / (1 + inflationRateVal / 100) - 1;
+        const rRealMonthly = rRealAnnual / 12;
 
         const labels = [];
         const nominalSeries = [];
@@ -224,14 +269,13 @@
         let currentBankReal = 0;
 
         for (let month = 1; month <= years * 12; month++) {
-            // Compound Future Value Formulas
             currentNominal = (currentNominal + deposit) * (1 + rNominal);
             currentReal = (currentReal + deposit) * (1 + rRealMonthly);
             currentBankReal = (currentBankReal + deposit) * (1 - rInflation);
 
             if (month % 12 === 0) {
-                const yearNum = month / 12;
-                labels.push('Anul ' + yearNum);
+                const yearNumVal = month / 12;
+                labels.push('Anul ' + yearNumVal);
                 nominalSeries.push(Math.round(currentNominal));
                 realSeries.push(Math.round(currentReal));
                 bankSeries.push(Math.round(currentBankReal));
@@ -244,13 +288,7 @@
     function updateChart() {
         const data = calculateData();
 
-        // Update Labels
-        yearsVal.innerText = data.years + ' ani';
-        depositVal.innerText = data.deposit.toLocaleString('ro-RO') + ' RON';
-        returnVal.innerText = parseFloat(returnRateInput.value).toFixed(1) + '% p.a.';
-        inflationVal.innerText = parseFloat(inflationRateInput.value).toFixed(1) + '% p.a.';
-
-        // Update Cards
+        // Update Summary Cards
         cardNominal.innerText = formatRON(data.currentNominal);
         cardPassiveNominal.innerText = formatRON(data.currentNominal / 300) + '/lună venit pasiv (Regula 1/300)';
 
@@ -279,7 +317,7 @@
                 labels: [],
                 datasets: [
                     {
-                        label: 'MSCI World - Nominal (8.0% p.a.)',
+                        label: 'MSCI World - Nominal',
                         data: [],
                         borderColor: '#0d9488',
                         backgroundColor: 'rgba(13, 148, 136, 0.1)',
@@ -350,12 +388,26 @@
         updateChart();
     }
 
-    // Attach Event Listeners
-    [yearsInput, depositInput, returnRateInput, inflationRateInput].forEach(input => {
-        input.addEventListener('input', updateChart);
+    // Attach Two-Way Binding Listeners
+    const pairs = [
+        { num: yearsNum, range: yearsRange },
+        { num: depositNum, range: depositRange },
+        { num: returnNum, range: returnRange },
+        { num: inflationNum, range: inflationRange }
+    ];
+
+    pairs.forEach(pair => {
+        pair.num.addEventListener('input', () => {
+            syncInputs(pair.num, pair.range);
+            updateChart();
+        });
+        pair.range.addEventListener('input', () => {
+            syncInputs(pair.range, pair.num);
+            updateChart();
+        });
     });
 
-    // Initialize on Load
+    // Initialize on Page Load
     window.onload = initChart;
 </script>
 
