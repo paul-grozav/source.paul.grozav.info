@@ -11,7 +11,7 @@
             --card-bg: #1e293b;
             --text-main: #f8fafc;
             --text-muted: #94a3b8;
-            --accent-teal: #0d9488;
+            --accent-yellow: #eab308;
             --accent-green: #10b981;
             --accent-blue: #3b82f6;
             --accent-pink: #f43f5e;
@@ -144,7 +144,7 @@
             width: 100%;
         }
 
-        .c-nominal { color: var(--accent-teal); }
+        .c-nominal { color: var(--accent-yellow); }
         .c-real { color: var(--accent-green); }
         .c-bank-nom { color: var(--accent-blue); }
         .c-bank-real { color: var(--accent-pink); }
@@ -154,7 +154,7 @@
 
 <div class="container">
     <h1>MSCI World ETF Growth vs. Bank Account Scenarios</h1>
-    <p class="subtitle">Proiecție pe termen lung: Depunere Lunară (RON) vs. Eroziune Bancară și Inflație</p>
+    <p class="subtitle">Proiecție pe termen lung: Depunere Lunară (RON) vs. Eroziune Bancară și Inflație (Evoluție Lunară)</p>
 
     <!-- Interactive Inputs & Sliders -->
     <div class="controls">
@@ -278,20 +278,22 @@
         let currentBankNominal = 0;
         let currentBankReal = 0;
 
-        for (let month = 1; month <= years * 12; month++) {
+        const totalMonths = years * 12;
+
+        for (let month = 1; month <= totalMonths; month++) {
             currentNominal = (currentNominal + monthlyDeposit) * (1 + rNominal);
             currentReal = (currentReal + monthlyDeposit) * (1 + rRealMonthly);
             currentBankNominal = currentBankNominal + monthlyDeposit; // Un-eroded sum of cash deposited
             currentBankReal = (currentBankReal + monthlyDeposit) * (1 - rInflation);
 
-            if (month % 12 === 0) {
-                const yearNumVal = month / 12;
-                labels.push('Anul ' + yearNumVal);
-                nominalSeries.push(Math.round(currentNominal));
-                realSeries.push(Math.round(currentReal));
-                bankNominalSeries.push(Math.round(currentBankNominal));
-                bankRealSeries.push(Math.round(currentBankReal));
-            }
+            const yearNumVal = Math.floor((month - 1) / 12) + 1;
+            const monthInYear = ((month - 1) % 12) + 1;
+            labels.push(`An ${yearNumVal}, L${monthInYear}`);
+
+            nominalSeries.push(Math.round(currentNominal));
+            realSeries.push(Math.round(currentReal));
+            bankNominalSeries.push(Math.round(currentBankNominal));
+            bankRealSeries.push(Math.round(currentBankReal));
         }
 
         return { 
@@ -325,8 +327,17 @@
         cardBankReal.innerText = formatRON(data.currentBankReal);
         cardLoss.innerText = 'Eroziune inflație: -' + formatRON(bankLoss);
 
-        // Update Chart Datasets
+        // Dynamic point sizing so points stay clear regardless of timeframe
+        const totalPoints = data.labels.length;
+        const pointRadius = totalPoints > 180 ? 0 : totalPoints > 60 ? 2 : 3;
+        const pointHoverRadius = pointRadius + 3;
+
         chart.data.labels = data.labels;
+        chart.data.datasets.forEach(dataset => {
+            dataset.pointRadius = pointRadius;
+            dataset.pointHoverRadius = pointHoverRadius;
+        });
+
         chart.data.datasets[0].data = data.nominalSeries;
         chart.data.datasets[1].data = data.realSeries;
         chart.data.datasets[2].data = data.bankNominalSeries;
@@ -344,20 +355,20 @@
                     {
                         label: 'MSCI World - Nominal (Randament Piață)',
                         data: [],
-                        borderColor: '#0d9488',
-                        backgroundColor: 'rgba(13, 148, 136, 0.1)',
-                        borderWidth: 3,
+                        borderColor: '#eab308',
+                        backgroundColor: 'rgba(234, 179, 8, 0.1)',
+                        borderWidth: 2,
                         fill: false,
-                        tension: 0.2
+                        tension: 0.1
                     },
                     {
                         label: 'MSCI World - Putere Reală (Net de Inflație)',
                         data: [],
                         borderColor: '#10b981',
                         backgroundColor: 'rgba(16, 185, 129, 0.1)',
-                        borderWidth: 3,
+                        borderWidth: 2,
                         fill: false,
-                        tension: 0.2
+                        tension: 0.1
                     },
                     {
                         label: 'Cont Curent Bancar - Nominal (Suma Totală Depusă)',
@@ -374,9 +385,9 @@
                         data: [],
                         borderColor: '#f43f5e',
                         backgroundColor: 'rgba(244, 63, 94, 0.1)',
-                        borderWidth: 3,
+                        borderWidth: 2,
                         fill: false,
-                        tension: 0.2
+                        tension: 0.1
                     }
                 ]
             },
@@ -405,7 +416,10 @@
                 scales: {
                     x: {
                         grid: { color: '#334155' },
-                        ticks: { color: '#94a3b8' }
+                        ticks: { 
+                            color: '#94a3b8',
+                            maxTicksLimit: 12
+                        }
                     },
                     y: {
                         grid: { color: '#334155' },
