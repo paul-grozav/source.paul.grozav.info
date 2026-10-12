@@ -2,6 +2,7 @@
 <!-- ===================================================================== -->
 <!-- Author: Tancredi-Paul Grozav <paul@grozav.info>                       -->
 <!-- https://www.google.com/sitemap.xml                                    -->
+<!-- Validate with: https://www.xml-sitemaps.com/validate-xml-sitemap.html -->
 <!-- TODO: Try implementing with: https://github.com/jekyll/jekyll-sitemap -->
 <!-- ===================================================================== -->
 <urlset

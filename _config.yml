@@ -27,4 +27,8 @@ permalink: /:categories/:year/:month/:day/:title
 
 # Build settings
 markdown: kramdown
-exclude: ["README.md"]
+exclude:
+- README.md
+
+plugins:
+- jekyll-sitemap
