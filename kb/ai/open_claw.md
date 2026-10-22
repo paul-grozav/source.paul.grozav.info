@@ -23,3 +23,14 @@ settings:
     expires: 1 year from creation time
     role: Developer
 ```
+
+# Ollama
+My claw connects to my local ollama, that has multiple models available: `ollama list`.
+
+I can pull any model using `ollama pull nimble-v3` to pull this model: https://ollama.com/library/nimble-v3 .
+
+You can easily see available models on their site: https://ollama.com/search?c=local .
+
+Once you are done with a model, remove it with `ollama rm nimble-v3` .
+
+To test it fast with a curl request you can run: `time curl http://localhost:11434/api/generate -d '{"model": "llama3.1:8b", "prompt": "Why is the sky blue?", "stream": false}'` .
