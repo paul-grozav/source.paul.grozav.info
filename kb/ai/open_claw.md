@@ -34,3 +34,8 @@ You can easily see available models on their site: https://ollama.com/search?c=l
 Once you are done with a model, remove it with `ollama rm nimble-v3` .
 
 To test it fast with a curl request you can run: `time curl http://localhost:11434/api/generate -d '{"model": "llama3.1:8b", "prompt": "Why is the sky blue?", "stream": false}'` .
+
+See also:
+- https://openwebui.com/
+- https://github.com/SYSTRAN/faster-whisper
+- ghcr.io/berriai/litellm:main-latest
