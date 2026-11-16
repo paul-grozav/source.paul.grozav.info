@@ -40,6 +40,10 @@ enabled_power_interfaces = ipmitool
 enabled_boot_interfaces = pxe,ipxe
 transport_url = fake://
 auth_strategy = noauth
+rpc_transport = json-rpc
+
+[json_rpc]
+auth_strategy = noauth
 
 [oslo_messaging_notifications]
 transport_url = fake://
