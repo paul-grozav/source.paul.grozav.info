@@ -1,6 +1,6 @@
 ---
 layout: page
-title: UEFI shell
+title: OpenStack Ironic
 ---
 
 Start a MariaDB container which OpenStack Ironic needs for its data:
