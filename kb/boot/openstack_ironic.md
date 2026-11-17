@@ -3,6 +3,10 @@ layout: page
 title: OpenStack Ironic
 ---
 
+## Intro
+The Ironic component in the OpenStack suite is able to orchestrate physical machines, giving them images to boot/load and injecting secrets into them securely.
+
+## Basics
 Start a MariaDB container which OpenStack Ironic needs for its data:
 ```sh
 $ podman run -d \
@@ -81,6 +85,10 @@ http_url = http://127.0.0.1:8088
 # IP address of the host serving TFTP/PXE boot files to booting nodes
 images_path = /var/lib/ironic/images/
 instance_info_subtl = True
+
+[ipmi]
+# Force ipmitool to use IPMI v1.5 (lan) instead of v2.0 (lanplus) globally
+default_ipmi_protocol = lan
 ```
 
 Then inside ironic's container, run: `bash-5.1# ironic-dbsync --config-file /etc/ironic/ironic.conf upgrade` , to initiate the DB.
@@ -96,3 +104,79 @@ Make sure you exported these environment variables: `export OS_AUTH_TYPE=noauth`
 Then you can list your bare metal nodes using: `baremetal node list` . The list is empty, of course.
 
 But you can create a new node with: `baremetal node create --driver ipmi --name qemu-vm-01` .
+
+## Creating a node with local QEMU and a simulated IPMI
+Create this `openipmi_sim.conf` configuration file:
+```ini
+name "ipmisim1"
+user 2 true "admin" "password" admin 10 none md2 md5 straight
+startlan 1
+addr 127.0.0.1 6230
+priv_limit admin
+allowed_auths_callback none md2 md5 straight
+allowed_auths_user none md2 md5 straight
+allowed_auths_operator none md2 md5 straight
+allowed_auths_admin none md2 md5 straight
+endlan
+```
+
+And this command file:
+```txt
+# Emulation setup file for the IPMI simulator
+mc_setbmc 0x20
+mc_add 0x20 0 no-device-sdrs 0x23 9 8 0x9f 0x1291 0xf02 persist_sdr
+mc_enable 0x20
+```
+
+Make sure you create a folder for it's persitence: `mkdir -p ipmi_persist` . Then start the IPMI simulator (can be installed with: `sudo apt install -y openipmi`) using this command: `ipmi_sim -c $(pwd)/openipmi_sim.conf -s $(pwd)/ipmi_persist -f $(pwd)/openipmi_sim.emu` .
+
+Create your node with:
+```sh
+baremetal node create \
+  --driver ipmi \
+  --name physical-desktop-01 \
+  --driver-info ipmi_address=127.0.0.1 \
+  --driver-info ipmi_port=6230 \
+  --driver-info ipmi_username=admin \
+  --driver-info ipmi_password=password
+```
+Take notes of the new node's `uuid` then use it to see the machine state: `baremetal node show 8c5fd659-44f5-46c1-89db-3e050b114c60`.
+If it was able to connect to IPMI it should turn `provision_state` from `verifying` which is verifying it's state through IPMI to `enroll` which is waiting for it to enroll (boot and contact the ironic system).
+
+You can check ipmi's power state too, using `ipmitool -I lan -H 127.0.0.1 -p 6230 -U admin -P password chassis power status` you should see the message: `Chassis Power is off`.
+
+Ensure you run this in your ironic container, to make it work with ipmi 1.5 (lan) not 2.0 (lanplus).
+```sh
+bash -c '
+mv /usr/bin/ipmitool /usr/bin/ipmitool.real &&
+cat << "EOF" > /usr/bin/ipmitool
+#!/bin/bash
+args=("$@")
+new_args=()
+skip_next=false
+for i in "${!args[@]}"; do
+  if [ "$skip_next" = true ]; then
+    skip_next=false
+    continue
+  fi
+  if [ "${args[i]}" = "lanplus" ]; then
+    new_args+=("lan")
+  elif [ "${args[i]}" = "-L" ]; then
+    skip_next=true
+  else
+    new_args+=("${args[i]}")
+  fi
+done
+exec /usr/bin/ipmitool.real "${new_args[@]}"
+EOF
+chmod +x /usr/bin/ipmitool
+'
+```
+Then run:
+```sh
+baremetal node set $NODE --driver-info ipmi_protocol=lan --driver-info ipmi_privlevel=admin
+baremetal node abort $NODE
+baremetal node manage $NODE
+baremetal node provide $NODE
+```
+Now node should be in `provision_state` : `available`
