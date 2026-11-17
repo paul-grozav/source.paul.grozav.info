@@ -2,7 +2,7 @@
 layout: page
 title: Posts
 permalink: /posts
-nav_include: false
+nav_exclude: true
 ---
 
 <ul>

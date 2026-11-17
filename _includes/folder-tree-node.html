@@ -50,10 +50,10 @@
         {% endfor %}
       {% endif %}
 
-      {% if file_name != "index.md" and file_name != "index.html" and page.nav_include %}
+      {% if file_name != "index.md" and file_name != "index.html" %}
         <li>
           <a href="{{ p.url | relative_url }}" class="{% if page.url == p.url %}active-page{% endif %}">
-            <span class="icon">📄</span> {{ p.title | default: file_name }}
+            <span class="icon">📄 </span> {{ p.title | default: file_name }}
           </a>
         </li>
       {% endif %}

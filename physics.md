@@ -2,7 +2,6 @@
 layout: page
 title: Physics
 permalink: /physics
-nav_include: true
 ---
 
 <script
