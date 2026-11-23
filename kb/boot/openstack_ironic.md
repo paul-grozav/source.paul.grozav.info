@@ -180,3 +180,15 @@ baremetal node manage $NODE
 baremetal node provide $NODE
 ```
 Now node should be in `provision_state` : `available`
+
+### Try also
+```sh
+baremetal node set $NODE --boot-interface pxe
+baremetal node set $NODE \
+  --instance-info kernel=http://alice.home.server.paul.grozav.info:1027/bin/boot/ipxe/bin/os/aleph/latest/aleph.krnl \
+  --instance-info ramdisk=http://alice.home.server.paul.grozav.info:1027/bin/boot/ipxe/bin/os/aleph/latest/aleph.ird
+baremetal node deploy $NODE
+baremetal node maintenance set $NODE
+baremetal node maintenance unset $NODE
+```
+
