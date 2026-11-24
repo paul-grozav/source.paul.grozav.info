@@ -29,6 +29,18 @@ data-key (a small file) to the KMS to be decrypted, and then use the decrypted
 data-key to decrypt your actual data.
 <br/><br/>
 
+# TPM (Trusted Platform Module)
+If your server has a TPM and it is enabled, reachable by the Linux OS, you
+should see it in `ls -la /dev/tpm*` . To get to interact with it you will need
+the package `dnf install tpm2-tools` .
+
+```sh
+$ tpm2_getcap --version
+tool="tpm2_getcap" version="5.2" tctis="libtss2-tctildr" tcti-default=tcti-device
+```
+
+# OpenBao
+
 ## Installing OpenBao
 I installed the helm chart: https://openbao.org/docs/platform/k8s/helm/ .
 and configured it with this initial `values.yaml`:
@@ -107,6 +119,11 @@ to join it into `openbao-0` with command: `bao operator raft join
 http://openbao-0.openbao-internal:8200`. Then repeat the same unseal process
 again. This fixes `openbao-1`, making it healthy and starting `openbao-2`. Which
 needs the same join and unseal procedure to be healthy.
+
+## Management
+Login into the vault server by running: `bao login` into one of the pods like
+`openbao-0`. You will have to authenticate using the root token.
+
 
 See also:
 - Introduction: https://www.youtube.com/watch?v=ae72pKpXe-s
