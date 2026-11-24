@@ -28,6 +28,8 @@ encrypted next to the data. When you want to read your data, you send the
 data-key (a small file) to the KMS to be decrypted, and then use the decrypted
 data-key to decrypt your actual data.
 <br/><br/>
+
+## Installing OpenBao
 I installed the helm chart: https://openbao.org/docs/platform/k8s/helm/ .
 and configured it with this initial `values.yaml`:
 ```yaml
@@ -52,6 +54,8 @@ server:
         }
         service_registration "kubernetes" {}
 ```
+
+## Initialize OpenBao
 Then we initialize the OpenBao cluster using:
 ```sh
 $ kubectl -n openbao exec -it openbao-0 -- bao operator init
@@ -89,6 +93,20 @@ original unseal key.
 The root key is something that a client can authenticate with into the Valut
 server, to manage the secrets. To authenticate, the vault needs to be unsealed
 first. The root user has full access to all secrets.
+
+## Unsealing OpenBao
+To unseal OpenBao you need to run the unseal command with 3 different unseal
+keys, on the first pod:
+`kubectl -n openbao exec -it openbao-0 -- bao operator unseal AAAA...BBBB`
+Then repeat same command with unseal keys `BBBB...CCCC` and `CCCC...DDDD` .
+
+You should now see it is: `Sealed: false`. And `openbao-0` will become healthy,
+thus `openbao-1` gets created, but it is sealed again, you can check with `bao
+status`. But even worst than that, it is `Initialized: false`. So we first need
+to join it into `openbao-0` with command: `bao operator raft join
+http://openbao-0.openbao-internal:8200`. Then repeat the same unseal process
+again. This fixes `openbao-1`, making it healthy and starting `openbao-2`. Which
+needs the same join and unseal procedure to be healthy.
 
 See also:
 - Introduction: https://www.youtube.com/watch?v=ae72pKpXe-s
