@@ -85,7 +85,7 @@ Deletes the unencrypted `aes.key` file from disk so the plaintext symmetric key 
 Encrypts `secret.txt` into `secret.txt.enc` .
 
 Then decrypt `secret.txt.enc` to stdout using:
-`( set -o pipefail; openssl enc -d -aes-256-cbc -pbkdf2 -in secret.txt.enc -pass file:<(tpm2_rsadecrypt -c key.ctx -o - aes.key.enc | od -An -tx1 -v | tr -d ' \n'; printf '\n') )`
+`openssl enc -d -aes-256-cbc -pbkdf2 -in secret.txt.enc -pass file:<(tpm2_rsadecrypt -c key.ctx -o - aes.key.enc | od -An -tx1 -v | tr -d ' \n'; printf '\n')`
 
 # OpenBao
 
