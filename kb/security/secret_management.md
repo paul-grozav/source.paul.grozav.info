@@ -89,3 +89,8 @@ original unseal key.
 The root key is something that a client can authenticate with into the Valut
 server, to manage the secrets. To authenticate, the vault needs to be unsealed
 first. The root user has full access to all secrets.
+
+See also:
+- Introduction: https://www.youtube.com/watch?v=ae72pKpXe-s
+- Vault in K8s:
+  https://www.youtube.com/playlist?list=PLHq1uqvAteVtq-NRX3yd1ziA_wJSBu3Oj
