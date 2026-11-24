@@ -80,17 +80,12 @@ Sends `aes.key` (32 bytes, well within RSA-2048 RSAES limits) to the TPM using
 Deletes the unencrypted `aes.key` file from disk so the plaintext symmetric key isn't left behind.
 
 ## Encrypting and decrypting your files
-```sh
-exec 3< <(tpm2_rsadecrypt -c key.ctx -o - aes.key.enc | od -An -tx1 -v | tr -d ' \n'; printf '\n')
-openssl enc -aes-256-cbc -pbkdf2 -salt -in secret.txt -out secret.txt.enc -pass fd:3
-```
+`openssl enc -aes-256-cbc -pbkdf2 -salt -in secret.txt -out secret.txt.enc -pass file:<(tpm2_rsadecrypt -c key.ctx -o - aes.key.enc | od -An -tx1 -v | tr -d ' \n'; printf '\n')`
+
 Encrypts `secret.txt` into `secret.txt.enc` .
 
-Then decrypt `secret.txt.enc` to stdout:
-```sh
-exec 3< <(tpm2_rsadecrypt -c key.ctx -o - aes.key.enc | od -An -tx1 -v | tr -d ' \n'; printf '\n')
-openssl enc -d -aes-256-cbc -pbkdf2 -in secret.txt.enc -pass fd:3
-```
+Then decrypt `secret.txt.enc` to stdout using:
+`( set -o pipefail; openssl enc -d -aes-256-cbc -pbkdf2 -in secret.txt.enc -pass file:<(tpm2_rsadecrypt -c key.ctx -o - aes.key.enc | od -An -tx1 -v | tr -d ' \n'; printf '\n') )`
 
 # OpenBao
 
