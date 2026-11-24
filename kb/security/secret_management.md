@@ -34,8 +34,8 @@ If your server has a TPM and it is enabled, reachable by the Linux OS, you
 should see it in `ls -la /dev/tpm*` . To get to interact with it you will need
 the package `dnf install tpm2-tools` . You can test it works fine with `tpm2_getcap --version`
 
-## Create the TPM keys
-### Create the primary key
+### Create the TPM keys
+#### Create the primary key
 `tpm2_createprimary -C o -g sha256 -G ecc -c primary.ctx`
 
 Creates a primary key inside the TPM's owner hierarchy (`-C o`), using `sha256`
@@ -43,7 +43,7 @@ for name/hierarchy hashing and an `ecc` (elliptic curve) key type, and writes
 the transient handle context to `primary.ctx`. Think of this as the root anchor
 inside the TPM for your application's keys.
 
-### Create the child key
+#### Create the child key
 `tpm2_create -C primary.ctx -g sha256 -G rsa2048 -u key.pub -r key.priv`
 
 Generates a child 2048-bit RSA encryption key (`rsa2048:rsaes`) under
@@ -53,33 +53,33 @@ encrypted under the primary key, not exposed as raw plaintext). So the private
 key can only be obtained by decrypting it with the TPM's encryption key, that
 never leaves the TPM.
 
-### Load key into TPM for subsequent calls
+#### Load key into TPM for subsequent calls
 `tpm2_load -C primary.ctx -u key.pub -r key.priv -c key.ctx`
 
 Loads `key.pub` and `key.priv` into the TPM under `primary.ctx` and saves a
 usable transient object context to `key.ctx` so subsequent `tpm2_*` commands can reference that key.
 
-## Generate a symmetric application key
+### Generate a symmetric application key
 
-### Generate the application symmettric key
+#### Generate the application symmettric key
 `openssl rand -out aes.key 32`
 
 Generates `32` cryptographically random bytes (256 bits) and saves them to
 `aes.key` . This random byte string is your symmetric data key for encrypting your file.
 
-### Encrypting the application key using the TPM key
+#### Encrypting the application key using the TPM key
 `tpm2_rsaencrypt -c key.ctx -o aes.key.enc aes.key`
 
 Sends `aes.key` (32 bytes, well within RSA-2048 RSAES limits) to the TPM using
 `key.ctx` to encrypt it with the TPM key, writing the encrypted key blob to
 `aes.key.enc` .
 
-### Remove the unencrypted application key
+#### Remove the unencrypted application key
 `rm -f aes.key`
 
 Deletes the unencrypted `aes.key` file from disk so the plaintext symmetric key isn't left behind.
 
-## Encrypting and decrypting your files
+### Encrypting and decrypting your files
 `openssl enc -aes-256-cbc -pbkdf2 -salt -in secret.txt -out secret.txt.enc -pass file:<(tpm2_rsadecrypt -c key.ctx -o - aes.key.enc | od -An -tx1 -v | tr -d ' \n'; printf '\n')`
 
 Encrypts `secret.txt` into `secret.txt.enc` .
