@@ -96,7 +96,6 @@ and configured it with this initial `values.yaml`:
 # Author: Tancredi-Paul Grozav <paul@grozav.info>
 # Link to the values.yaml:
 # https://github.com/openbao/openbao-helm/blob/main/charts/openbao/values.yaml
-# ============================================================================ #
 server:
   ha:
     enabled: true
