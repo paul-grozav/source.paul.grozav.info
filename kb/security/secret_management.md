@@ -173,6 +173,6 @@ Login into the vault server by running: `bao login` into one of the pods like
 
 
 See also:
-- Introduction: https://www.youtube.com/watch?v=ae72pKpXe-s
+- Introduction: [https://www.youtube.com/watch?v=ae72pKpXe-s](https://www.youtube.com/watch?v=ae72pKpXe-s)
 - Vault in K8s:
-  https://www.youtube.com/playlist?list=PLHq1uqvAteVtq-NRX3yd1ziA_wJSBu3Oj
+  [https://www.youtube.com/playlist?list=PLHq1uqvAteVtq-NRX3yd1ziA_wJSBu3Oj](https://www.youtube.com/playlist?list=PLHq1uqvAteVtq-NRX3yd1ziA_wJSBu3Oj)
